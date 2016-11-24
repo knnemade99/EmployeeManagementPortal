@@ -1,5 +1,7 @@
 # EmployeeManagementPortal
 Spring+Hibernate+AngularJs Application on Employee Management Portal
 
-By Kunal
- 
+By Kunal Nemade
+	and
+   Ashish Deshpande
+
