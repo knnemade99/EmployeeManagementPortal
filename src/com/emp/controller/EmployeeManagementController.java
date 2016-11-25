@@ -1,4 +1,4 @@
-package com.employeemanagement.spring.controller;
+package com.emp.controller;
 
 public class EmployeeManagementController {
 

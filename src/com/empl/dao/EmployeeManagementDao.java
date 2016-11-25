@@ -1,4 +1,4 @@
-package com.employeemanagementportal.dao;
+package com.empl.dao;
 
 public class EmployeeManagementDao {
 

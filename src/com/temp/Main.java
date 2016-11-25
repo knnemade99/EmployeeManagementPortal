@@ -4,9 +4,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import com.employeemanagementportal.entity.AuthTable;
-import com.employeemanagementportal.entity.User;
-import com.employeemanagementportal.entity.UserCredentials;
+import com.emp.entity.Address;
+import com.emp.entity.AuthTable;
+import com.emp.entity.Department;
+import com.emp.entity.User;
 
 public class Main {
 	public static void main(String[] args) {
@@ -118,7 +119,7 @@ public class Main {
 
 		try{	
 			s.beginTransaction();
-//			s.save(uc);
+//			s.save(address);
 		}
 		catch(Exception e){
 			s.getTransaction().rollback();

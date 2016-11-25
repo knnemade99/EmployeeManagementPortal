@@ -8,7 +8,7 @@
    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 
    <!-- Assume test is the database name -->
-   <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/employeemanagementportal</property>
+   <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/emp</property>
    <property name="hibernate.connection.username">root</property>
    <property name="hibernate.connection.password">kunal</property>
    
@@ -16,15 +16,15 @@
    <property name="hbm2ddl.auto">update</property>
 
    <!-- List of mapping files -->
-   <mapping class="com.employeemanagementportal.entity.Address"/>
-   <mapping class="com.employeemanagementportal.entity.AuthTable"/>
-   <mapping class="com.employeemanagementportal.entity.Department"/>
-   <mapping class="com.employeemanagementportal.entity.Project"/>
-   <mapping class="com.employeemanagementportal.entity.Salary"/>
-   <mapping class="com.employeemanagementportal.entity.Skill"/>
-   <mapping class="com.employeemanagementportal.entity.User"/>
-   <mapping class="com.employeemanagementportal.entity.UserCredentials"/>
-   <mapping class="com.employeemanagementportal.entity.Manager"/>
+   <mapping class="com.emp.entity.Address"/>
+   <mapping class="com.emp.entity.AuthTable"/>
+   <mapping class="com.emp.entity.Department"/>
+   <mapping class="com.emp.entity.Project"/>
+   <mapping class="com.emp.entity.Salary"/>
+   <mapping class="com.emp.entity.Skill"/>
+   <mapping class="com.emp.entity.User"/>
+   <mapping class="com.emp.entity.UserCredentials"/>
+   <mapping class="com.emp.entity.Manager"/>
 
 </session-factory>
 </hibernate-configuration>

@@ -1,4 +1,4 @@
-package com.employeemanagementportal.entity;
+package com.emp.entity;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package com.employeemanagementportal.daoImpl;
+package com.emp.daoImpl;
 
 public class EmployeeManagementDaoImpl {
 

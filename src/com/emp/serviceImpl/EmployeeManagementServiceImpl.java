@@ -1,4 +1,4 @@
-package com.employeemanagementportal.serviceImpl;
+package com.emp.serviceImpl;
 
 public class EmployeeManagementServiceImpl {
 
