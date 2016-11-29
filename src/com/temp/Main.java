@@ -1,13 +1,18 @@
 package com.temp;
 
+import java.util.Date;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import com.emp.entity.Address;
-import com.emp.entity.AuthTable;
 import com.emp.entity.Department;
+import com.emp.entity.Project;
+import com.emp.entity.Salary;
 import com.emp.entity.User;
+import com.emp.entity.UserCredentials;
+import com.encryption.Encrypt;
 
 public class Main {
 	public static void main(String[] args) {
@@ -18,8 +23,8 @@ public class Main {
 
 		
 		/* Create Department */
-//		Department d1=new Department();
-//		d1.setDeptName("Accounts");
+//		Department dept=new Department();
+//		dept.setDeptName("Sales");
 		
 		
 		
@@ -40,10 +45,10 @@ public class Main {
 		
 		/* Create Projects */
 //		Project project =new Project();
-//		project.setBudget(500000);
-//		project.setEndDate(new Date());
-//		project.setProjectName("SAP DMart");
-//		project.setStartDate(new Date());
+//		project.setBudget(1000000);
+//		project.setEndDate(new Date(2016,11,31));
+//		project.setProjectName("SAP DataMart");
+//		project.setStartDate(new Date(2016,0,1));
 		
 		
 		
@@ -58,37 +63,35 @@ public class Main {
 		
 		
 		/* create users */
-//		User user=new User();
-//		user.setAbout("I am Kunal");
-//			Address address=new Address();
-//			address.setCity("Puneww");
-//			address.setCountry("India");
-//			address.setState("MH");
-//			address.setZip(1234);
-//		user.setAddress(address);
-//		user.setContact(1234);
-//			Department department=s.get(Department.class, 2);
-//		user.setDepartment(department);
-//		user.setDesignation("ASE");
-//		user.setDob(new Date());
-//		user.setDoj(new Date());
-//		user.setEmail("km@m.com");
-//		user.setExperience(12);
-//		user.setGender("Maleww");
-//		user.setLockStatus("unlock");
-//		user.setMaritalStatus("single");
-//		user.setName("Kunal");
-//			Project project=s.get(Project.class, 3);
-//		user.setProject(project);
-//			Salary salary=new Salary();
-//			salary.setBasic(120000);
-//			salary.setHra(23000.12f);
-//			salary.setLta(125000);
-//		user.setSalary(salary);
-//			List<Skill> skills=new ArrayList<Skill>();
-//			skills.add(s.get(Skill.class, 1));
-//			skills.add(s.get(Skill.class, 3));
-//		user.setSkills(skills);
+		User user=new User();
+		user.setAbout("I am Kunal");
+			Address address=new Address();
+			address.setCity("Pune");
+			address.setCountry("India");
+			address.setState("Maharashtra");
+			address.setZip(452010);
+		user.setAddress(address);
+		user.setContact(7697599287l);
+			Department department=s.get(Department.class, 1);
+		user.setDepartment(department);
+		user.setDesignation("Administrator");
+		user.setDob(new Date(1994,7,31));
+		user.setDoj(new Date());
+		user.setEmail("knnemade99@gmail.com");
+		user.setExperience(10);
+		user.setGender("Male");
+		user.setLockStatus("unlock");
+		user.setMaritalStatus("single");
+		user.setName("Kunal");
+			Project project=null;
+		user.setProject(project);
+			Salary salary=new Salary();
+			salary.setBasic(50000);
+			salary.setHra(6000f);
+			salary.setLta(1250);
+		user.setSalary(salary);
+
+		user.setSkills(null);
 
 		
 		
@@ -101,11 +104,11 @@ public class Main {
 		
 		/* Create credentials */
 //		User user=s.get(User.class, 1);
-//		UserCredentials uc=new UserCredentials();
-//		uc.setUser(user);
-//		uc.setUsername("knnemade99");
-//		uc.setPassword("Kunal");
-//		uc.setUsertype("Admin");
+		UserCredentials uc=new UserCredentials();
+		uc.setUser(user);
+		uc.setUsername("admin");
+		uc.setPassword(Encrypt.encrypt("1234"));
+		uc.setUsertype("Admin");
 		
 		
 		
@@ -119,7 +122,8 @@ public class Main {
 
 		try{	
 			s.beginTransaction();
-//			s.save(address);
+			s.save(user);
+			s.save(uc);
 		}
 		catch(Exception e){
 			s.getTransaction().rollback();

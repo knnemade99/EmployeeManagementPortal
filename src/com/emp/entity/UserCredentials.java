@@ -16,7 +16,7 @@ public class UserCredentials implements Serializable {
 	@JoinColumn(name="employeeId")
 	private User user;
 	
-	@Column(name="username")
+	@Column(name="username",unique=true)
 	private String username;
 	
 	@Column(name="password")

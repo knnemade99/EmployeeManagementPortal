@@ -7,14 +7,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Entity(name="authtable")
-public class AuthTable {
+public class AuthTable  {
 
 	@OneToOne
 	@JoinColumn(name="employeeId")
 	private User user;
 	
-	@Column(name="authToken")
 	@Id
+	@Column(name="authToken")
 	private String authToken;
 	
 	public String getAuthToken() {
