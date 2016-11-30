@@ -1,4 +1,5 @@
 package com.emp.serviceImpl;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,11 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public ResponseEntity<String> logout(String authToken) {
 		return admindao.logout(authToken);
+	}
+
+	@Override
+	public List<UserCredentials> viewAllEmployees(String authToken) {
+		return admindao.viewAllEmployees(authToken);
 	}
 
 }

@@ -118,4 +118,24 @@ public class AdminDaoImpl implements AdminDao {
 		}
 	}
 
+
+	@Override
+	public List<UserCredentials> viewAllEmployees(String authToken) {
+		Session session=sessionFactory.openSession();
+		List<UserCredentials> userlist =null;
+		
+		/* check for authToken of admin */
+		session.beginTransaction();
+		AuthTable authtable=session.get(AuthTable.class, authToken);
+		UserCredentials usercredentials2=session.get(UserCredentials.class, authtable.getUser().getEmpId());
+		if(usercredentials2.getUsertype().equals("Admin")){
+			String hql="from usercredentials";
+			Query q=session.createQuery(hql);
+			userlist=q.list();
+		}
+		session.getTransaction().commit();
+		session.close();
+		return userlist;
+	}
+
 }
