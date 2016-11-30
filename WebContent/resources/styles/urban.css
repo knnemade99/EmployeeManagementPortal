@@ -112,7 +112,7 @@ html {
   width: 100%;
 }
 .app {
-  background: #f0f0f0;
+  background: white;
   width: 100%;
   min-height: 100%;
   position: relative;
@@ -1108,7 +1108,7 @@ blockquote p {
 /* $main-panel
  ------------------------------------------*/
 .main-panel {
-  background: #f0f0f0;
+  background: white;
 }
 .main-panel::before,
 .main-panel::after {
@@ -1119,8 +1119,8 @@ blockquote p {
   clear: both;
 }
 .main-panel > .main-content {
-  padding: 20px;
-  margin-bottom: 55px;
+/*   padding: 20px; */
+  margin-bottom: 15%;
 }
 .main-panel > .main-content::before,
 .main-panel > .main-content::after {
@@ -2075,7 +2075,7 @@ footer.content-footer li a:active {
   top: 0;
 }
 .layout-fixed-header .main-content {
-  padding-top: 75px;
+  padding-top: 100px;
 }
 .layout-fixed-header .main-content.no-padding {
   padding-top: 55px;

@@ -44,8 +44,8 @@
 </head>
 <body ng-app="myApp">
 	<!-- main area -->
-
-	<div class="app layout-fixed-header" ng-controller="EMPController">
+	<div  ng-controller="EMPController">
+	<div class="app layout-fixed-header" data-ng-class="{'layout-small-menu': app.layout.isSmallSidebar, 'layout-chat-open': app.layout.isChatOpen, 'layout-fixed-header': app.layout.isFixedHeader, 'layout-boxed': app.layout.isBoxed, 'layout-static-sidebar': app.layout.isStaticSidebar, 'layout-right-sidebar': app.layout.isRightSidebar, 'layout-fixed-footer': app.layout.isFixedFooter, 'message-open': app.isMessageOpen}">
 
 		<!-- sidebar panel -->
 		<div class="sidebar-panel offscreen-left">
@@ -61,7 +61,7 @@
 				<!-- toggle small sidebar menu -->
 				<a href="javascript:;"
 					class="toggle-sidebar hidden-xs hamburger-icon v3"
-					data-toggle="layout-small-menu"> <span></span> <span></span> <span></span>
+					data-ng-click="app.layout.isSmallSidebar = !app.layout.isSmallSidebar"> <span></span> <span></span> <span></span>
 					<span></span>
 				</a>
 				<!-- /toggle small sidebar menu -->
@@ -110,7 +110,7 @@
 		<div class="main-panel">
 
 			<!-- top header -->
-			<header class="header navbar">
+			<header class="header navbar" style="border-bottom: 1px solid rgba(0, 0, 0, 0.07);">
 
 				<div class="brand visible-xs">
 					<!-- toggle offscreen menu -->
@@ -189,7 +189,7 @@
 
 	</div>
 
-
+	</div>
 
 
 	<!-- build:js({.tmp,app}) scripts/app.min.js -->
