@@ -1,6 +1,8 @@
 package com.temp;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,8 +12,9 @@ import com.emp.entity.Address;
 import com.emp.entity.Department;
 import com.emp.entity.Project;
 import com.emp.entity.Salary;
+import com.emp.entity.Skill;
 import com.emp.entity.User;
-import com.emp.entity.UserCredentials;
+import com.emp.entity.UserCredential;
 import com.encryption.Encrypt;
 
 public class Main {
@@ -20,11 +23,11 @@ public class Main {
 		SessionFactory sf=new Configuration().configure().buildSessionFactory();
 		Session s=sf.openSession();
 		
-
+		s.beginTransaction();
 		
 		/* Create Department */
 //		Department dept=new Department();
-//		dept.setDeptName("Sales");
+//		dept.setDeptName("HR");
 		
 		
 		
@@ -47,7 +50,7 @@ public class Main {
 //		Project project =new Project();
 //		project.setBudget(1000000);
 //		project.setEndDate(new Date(2016,11,31));
-//		project.setProjectName("SAP DataMart");
+//		project.setProjectName("SAP CMP");
 //		project.setStartDate(new Date(2016,0,1));
 		
 		
@@ -90,25 +93,32 @@ public class Main {
 			salary.setHra(6000f);
 			salary.setLta(1250);
 		user.setSalary(salary);
-
-		user.setSkills(null);
+		user.setUsertype("Admin");
+			UserCredential uc=new UserCredential();
+			uc.setUsername("admin");
+			uc.setPassword(Encrypt.encrypt("1234"));
+		user.setUserCredential(uc);
+			List<Skill> skills=new ArrayList<Skill>();
+			skills.add(s.get(Skill.class, 1));
+			skills.add(s.get(Skill.class, 2));
+		user.setSkills(skills);
 
 		
 		
 		
 		/* Create Skills */
 //		Skill skill=new Skill();
-//				skill.setSkill("Python");
+//				skill.setSkill("C++");
 		
 		
 		
 		/* Create credentials */
 //		User user=s.get(User.class, 1);
-		UserCredentials uc=new UserCredentials();
-		uc.setUser(user);
-		uc.setUsername("admin");
-		uc.setPassword(Encrypt.encrypt("1234"));
-		uc.setUsertype("Admin");
+//		UserCredential uc=new UserCredential();
+//		uc.setUsername(username);
+//		uc.setUsername("admin");
+//		uc.setPassword(Encrypt.encrypt("1234"));
+//		uc.setUsertype("Admin");
 		
 		
 		
@@ -121,9 +131,9 @@ public class Main {
 		
 
 		try{	
-			s.beginTransaction();
-			s.save(user);
 			s.save(uc);
+			s.save(user);
+//			s.save(skill);
 		}
 		catch(Exception e){
 			s.getTransaction().rollback();

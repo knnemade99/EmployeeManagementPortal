@@ -8,29 +8,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-@Entity(name="usercredentials")
-public class UserCredentials implements Serializable {
+@Entity(name="usercredential")
+public class UserCredential {
 
 	@Id
-	@OneToOne
-	@JoinColumn(name="employeeId")
-	private User user;
-	
-	@Column(name="username",unique=true)
+	@Column(name="username")
 	private String username;
 	
 	@Column(name="password")
 	private String password;
 	
-	@Column(name="usertype")
-	private String usertype;
 	
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
 	public String getUsername() {
 		return username;
 	}
@@ -43,18 +31,10 @@ public class UserCredentials implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getUsertype() {
-		return usertype;
-	}
-	public void setUsertype(String usertype) {
-		this.usertype = usertype;
-	}
 	@Override
 	public String toString() {
-		return "UserCredentials [user=" + user + ", username=" + username + ", password=" + password + ", usertype="
-				+ usertype + "]";
+		return "UserCredential [username=" + username + ", password=" + password + "]";
 	}
-	
-	
+		
 }
 

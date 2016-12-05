@@ -23,7 +23,7 @@
    <mapping class="com.emp.entity.Salary"/>
    <mapping class="com.emp.entity.Skill"/>
    <mapping class="com.emp.entity.User"/>
-   <mapping class="com.emp.entity.UserCredentials"/>
+   <mapping class="com.emp.entity.UserCredential"/>
    <mapping class="com.emp.entity.Manager"/>
 
 </session-factory>
