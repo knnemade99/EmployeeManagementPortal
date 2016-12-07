@@ -170,5 +170,39 @@ public class AdminDaoImpl implements AdminDao {
 		session.close();
 		return responseEntity;
 	}
+	
+	
+	/* Unlock Employee by Id */
+	@Override
+	public ResponseEntity<String> unlockEmployee(int employeeId,String authToken) {
+		Session session=sessionFactory.openSession();
+		
+		ResponseEntity<String> responseEntity=new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		
+		/* check for authToken of admin */
+		session.beginTransaction();
+		AuthTable authtable=session.get(AuthTable.class, authToken);
+		User userAdmin=session.get(User.class, authtable.getUser().getEmpId());
+		if(userAdmin.getUsertype().equals("Admin")){
+			User user = session.get(User.class, employeeId);
+			if(user!=null){
+				if(!user.getLockStatus().equals("unlock")){
+					user.setLockStatus("unlock");
+					responseEntity=new ResponseEntity<String>(HttpStatus.OK);
+				}
+				else{
+					responseEntity=new ResponseEntity<String>(HttpStatus.ALREADY_REPORTED);
+				}
+			}
+			else
+				responseEntity=new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+		}
+		else{
+			responseEntity=new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
+		}
+		session.getTransaction().commit();
+		session.close();
+		return responseEntity;
+	}
 
 }

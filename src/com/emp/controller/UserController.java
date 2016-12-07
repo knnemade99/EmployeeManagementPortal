@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.emp.entity.AuthTable;
+import com.emp.entity.User;
 import com.emp.service.UserService;
 
 @RestController
@@ -47,5 +48,19 @@ public class UserController {
 	@ResponseBody
 	public ResponseEntity<String> forgetPassword(@RequestBody Map<String,String> email){
 		return userService.forgetPassword(email);
+	}
+	
+	/* Update Profile */
+	@RequestMapping(value="/updateprofile" , method = RequestMethod.PUT,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<String> updateProfile(@RequestBody User user, @RequestHeader("authToken") String authToken){
+		return userService.updateProfile(user , authToken);
+	}
+	
+	/* View Profile */
+	@RequestMapping(value="/viewprofile" , method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public User viewProfile(@RequestHeader("authToken") String authToken){
+		return userService.viewProfile(authToken);
 	}
 }

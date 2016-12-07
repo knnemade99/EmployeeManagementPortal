@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.emp.dao.UserDao;
 import com.emp.entity.AuthTable;
+import com.emp.entity.User;
 import com.emp.service.UserService;
 
 @Service("userService")
@@ -38,5 +39,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public ResponseEntity<String> forgetPassword(Map<String, String> email) {
 		return userDao.forgetPassword(email);
+	}
+
+	/* Update Profile */
+	@Override
+	public ResponseEntity<String> updateProfile(User user, String authToken) {
+		return userDao.updateProfile(user , authToken);
+	}
+
+	@Override
+	public User viewProfile(String authToken) {
+		return userDao.viewProfile(authToken);
 	}
 }

@@ -52,4 +52,11 @@ public class AdminController {
 	public ResponseEntity<String> deleteEmployee(@PathVariable("id") int employeeId ,@RequestHeader("authToken") String authToken){
 		return adminService.deleteEmployee(employeeId,authToken);
 	}
+	
+	/* Unlock Employee by Id */
+	@RequestMapping(value="/unlockemployee/{id}" , method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<String> unlockEmployee(@PathVariable("id") int employeeId ,@RequestHeader("authToken") String authToken){
+		return adminService.unlockEmployee(employeeId,authToken);
+	}
 }

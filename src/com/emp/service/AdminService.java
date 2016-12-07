@@ -15,5 +15,6 @@ public interface AdminService {
 	public List<UserCredential> viewAllEmployees(String authToken);
 	public User viewEmployee(int employeeId, String authToken);
 	public ResponseEntity<String> deleteEmployee(int employeeId, String authToken);
+	public ResponseEntity<String> unlockEmployee(int employeeId, String authToken);
 	
 }

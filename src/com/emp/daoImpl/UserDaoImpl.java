@@ -1,5 +1,7 @@
 package com.emp.daoImpl;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -12,15 +14,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.emp.dao.UserDao;
 import com.emp.email.EmailAPI;
+import com.emp.entity.Address;
 import com.emp.entity.AuthTable;
+import com.emp.entity.Department;
+import com.emp.entity.Project;
+import com.emp.entity.Salary;
+import com.emp.entity.Skill;
 import com.emp.entity.User;
 import com.emp.entity.UserCredential;
 import com.encryption.Encrypt;
+
+import ch.qos.logback.classic.util.LoggerNameUtil;
 
 @Component("userDao")
 public class UserDaoImpl implements UserDao {
@@ -80,6 +88,10 @@ public class UserDaoImpl implements UserDao {
 			session.save(authtable);
 			
 			session.getTransaction().commit();
+		}
+		else{
+			new ResponseEntity<String>(HttpStatus.NOT_FOUND).notFound(); 
+			authtable=null;
 		}
 		return authtable;
 	}
@@ -193,6 +205,83 @@ public class UserDaoImpl implements UserDao {
 		session.getTransaction().commit();
 		session.close();
 		return responseEntity;
+	}
+
+
+	/* Update Profile */
+	@Override
+	public ResponseEntity<String> updateProfile(User user, String authToken) {
+		ResponseEntity<String> responseEntity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		
+		Session session=sessionFactory.openSession();
+		
+		/* check for authToken of User*/
+		session.beginTransaction();
+		AuthTable authtable=session.get(AuthTable.class, authToken);
+		if(authtable!=null){
+			User loggedUser = session.get(User.class, authtable.getUser().getEmpId());
+	
+			/* Adding skills to user object */
+			List<Skill> skills = new ArrayList<Skill>();
+			for(Skill s:user.getSkills()){
+				String h="from Skill where skill='"+s.getSkill()+"'";
+				Query q=session.createQuery(h);
+				skills.addAll(q.list());
+				
+			}
+			user.setSkills(skills);
+			
+				String about=user.getAbout();
+				Address address=user.getAddress();
+				Long contact = user.getContact();
+				float experience=user.getExperience();
+				String maritalStatus=user.getMaritalStatus();
+				String name=user.getName();
+				List<Skill> skills2=user.getSkills();
+			
+				if(about!=null&&!about.equals(""))
+					loggedUser.setAbout(about);
+				if(address!=null)
+					loggedUser.setAddress(address);
+				if(contact!=null&&contact!=0)
+					loggedUser.setContact(contact);
+				if(experience!=0.00f)
+					loggedUser.setExperience(experience);
+				if(maritalStatus!=null&&!maritalStatus.equals(""))
+					loggedUser.setMaritalStatus(maritalStatus);
+				if(name!=null&&!name.equals(""))
+					loggedUser.setName(name);
+				if(skills2!=null)
+					loggedUser.setSkills(skills2);
+
+
+			session.update(loggedUser);	
+			session.getTransaction().commit();
+			session.close();
+			
+			responseEntity = new ResponseEntity<String>(HttpStatus.OK);
+		}
+		else{
+			responseEntity = new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
+		}
+		
+		return responseEntity;
+	}
+	
+	/* Update Profile */
+	@Override
+	public User viewProfile(String authToken) {
+		User user=null;
+		
+		Session session=sessionFactory.openSession();
+		
+		/* check for authToken of User*/
+		session.beginTransaction();
+		AuthTable authtable=session.get(AuthTable.class, authToken);
+		if(authtable!=null){
+			user=authtable.getUser();
+		}
+		return user;
 	}
 
 }

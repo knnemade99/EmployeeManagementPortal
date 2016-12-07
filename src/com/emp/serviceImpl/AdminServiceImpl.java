@@ -44,4 +44,10 @@ public class AdminServiceImpl implements AdminService {
 	public ResponseEntity<String> deleteEmployee(int employeeId,String authToken) {
 		return adminDao.deleteEmployee(employeeId,authToken);
 	}
+	
+	/* Unlock Employee by Id */
+	@Override
+	public ResponseEntity<String> unlockEmployee(int employeeId,String authToken) {
+		return adminDao.unlockEmployee(employeeId,authToken);
+	}
 }

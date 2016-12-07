@@ -23,10 +23,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity(name="user")
+@DynamicUpdate(value=true)
 @Inheritance(strategy=InheritanceType.JOINED)
 public class User {
 	
@@ -36,11 +38,11 @@ public class User {
 	@Column(name="employeeId")
 	private int empId;
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name="user_skill")
 	private List<Skill> skills = new ArrayList<Skill>();
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval=true)
+	@OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name="username")
 	@NotNull
 	private UserCredential userCredential;
