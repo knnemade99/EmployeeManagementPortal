@@ -3,10 +3,13 @@ package com.emp.daoImpl;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Projections;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -127,11 +130,13 @@ public class AdminDaoImpl implements AdminDao {
 		/* check for authToken of admin */
 		session.beginTransaction();
 		AuthTable authtable=session.get(AuthTable.class, authToken);
-		UserCredentials usercredentials2=session.get(UserCredentials.class, authtable.getUser().getEmpId());
-		if(usercredentials2.getUsertype().equals("Admin")){
-			String hql="from usercredentials";
-			Query q=session.createQuery(hql);
-			userlist=q.list();
+		UserCredentials usercredentials=session.get(UserCredentials.class, authtable.getUser().getEmpId());
+		if(usercredentials.getUsertype().equals("Admin")){
+			Criteria ct=session.createCriteria(UserCredentials.class);
+			ct.setProjection( Projections.distinct( Projections.projectionList().add( Projections.property("user"), "user").add(Projections.property("username"), "username")));
+//			String hql="select e.user as user,e.password as password from usercredentials e";
+//			Query q=session.createQuery(hql);
+			userlist=ct.list();
 		}
 		session.getTransaction().commit();
 		session.close();
