@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,13 +16,19 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity(name="user")
+@DynamicUpdate(value=true)
 @Inheritance(strategy=InheritanceType.JOINED)
 public class User {
 	
@@ -30,11 +38,14 @@ public class User {
 	@Column(name="employeeId")
 	private int empId;
 	
-	@OneToMany
-	@JoinTable(name="user_skill", joinColumns=@JoinColumn(name="employeeId"),
-		inverseJoinColumns=@JoinColumn(name="skillId")
-	)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name="user_skill")
 	private List<Skill> skills = new ArrayList<Skill>();
+	
+	@OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
+	@JoinColumn(name="username")
+	@NotNull
+	private UserCredential userCredential;
 	
 	@Embedded
 	private Address address;
@@ -87,6 +98,9 @@ public class User {
 	
 	@Column(name="managerId")
 	private int managerId;
+	
+	@Column(name="usertype")
+	private String usertype;
 	
 
 	public Project getProject() {
@@ -198,16 +212,28 @@ public class User {
 	public void setManagerId(int managerId) {
 		this.managerId = managerId;
 	}
+	public String getUsertype() {
+		return usertype;
+	}
+	public void setUsertype(String usertype) {
+		this.usertype = usertype;
+	}
+	
+	public UserCredential getUserCredential() {
+		return userCredential;
+	}
+	public void setUserCredential(UserCredential userCredential) {
+		this.userCredential = userCredential;
+	}
 	@Override
 	public String toString() {
-		return "User [empId=" + empId + ", skills=" + skills + ", address=" + address + ", salary=" + salary
-				+ ", project=" + project + ", name=" + name + ", email=" + email + ", about=" + about + ", contact="
-				+ contact + ", department=" + department + ", designation=" + designation + ", dob=" + dob + ", doj="
-				+ doj + ", lockStatus=" + lockStatus + ", gender=" + gender + ", maritalStatus=" + maritalStatus
-				+ ", experience=" + experience + ", managerId=" + managerId + "]";
+		return "User [empId=" + empId + ", skills=" + skills + ", userCredential=" + userCredential + ", address="
+				+ address + ", salary=" + salary + ", project=" + project + ", name=" + name + ", email=" + email
+				+ ", about=" + about + ", contact=" + contact + ", department=" + department + ", designation="
+				+ designation + ", dob=" + dob + ", doj=" + doj + ", lockStatus=" + lockStatus + ", gender=" + gender
+				+ ", maritalStatus=" + maritalStatus + ", experience=" + experience + ", managerId=" + managerId
+				+ ", usertype=" + usertype + "]";
 	}
 
-	
-	
-	
+		
 }

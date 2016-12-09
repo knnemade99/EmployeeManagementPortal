@@ -7,11 +7,14 @@ import org.springframework.http.ResponseEntity;
 
 import com.emp.entity.AuthTable;
 import com.emp.entity.User;
-import com.emp.entity.UserCredentials;
+import com.emp.entity.UserCredential;
 
 public interface AdminService {
-	public ResponseEntity<User> addEmployee(UserCredentials userCredentials, String authToken);
-	public AuthTable login(Map<String,String> logincredentials);
-	public ResponseEntity<String> logout(String authToken);
-	public List<UserCredentials> viewAllEmployees(String authToken);
+	
+	public ResponseEntity<User> addEmployee(User user, String authToken);
+	public List<UserCredential> viewAllEmployees(String authToken);
+	public User viewEmployee(int employeeId, String authToken);
+	public ResponseEntity<String> deleteEmployee(int employeeId, String authToken);
+	public ResponseEntity<String> unlockEmployee(int employeeId, String authToken);
+	
 }

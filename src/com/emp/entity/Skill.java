@@ -1,9 +1,11 @@
 package com.emp.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 @Entity
@@ -17,10 +19,12 @@ public class Skill {
 	
 	@Column(name="skill")
 	private String skill;
+	
+
 
 	@Override
 	public String toString() {
-		return "Skill [Id=" + id + ", skill=" + skill + "]";
+		return "Skill [id=" + id + ", skill=" + skill + "]";
 	}
 
 	public int getId() {
@@ -38,4 +42,5 @@ public class Skill {
 	public void setSkill(String skill) {
 		this.skill = skill;
 	}
+
 }
