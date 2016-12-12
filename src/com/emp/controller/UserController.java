@@ -44,7 +44,7 @@ public class UserController {
 	}
 	
 	/* Forget Password */
-	@RequestMapping(value="/forgetpassword" , method = RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/forgetpassword" , method = RequestMethod.PUT,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<String> forgetPassword(@RequestBody Map<String,String> email){
 		return userService.forgetPassword(email);

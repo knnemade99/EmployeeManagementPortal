@@ -185,7 +185,7 @@ public class UserDaoImpl implements UserDao {
 			UserCredential usercredential = session.get(UserCredential.class, user.getUserCredential().getUsername());
 			
 			/* generates new password */
-			String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?";
+			String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@_$!#";
 			String pwd = RandomStringUtils.random( 15, characters );
 			
 			/* stores new password in database */

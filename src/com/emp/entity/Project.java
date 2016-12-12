@@ -20,7 +20,7 @@ public class Project {
 	@Column(name="projectId")
 	private int projectId;
 	
-	@Column(name="projectname")
+	@Column(name="projectname", unique=true)
 	private String projectName;
 	
 	@Temporal(TemporalType.DATE)

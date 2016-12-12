@@ -44,9 +44,8 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore) {
 		    	  console.log("Value of isLogged after login: "+$scope.isLogged);
 		    	  
 		    	  //personal
-		    	  $rootScope.role=response.data.user.designation;
-		    	  $rootScope.empId=response.data.user.empId;
-		    	  $rootScope.about=response.data.user.about;		    	  
+		    	  $rootScope.designation=response.data.user.designation;
+		    	  $rootScope.empId=response.data.user.empId;		    	  		    	 
 		    	  $rootScope.dob=response.data.user.dob;
 		    	  $rootScope.doj=response.data.user.doj;		    	  		    	  
 		    	  $rootScope.gender=response.data.user.gender;
@@ -56,8 +55,9 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore) {
 		    	  $rootScope.email=response.data.user.email;
 		    	  $rootScope.address=response.data.user.address;
 		    	  $rootScope.contact=response.data.user.contact;
+		    	  $rootScope.about=response.data.user.about;
 		    	  
-		    	  //professional
+		    	  //professional		    	  
 		    	  $rootScope.salary=response.data.user.salary;		    	 
 		    	  $rootScope.experience=response.data.user.experience;		    	  
 		    	  $rootScope.manager=response.data.user.manager;
@@ -87,6 +87,14 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore) {
 	 $scope.checkForName= function() {
 		 
 		 return $cookieStore.get("name");
+	 
+       
+	 }
+	 
+	 /* check for type */	 
+	 $scope.checkForType= function() {
+		 
+		 return $cookieStore.get("usertype");
 	 
        
 	 }
@@ -123,7 +131,54 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore) {
 				  $cookieStore.remove("isLogged");
 		          $location.path("/login");
 		    });
-	        }
+	 }
+	 
+	 
+		/* forgot password */
+	 $scope.forgotPassword= function() {
+
+	        $http({
+		           method : 'PUT',
+		           url : REST_SERVICE_URI+'forgetpassword',
+		           headers : {
+		                 'Content-Type' : 'application/json',
+		           },
+		           data : {
+		                	"email": $scope.email
+		                 }
+		    }).then(function successCallback(response) {
+		    	  
+		          $location.path("/");
+		         
+		    }, function errorCallback(response) {
+		    	 
+		          
+		    });
+	 }
+	 
+		/* change password */
+	 $scope.changePassword= function() {
+
+	        $http({
+		           method : 'PUT',
+		           url : REST_SERVICE_URI+'changepassword',
+		           headers : {
+		                 'Content-Type' : 'application/json',
+		                 'authToken' : $cookieStore.get("authToken")
+		           },
+		           data : {
+		        	   		"oldPassword": $scope.oldPassword,
+		        	   		"newPassword": $scope.newPassword
+		                 }
+		    }).then(function successCallback(response) {
+		    	  
+		          $location.path("/landingPage");
+		         
+		    }, function errorCallback(response) {
+		    	 
+		          
+		    });
+	 }
 	 
 	 
 	 
@@ -140,6 +195,14 @@ myApp.config(function($routeProvider) {
 	.when('/landingPage', {
 		controller: 'EMPController',
 		templateUrl: 'resources/views/landing-page.html'
+	})
+	.when('/forgotPassword', {
+		controller: 'EMPController',
+		templateUrl: 'resources/views/forgotPassword.html'
+	})
+	.when('/changePassword', {
+		controller: 'EMPController',
+		templateUrl: 'resources/views/change-password.html'
 	})
     .otherwise({redirectTo: '/'})
    

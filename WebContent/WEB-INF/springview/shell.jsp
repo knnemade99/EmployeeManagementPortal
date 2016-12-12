@@ -85,7 +85,7 @@
 					<!-- /Profile -->
 
 					<!-- Change Password -->
-					<li><a href="javascript:;"> <i class="fa fa-tint"></i> <span>Change
+					<li><a href="#changePassword"> <i class="fa fa-tint"></i> <span>Change
 								Password</span>
 					</a></li>
 					<!-- /Change Password -->
@@ -107,10 +107,10 @@
 		<!-- /sidebar panel -->
 
 		<!-- content panel -->
-		<div class="main-panel">
+		<div class="main-panel" style="overflow-x: hidden;">
 
 			<!-- top header -->
-			<header class="header navbar" style="border-bottom: 1px solid rgba(0, 0, 0, 0.07);" ng-show="checkForLogin()">
+			<header class="header navbar" style="border-bottom: 1px solid rgba(0, 0, 0, 0.30);" ng-show="checkForLogin()">
 
 				<div class="brand visible-xs">
 					<!-- toggle offscreen menu -->

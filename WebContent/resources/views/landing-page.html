@@ -1,16 +1,16 @@
         <div class="row">
         
-        <!-- Contact Information -->
+        <!-- Personal Information -->
           <div class="col-sm-3">
             <div class="profile-sidebar">
               <div class="profile-sidebar-item profile-avatar">
                 <img src="resources/images/avatar.jpg" alt="" class="img-rounded">
               </div>
               <div class="profile-sidebar-item profile-info">
-                <span class="h5 bold" style="font-size:24px">{{checkForName()}}</span>
-                <p>{{role}}</p>                
+                <span class="h5 bold" style="font-size:24px">{{checkForName()}}</span>                                
                 <div class="w150 center-block mt10">                  
                     <span class="bold">X448{{empId}}</span>
+                    <p>{{checkForType()}}</p>
                 </div>
               </div>
 
@@ -18,10 +18,10 @@
 
 				<ul class="profile-sidebar-item profile-numbers-count">
                 <li>
-                  <span class="bold">{{gender}}</span>Gender&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       
+                  <span class="bold">Gender</span>{{gender}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       
                 </li>
                 <li>
-                  <span class="bold" style="text-transform: capitalize;">{{maritalStatus}}</span> Marital Status
+                  <span class="bold" style="text-transform: capitalize;">Marital Status</span> {{maritalStatus}}
                 </li>
               </ul>              
 
@@ -29,21 +29,21 @@
               
               <ul class="profile-sidebar-item profile-numbers-count">
                 <li>
-                  <span class="bold">{{dob}}</span> Date of Birth
+                  <span class="bold">Date of Birth</span> {{dob}}
                 </li>
                 <li>
-                  <span class="bold">{{doj}}</span> Date of Joining
+                  <span class="bold">Date of Joining</span> {{doj}}
                 </li>
               </ul>
               
               <hr>
 
               <div class="profile-sidebar-item profile-bio">
-                <small class="bold text-uppercase"><strong>About</strong></small>
-                <p>{{about}}</p>
+                <small class="bold text-uppercase"><strong></strong></small>
+                <p></p>
               </div>
 
-              <hr>
+              
 
               <div class="profile-sidebar-item profile-reccomendations">
                 <small class="bold text-uppercase"></small>
@@ -54,19 +54,19 @@
           </div>
           
           
-          <!--  Personal Information -->
+          <!--  Professional Information -->
           <div class="col-sm-6">
             <div class="profile-sidebar">
               <div class="profile-sidebar-item profile-avatar">
-                <img src="images/man.png" alt="" class="img-rounded">
+                
               </div>
               <div class="profile-sidebar-item profile-info">
-                <span class="h5 bold">Samuel Perkins</span>
-                <p>Web Developer</p>
+                <span class="h5 bold" style="font-size: 16px;">Professional Information</span>
+                <p>{{designation}}</p>                
                 <div class="w150 center-block mt10">
-                  <button class="btn btn-danger btn-block">
-                    <span>Send a message</span>
-                  </button>
+                  
+                    <span> </span>
+               		
                 </div>
               </div>
 
@@ -74,94 +74,87 @@
 
               <ul class="profile-sidebar-item profile-numbers-count">
                 <li>
-                  <span class="bold">9854</span> followers
+                  <span class="bold">Project</span> {{project.projectName}}
                 </li>
                 <li>
-                  <span class="bold">7964</span> following
+                  <span class="bold">Department</span> {{department.deptName}}
                 </li>
               </ul>
 
               <hr>
 
-              <div class="profile-sidebar-item profile-bio">
-                <small class="bold text-uppercase">About</small>
-                <p>Maecenas sed diam eget risus varius blandit sit amet non magna. Curabitur blandit tempus porttitor. Vestibulum id ligula porta felis euismod semper.</p>
-              </div>
+			<div class="profile-sidebar-item profile-reccomendations">
+                <span class="bold text-uppercase">Skills</span>
+                <ul class="user-meta">
+                  <li ng-repeat="talent in skills">
+                    <a href="javascript:;">{{talent.skill}}</a>
+                  </li>                 
+                </ul>
+
+            </div>
+
+              
 
               <hr>
-
-              <div class="profile-sidebar-item profile-reccomendations">
-                <small class="bold text-uppercase">Reccomendations</small>
-                <ul class="user-meta">
-                  <li>
-                    <a href="javascript:;">All stream</a>
-                  </li>
-                  <li>
-                    <a href="javascript:;">Connected Apps</a>
-                  </li>
-                  <li>
-                    <a href="javascript:;">Photos</a>
-                  </li>
-                  <li>
-                    <a href="javascript:;">Most recent</a>
-                  </li>
-                </ul>
+				
+				<div class="profile-sidebar-item profile-bio">
+                <span class="bold text-uppercase">About</span>
+                <p>{{about}}</p>
               </div>
+              
             </div>
           </div>
           
           
-          <!-- Occupational Information -->
+          <!-- Contact Information -->
           <div class="col-sm-3">
             <div class="profile-sidebar">
               <div class="profile-sidebar-item profile-avatar">
-                <img src="images/man.png" alt="" class="img-rounded">
+                
               </div>
-              <div class="profile-sidebar-item profile-info">
-                <span class="h5 bold">Samuel Perkins</span>
-                <p>Web Developer</p>
-                <div class="w150 center-block mt10">
-                  <button class="btn btn-danger btn-block">
-                    <span>Send a message</span>
-                  </button>
+              <div class="profile-sidebar-item profile-info" style="margin-bottom: 34px;">
+                <span class="h5 bold" style="font-size: 16px;">Contact Information</span>
+                <p></p>
+                <div class="w150 center-block mt10" >
+                  
                 </div>
               </div>
+
+				<hr>
+				
+				<ul class="profile-sidebar-item profile-numbers-count">
+                <li>
+                  <span class="bold">Email</span> {{email}}
+                </li>                
+              </ul>
 
               <hr>
 
               <ul class="profile-sidebar-item profile-numbers-count">
                 <li>
-                  <span class="bold">9854</span> followers
-                </li>
-                <li>
-                  <span class="bold">7964</span> following
-                </li>
+                  <span class="bold">Mobile</span> {{contact}}
+                </li>                
               </ul>
 
-              <hr>
+              
 
               <div class="profile-sidebar-item profile-bio">
-                <small class="bold text-uppercase">About</small>
-                <p>Maecenas sed diam eget risus varius blandit sit amet non magna. Curabitur blandit tempus porttitor. Vestibulum id ligula porta felis euismod semper.</p>
+                <small class="bold text-uppercase"><strong></strong></small>
+                <p></p>
               </div>
 
               <hr>
 
               <div class="profile-sidebar-item profile-reccomendations">
-                <small class="bold text-uppercase">Reccomendations</small>
+                <span class="bold text-uppercase">Address</span>
                 <ul class="user-meta">
                   <li>
-                    <a href="javascript:;">All stream</a>
-                  </li>
+                    {{address.city}}-{{address.zip}}
+                  </li>                 
                   <li>
-                    <a href="javascript:;">Connected Apps</a>
+                    {{address.state}}, {{address.country}}
                   </li>
-                  <li>
-                    <a href="javascript:;">Photos</a>
-                  </li>
-                  <li>
-                    <a href="javascript:;">Most recent</a>
-                  </li>
+                  
                 </ul>
               </div>
             </div>
