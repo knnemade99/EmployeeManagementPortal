@@ -90,8 +90,8 @@ public class UserDaoImpl implements UserDao {
 			session.getTransaction().commit();
 		}
 		else{
-			new ResponseEntity<String>(HttpStatus.NOT_FOUND).notFound(); 
-			authtable=null;
+			
+			authtable=(AuthTable)new ResponseEntity<AuthTable>(HttpStatus.NOT_FOUND).notFound();
 		}
 		return authtable;
 	}

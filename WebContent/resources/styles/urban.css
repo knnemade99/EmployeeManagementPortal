@@ -2075,7 +2075,7 @@ footer.content-footer li a:active {
   top: 0;
 }
 .layout-fixed-header .main-content {
-  padding-top: 100px;
+  padding-top: 65px;
 }
 .layout-fixed-header .main-content.no-padding {
   padding-top: 55px;
@@ -5670,6 +5670,7 @@ a.text-muted:hover {
  ------------------------------------------*/
 .profile-sidebar-item {
   margin: 15px 0;
+  padding-left: 15px;
 }
 .profile-sidebar-item::before,
 .profile-sidebar-item::after {
@@ -5730,7 +5731,7 @@ a.text-muted:hover {
   border-right: 0;
 }
 .profile-sidebar-item.profile-numbers-count li span {
-  font-size: 25px;
+  font-size: 16px;
   display: block;
   color: #4d4d4d;
 }

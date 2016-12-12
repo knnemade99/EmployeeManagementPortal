@@ -45,10 +45,10 @@
 <body ng-app="myApp">
 	<!-- main area -->
 	<div  ng-controller="EMPController">
-	<div class="app layout-fixed-header" data-ng-class="{'layout-small-menu': app.layout.isSmallSidebar, 'layout-chat-open': app.layout.isChatOpen, 'layout-fixed-header': app.layout.isFixedHeader, 'layout-boxed': app.layout.isBoxed, 'layout-static-sidebar': app.layout.isStaticSidebar, 'layout-right-sidebar': app.layout.isRightSidebar, 'layout-fixed-footer': app.layout.isFixedFooter, 'message-open': app.isMessageOpen}">
+	<div class="app layout-fixed-header" ng-init="initializeApp()" data-ng-class="{'layout-small-menu': app.layout.isSmallSidebar, 'layout-chat-open': app.layout.isChatOpen, 'layout-fixed-header': app.layout.isFixedHeader, 'layout-boxed': app.layout.isBoxed, 'layout-static-sidebar': app.layout.isStaticSidebar, 'layout-right-sidebar': app.layout.isRightSidebar, 'layout-fixed-footer': app.layout.isFixedFooter, 'message-open': app.isMessageOpen}">
 
 		<!-- sidebar panel -->
-		<div class="sidebar-panel offscreen-left">
+		<div class="sidebar-panel offscreen-left" ng-show="checkForLogin()">
 
 			<div class="brand">
 
@@ -80,7 +80,7 @@
 					<!-- /User Management  -->
 
 					<!-- Profile -->
-					<li><a href="javascript:;"> <i class="fa fa-tag"></i> <span>Profile</span>
+					<li><a href="#/landingPage"> <i class="fa fa-tag"></i> <span>Profile</span>
 					</a></li>
 					<!-- /Profile -->
 
@@ -97,7 +97,7 @@
 					<!-- /About -->
 
 					<!-- Logout -->
-					<li><a href="#/logout"> <i class="fa fa-map-marker"></i> <span>Logout</span>
+					<li><a ng-click="logout()"> <i class="fa fa-map-marker"></i> <span>Logout</span>
 					</a></li>
 				</ul>
 			</nav>
@@ -110,7 +110,7 @@
 		<div class="main-panel">
 
 			<!-- top header -->
-			<header class="header navbar" style="border-bottom: 1px solid rgba(0, 0, 0, 0.07);">
+			<header class="header navbar" style="border-bottom: 1px solid rgba(0, 0, 0, 0.07);" ng-show="checkForLogin()">
 
 				<div class="brand visible-xs">
 					<!-- toggle offscreen menu -->
@@ -135,7 +135,7 @@
 
 				<ul class="nav navbar-nav hidden-xs">
 					<li>
-						<p class="navbar-text">Shell Page</p>
+						<p class="navbar-text"></p>
 					</li>
 				</ul>
 
@@ -144,10 +144,10 @@
 					<li><a href="javascript:;" data-toggle="dropdown"> <img
 							src="resources/images/avatar.jpg"
 							class="header-avatar img-circle ml10" alt="user" title="user">
-							<span class="pull-left">Ashish Deshpande</span>
+							<span class="pull-left">{{checkForName()}}</span>
 					</a>
 						<ul class="dropdown-menu">
-							<li><a href="#/logout">Logout</a></li>
+							<li><a ng-click="logout()">Logout</a></li>
 						</ul></li>
 				</ul>
 			</header>

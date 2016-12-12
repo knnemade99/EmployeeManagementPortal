@@ -27,7 +27,7 @@ public class Main {
 		
 		/* Create Department */
 //		Department dept=new Department();
-//		dept.setDeptName("HR");
+//		dept.setDeptName("IT");
 		
 		
 		
@@ -108,7 +108,7 @@ public class Main {
 		
 		/* Create Skills */
 //		Skill skill=new Skill();
-//				skill.setSkill("C++");
+//				skill.setSkill("Java");
 		
 		
 		
