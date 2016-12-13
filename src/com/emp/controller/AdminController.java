@@ -1,7 +1,6 @@
 package com.emp.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -14,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.emp.entity.AuthTable;
+import com.emp.entity.Department;
+import com.emp.entity.Project;
+import com.emp.entity.Skill;
 import com.emp.entity.User;
 import com.emp.entity.UserCredential;
 import com.emp.service.AdminService;
@@ -58,5 +59,26 @@ public class AdminController {
 	@ResponseBody
 	public ResponseEntity<String> unlockEmployee(@PathVariable("id") int employeeId ,@RequestHeader("authToken") String authToken){
 		return adminService.unlockEmployee(employeeId,authToken);
+	}
+	
+	/* View All Departments */
+	@RequestMapping(value="/viewalldepartments" , method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Department> viewAllDepartments(@RequestHeader("authToken") String authToken){
+		return adminService.viewAllDepartments(authToken);
+	}
+	
+	/* View All Projects */
+	@RequestMapping(value="/viewallprojects" , method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Project> viewAllProjects(@RequestHeader("authToken") String authToken){
+		return adminService.viewAllProjects(authToken);
+	}
+	
+	/* View All Skills */
+	@RequestMapping(value="/viewallskills" , method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Skill> viewAllSkills(@RequestHeader("authToken") String authToken){
+		return adminService.viewAllSkills(authToken);
 	}
 }

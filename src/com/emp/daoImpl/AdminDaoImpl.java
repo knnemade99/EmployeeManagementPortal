@@ -3,18 +3,12 @@ package com.emp.daoImpl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-
-import org.hibernate.criterion.Projection;
-import org.hibernate.criterion.Projections;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -23,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.emp.dao.AdminDao;
 import com.emp.email.EmailAPI;
 import com.emp.entity.AuthTable;
+import com.emp.entity.Department;
+import com.emp.entity.Project;
 import com.emp.entity.Skill;
 import com.emp.entity.User;
 import com.emp.entity.UserCredential;
@@ -212,4 +208,66 @@ public class AdminDaoImpl implements AdminDao {
 		return responseEntity;
 	}
 
+	/* View All Departments */
+	@Override
+	public List<Department> viewAllDepartments(String authToken) {
+		Session session=sessionFactory.openSession();
+		List<Department> departmentList =null;
+
+		/* check for authToken of admin */
+		session.beginTransaction();
+		AuthTable authtable=session.get(AuthTable.class, authToken);
+
+		User user = authtable.getUser();
+		if(user.getUsertype().equals("Admin")){
+			String hql="from department";
+			Query q=session.createQuery(hql);
+			departmentList=(List)q.list();
+		}
+		session.getTransaction().commit();
+		session.close();
+		return departmentList;
+	}
+	
+	/* View All Projects */
+	@Override
+	public List<Project> viewAllProjects(String authToken) {
+		Session session=sessionFactory.openSession();
+		List<Project> projectList =null;
+
+		/* check for authToken of admin */
+		session.beginTransaction();
+		AuthTable authtable=session.get(AuthTable.class, authToken);
+
+		User user = authtable.getUser();
+		if(user.getUsertype().equals("Admin")){
+			String hql="from project";
+			Query q=session.createQuery(hql);
+			projectList=(List)q.list();
+		}
+		session.getTransaction().commit();
+		session.close();
+		return projectList;
+	}
+	
+	/* View All Skills */
+	@Override
+	public List<Skill> viewAllSkills(String authToken) {
+		Session session=sessionFactory.openSession();
+		List<Skill> skillList =null;
+
+		/* check for authToken of admin */
+		session.beginTransaction();
+		AuthTable authtable=session.get(AuthTable.class, authToken);
+
+		User user = authtable.getUser();
+		if(user.getUsertype().equals("Admin")){
+			String hql="from skill";
+			Query q=session.createQuery(hql);
+			skillList=(List)q.list();
+		}
+		session.getTransaction().commit();
+		session.close();
+		return skillList;
+	}
 }

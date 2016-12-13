@@ -1,15 +1,14 @@
 package com.emp.serviceImpl;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.emp.dao.AdminDao;
-import com.emp.entity.AuthTable;
+import com.emp.entity.Department;
+import com.emp.entity.Project;
+import com.emp.entity.Skill;
 import com.emp.entity.User;
 import com.emp.entity.UserCredential;
 import com.emp.service.AdminService;
@@ -49,5 +48,20 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public ResponseEntity<String> unlockEmployee(int employeeId,String authToken) {
 		return adminDao.unlockEmployee(employeeId,authToken);
+	}
+
+	@Override
+	public List<Department> viewAllDepartments(String authToken) {
+		return adminDao.viewAllDepartments(authToken);
+	}
+	
+	@Override
+	public List<Project> viewAllProjects(String authToken) {
+		return adminDao.viewAllProjects(authToken);
+	}
+	
+	@Override
+	public List<Skill> viewAllSkills(String authToken) {
+		return adminDao.viewAllSkills(authToken);
 	}
 }
