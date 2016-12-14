@@ -189,15 +189,17 @@
                   </div>
                   <label class="col-sm-2 control-label">HRA</label>
                   <div class="col-sm-4">
-                    <input type="number" class="form-control required" name="newHRA" ng-model="newHRA">
+                    <input type="number" class="form-control required" name="newHra" ng-model="newHra">
                   </div>
                 </div>
                 
                 <div class="form-group">
-                <label class="col-sm-2 control-label">Skills</label>
-                  <div class="col-sm-4" ng-repeat="talent in skills">
-					  <label ><input type="checkbox" checklist-model="art.skill" checklist-value="talent.skillName">{{talent.skillName}}</label>
+                
+                  <label class="col-sm-2 control-label">Experience (in years)</label>
+                  <div class="col-sm-4">
+					 <input type="number" class="form-control required" ng-model="newExperience">
 	              </div>
+                
 				  <label class="col-sm-2 control-label">LTA</label>
                   <div class="col-sm-4">
                     <input type="number" class="form-control required" name="newLta" ng-model="newLta">
@@ -205,10 +207,15 @@
                 </div>
                 
                 <div class="form-group">
-                	 <label class="col-sm-2 control-label">Experience (in years)</label>
+                
+                <label class="col-sm-2 control-label">Skills</label>
                   <div class="col-sm-4">
-					 <input type="number" ng-model="newExperience">
+                  	
+					  <label class="checkbox-inline"  ng-repeat="talent in skills"><input type="checkbox" checklist-model="art.skill" checklist-value="talent.skillName">{{talent.skillName}}</label>
+					  
 	              </div>
+                
+                	 
                  </div>
                 
                 <div class="pull-right">

@@ -1,0 +1,44 @@
+
+      <!-- main area -->
+        <div class="panel" ng-controller="EMPController" ng-init="getAllEmployees()">
+          <div class="panel-heading border">
+            <ol class="breadcrumb mb0 no-padding">
+              <li>
+                <a href="javascript:;">Home</a>
+              </li>
+              <li>
+                <a href="javascript:;">Tables</a>
+              </li>
+              <li class="active">Data tables</li>
+            </ol>
+          </div>
+          <div class="panel-body">
+            <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Desgination</th>
+                  <th>Project Name</th>
+                  <th>Start Date</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="user in UserList">
+                  <td>{{user.name}}</td>
+                  <td>{{user.email}}</td>
+                  <td>{{user.designation}}</td>
+                  <td>{{user.project.projectName}}</td>
+                  <td>{{user.project.startDate}}</td>
+                  <td><a href="javascript:;" class="edit">Edit</a>
+                  </td>
+                  <td><a href="javascript:;" class="delete">Delete</a>
+                  </td>
+                </tr>                
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <!-- /main area -->

@@ -345,7 +345,36 @@ console.log("dat:" +data);
 		    });
 	 }
 	 
-	 
+	 /* get list of employees */
+	 $scope.getAllEmployees= function() {
+
+	        $http({
+		           method : 'GET',
+		           url : REST_SERVICE_URI+'viewallemployees',
+		           headers : {
+		                 'Content-Type' : 'application/json',
+		                 'authToken' : $cookieStore.get("authToken")
+		           },
+		           data : {
+		        	   		
+		                 }
+		    }).then(function successCallback(response) {
+		    	  
+		    	var data = response.data;
+				$rootScope.UserList=[];
+				angular.forEach(data, function(value, key) {
+					$rootScope.UserList = data;					
+			    });
+			
+				console.log($rootScope.UserList + "Done!");
+		    	  
+		          
+		         
+		    }, function errorCallback(response) {
+		    	 
+		          
+		    });
+	 }
 	 
 }
 
@@ -372,6 +401,10 @@ myApp.config(function($routeProvider) {
 	.when('/addEmployee', {
 		controller: 'EMPController',
 		templateUrl: 'resources/views/add-employee.html'
+	})
+	.when('/getAllUsers', {
+		controller: 'EMPController',
+		templateUrl: 'resources/views/user-list.html'
 	})
 	.when('/getAllUsers', {
 		controller: 'EMPController',

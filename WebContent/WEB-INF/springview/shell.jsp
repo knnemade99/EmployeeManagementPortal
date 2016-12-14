@@ -8,18 +8,19 @@
 <meta name="viewport" content="width=device-width">
 <meta charset="utf-8">
 
+
+<script src="resources/scripts/extentions/modernizr.js"></script>
 <script src="resources/vendor/jquery/dist/jquery.js"></script>
-<script src="resources/vendor/jquery.easing/jquery.easing.js"></script>
-<script src="resources/vendor/jquery-countTo/jquery.countTo.js"></script>
-<script src="resources/vendor/perfect-scrollbar/js/perfect-scrollbar.jquery.js"></script>
-<script src="resources/vendor/onScreen/jquery.onscreen.js"></script>
 <script src="resources/vendor/angular/angular.min.js"> </script>
 <script src="resources/vendor/angular/angular-route.min.js"> </script>
 <script src="resources/vendor/angular/angular-cookies.min.js"> </script>
 <script src="resources/scripts/logic.js"> </script>
-<script src="resources/scripts/extentions/modernizr.js"></script>
 <script src="resources/vendor/bootstrap/dist/js/bootstrap.js"></script>
+<script src="resources/vendor/jquery.easing/jquery.easing.js"></script>
 <script src="resources/vendor/fastclick/lib/fastclick.js"></script>
+<script src="resources/vendor/onScreen/jquery.onscreen.js"></script>
+<script src="resources/vendor/jquery-countTo/jquery.countTo.js"></script>
+<script src="resources/vendor/perfect-scrollbar/js/perfect-scrollbar.jquery.js"></script>
 <script src="resources/scripts/ui/accordion.js"></script>
 <script src="resources/scripts/ui/animate.js"></script>
 <script src="resources/scripts/ui/link-transition.js"></script>
@@ -28,10 +29,29 @@
 <script src="resources/scripts/ui/toggle.js"></script>
 <script src="resources/scripts/urban-constants.js"></script>
 <script src="resources/scripts/extentions/lib.js"></script>
+<script src="resources/vendor/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
+<script src="resources/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="resources/vendor/card/lib/js/jquery.card.js"></script>
+
+<!-- page level js-->
+<script src="resources/vendor/checkbo/src/0.1.4/js/checkBo.min.js"></script>
+<script src="resources/vendor/chosen_v1.4.0/chosen.jquery.min.js"></script>
+<script src="resources/scripts/pages/form-wizard.js"></script>
 <script src="resources/scripts/countries.js"></script>
 <script src="resources/scripts/checklist-model.js"></script>
-	
+<script src="resources/vendor/datatables/media/js/jquery.dataTables.js"></script>
+<script src="resources/scripts/extentions/bootstrap-datatables.js"></script>
+<script src="resources/scripts/pages/table-edit.js"></script>
+<!-- /page level js-->
+
+<!-- page level css-->	
 <link rel="shortcut icon" href="/favicon.ico">
+<link rel="stylesheet" href="resources/vendor/chosen_v1.4.0/chosen.min.css">
+<link rel="stylesheet" href="resources/vendor/checkbo/src/0.1.4/css/checkBo.min.css">
+<link rel="stylesheet" href="resources/vendor/datatables/media/css/jquery.dataTables.css">
+<!-- /page level css-->
+
+<!-- general level css-->
 <link rel="stylesheet"	href="resources/vendor/bootstrap/dist/css/bootstrap.css">
 <link rel="stylesheet"	href="resources/vendor/perfect-scrollbar/css/perfect-scrollbar.css">
 <link rel="stylesheet" href="resources/styles/roboto.css">
@@ -41,6 +61,8 @@
 <link rel="stylesheet" href="resources/styles/animate.css">
 <link rel="stylesheet" href="resources/styles/urban.css">
 <link rel="stylesheet" href="resources/styles/urban.skins.css">
+<!-- /general level css-->
+
 <!-- endbuild -->
 
 </head>
@@ -76,7 +98,7 @@
 				<ul class="nav">
 
 					<!-- User Management -->
-					<li><a href="#/userMgmt"> <i class="fa fa-toggle-on"></i>
+					<li><a href="#/getAllUsers"> <i class="fa fa-toggle-on"></i>
 							<span>User Management</span>
 					</a></li>
 					<!-- /User Management  -->
@@ -85,7 +107,7 @@
 					<li><a href="#/addEmployee"> <i class="fa fa-toggle-on"></i>
 							<span>Add Employee</span>
 					</a></li>
-					<!-- /Add Employee  -->
+					<!-- /User Management  -->
 
 					<!-- Profile -->
 					<li><a href="#/landingPage"> <i class="fa fa-tag"></i> <span>Profile</span>
