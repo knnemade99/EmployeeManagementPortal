@@ -27,7 +27,7 @@ public class Main {
 		
 		/* Create Department */
 //		Department dept=new Department();
-//		dept.setDeptName("IT");
+//		dept.setdepartmentName("Support");
 		
 		
 		
@@ -50,7 +50,7 @@ public class Main {
 //		Project project =new Project();
 //		project.setBudget(1000000);
 //		project.setEndDate(new Date(2016,11,31));
-//		project.setProjectName("SAP CMP");
+//		project.setProjectName("Newtonics");
 //		project.setStartDate(new Date(2016,0,1));
 		
 		
@@ -67,11 +67,11 @@ public class Main {
 		
 		/* create users */
 		User user=new User();
-		user.setAbout("I am Kunal");
+		user.setAbout("I am Kunal Nemade. I belongs to Indore");
 			Address address=new Address();
-			address.setCity("Pune");
+			address.setCity("Indore");
 			address.setCountry("India");
-			address.setState("Maharashtra");
+			address.setState("Madhya Pradesh");
 			address.setZip(452010);
 		user.setAddress(address);
 		user.setContact(7697599287l);
@@ -86,7 +86,7 @@ public class Main {
 		user.setLockStatus("unlock");
 		user.setMaritalStatus("single");
 		user.setName("Kunal");
-			Project project=null;
+			Project project=s.get(Project.class, 1);
 		user.setProject(project);
 			Salary salary=new Salary();
 			salary.setBasic(50000);
@@ -108,7 +108,7 @@ public class Main {
 		
 		/* Create Skills */
 //		Skill skill=new Skill();
-//				skill.setSkill("Java");
+//				skill.setSkillName("Java");
 		
 		
 		
@@ -131,9 +131,10 @@ public class Main {
 		
 
 		try{	
-			s.save(uc);
-			s.save(user);
+//			s.save(uc);
+//			s.save(user);
 //			s.save(skill);
+			s.persist(user);
 		}
 		catch(Exception e){
 			s.getTransaction().rollback();

@@ -69,7 +69,7 @@ public class User {
 	@Column(name="contact")
 	private long contact;
 	
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name="departmentId")
 	private Department department;
 	

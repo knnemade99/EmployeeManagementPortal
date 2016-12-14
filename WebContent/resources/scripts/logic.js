@@ -1,11 +1,32 @@
-var myApp = angular.module('myApp', ['ngRoute', 'ngCookies'] );
+var myApp = angular.module('myApp', ['ngRoute', 'ngCookies', 'checklist-model'] );
 
 function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore) {
 	
 	var REST_SERVICE_URI="http://localhost:9091/EmployeeManagementPortal/";
 	
+	$scope.art = {
+		    skill: []
+		  };
 	
-	console.log("Default value of isLogged: "+$scope.isLogged);
+	$scope.activeTab = 1;
+	
+	$scope.setActiveTab= function (tabToSet){
+		$scope.activeTab = tabToSet;
+	}
+	
+	$scope.nextTab= function (){
+		if($scope.activeTab<5){
+			$scope.activeTab=$scope.activeTab+1;
+		}
+	}
+	
+	$scope.previousTab= function (){
+		if($scope.activeTab>1){
+			$scope.activeTab=$scope.activeTab-1;
+		}
+	}
+	
+	
 	
 	$rootScope.initializeApp= function (){
 		if($cookieStore.get("authToken")==null){
@@ -77,26 +98,17 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore) {
 	 
 	 /* check for login */
 	 $scope.checkForLogin= function() {
-		 
 			 return $cookieStore.get("isLogged");
-		 
-	       
 	 }
 	 
 	 /* check for name */	 
 	 $scope.checkForName= function() {
-		 
 		 return $cookieStore.get("name");
-	 
-       
 	 }
 	 
 	 /* check for type */	 
 	 $scope.checkForType= function() {
-		 
-		 return $cookieStore.get("usertype");
-	 
-       
+		 return $cookieStore.get("usertype");  
 	 }
 	 
 		/* logout */
@@ -130,6 +142,66 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore) {
 				  $cookieStore.remove("usertype");
 				  $cookieStore.remove("isLogged");
 		          $location.path("/login");
+		    });
+	 }
+	 
+		/* get All Departments */
+	 $scope.getAllDepartments= function() {
+console.log("in getalldepartments");
+	        $http({
+		           method : 'GET',
+		           url : REST_SERVICE_URI+'viewalldepartments',
+		           headers : {
+		                 'Content-Type' : 'application/json',
+		                 'authToken' : $cookieStore.get("authToken")
+		           },
+		           data : {
+		                
+		                 }
+		    }).then(function successCallback(response) {
+		    	  $scope.departments=response.data;
+		         
+		    }, function errorCallback(response) {
+		    });
+	 }
+	 
+	 /* get All Projects */
+	 $scope.getAllProjects= function() {
+		 console.log("in getallprojects");
+	        $http({
+		           method : 'GET',
+		           url : REST_SERVICE_URI+'viewallprojects',
+		           headers : {
+		                 'Content-Type' : 'application/json',
+		                 'authToken' : $cookieStore.get("authToken")
+		           },
+		           data : {
+		                
+		                 }
+		    }).then(function successCallback(response) {
+		    	  $scope.projects=response.data;
+		         
+		    }, function errorCallback(response) {
+		    });
+	 }
+	 
+	 /* get All Skills */
+	 $scope.getAllSkills= function() {
+		 console.log("in getallskills");
+	        $http({
+		           method : 'GET',
+		           url : REST_SERVICE_URI+'viewallskills',
+		           headers : {
+		                 'Content-Type' : 'application/json',
+		                 'authToken' : $cookieStore.get("authToken")
+		           },
+		           data : {
+		                
+		                 }
+		    }).then(function successCallback(response) {
+		    	  $scope.skills=response.data;
+		         
+		    }, function errorCallback(response) {
 		    });
 	 }
 	 
@@ -180,6 +252,99 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore) {
 		    });
 	 }
 	 
+	 /* Add Employee */
+	 $scope.addEmployee= function() {
+		 
+	console.log($scope.newEmail);
+	console.log($scope.newUserType);
+	console.log($scope.newUsername);
+	console.log($scope.newAccountPassword);
+	console.log($scope.newName);
+	console.log($scope.newGender);
+	console.log($scope.newDob);
+	console.log($scope.newAbout);
+	console.log($scope.newCountry);
+	console.log($scope.newState);
+	console.log($scope.newCity);
+	console.log($scope.newMobile);
+	console.log($scope.newPinCode);
+	console.log($scope.newDesignation);
+	console.log($scope.newDepartment);
+	console.log($scope.newBasicSalary);
+	console.log($scope.newProject);
+	console.log($scope.newHRA);
+	console.log($scope.art);
+	console.log($scope.newLta);
+	console.log($scope.newExperience);
+	console.log($scope.newDoj);
+	console.log($scope.newMaritalStatus);
+	
+	$scope.newArt = {
+		    newSkill: []
+		  };
+	
+var data=$scope.art.skill;
+console.log("dat:" +data);
+	angular.forEach(data, function(v, k) {
+	    $scope.newArt.newSkill.push({
+	      'skillName': v
+	    });
+	  });
+	console.log($scope.newArt.newSkill);
+
+	        $http({
+		           method : 'POST',
+		           url : REST_SERVICE_URI+'addemployee',
+		           headers : {
+		                 'Content-Type' : 'application/json',
+		                 'authToken' : $cookieStore.get("authToken")
+		           },
+		           data : {
+			        	   "skills": $scope.newArt.newSkill,
+		        		    "userCredential": {
+		        		      "username": $scope.newUsername,
+		        		      "password": $scope.newAccountPassword
+		        		    },
+		        		    "address": {
+		        		      "city": $scope.newCity,
+		        		      "state": $scope.newState,
+		        		      "country": $scope.newCountry,
+		        		      "zip": $scope.newPinCode
+		        		    },
+		        		    "salary": {
+		        		      "basic": $scope.newBasicSalary,
+		        		      "hra": $scope.newHra,
+		        		      "lta": $scope.newLta
+		        		    },
+		        		    "project":{
+		        		    	"projectName":$scope.newProject
+		        		    },
+		        		    "name": $scope.newName,
+		        		    "email": $scope.newEmail,
+		        		    "about": $scope.newAbout,
+		        		    "contact": $scope.newMobile,
+		        		    "department": {
+		        		      "deptName": $scope.newDepartment
+		        		    },
+		        		    "designation": $scope.newDesignation,
+		        		    "dob": $scope.newDob,
+		        		    "doj": $scope.newDoj,
+		        		    "lockStatus": "unlock",
+		        		    "gender": $scope.newGender,
+		        		    "maritalStatus": $scope.newMaritalStatus,
+		        		    "experience": $scope.newExperience,
+		        		    "usertype": $scope.newUserType
+		        		  }
+		    }).then(function successCallback(response) {
+		    	  
+		          $location.path("/landingPage");
+		         
+		    }, function errorCallback(response) {
+		    	 
+		          
+		    });
+	 }
+	 
 	 
 	 
 }
@@ -204,6 +369,14 @@ myApp.config(function($routeProvider) {
 		controller: 'EMPController',
 		templateUrl: 'resources/views/change-password.html'
 	})
-    .otherwise({redirectTo: '/'})
-   
+	.when('/addEmployee', {
+		controller: 'EMPController',
+		templateUrl: 'resources/views/add-employee.html'
+	})
+	.when('/getAllUsers', {
+		controller: 'EMPController',
+		templateUrl: 'resources/views/user-list.html'
+	})
+    .otherwise({redirectTo: '/'})  
+    
 });

@@ -224,7 +224,7 @@ public class UserDaoImpl implements UserDao {
 			/* Adding skills to user object */
 			List<Skill> skills = new ArrayList<Skill>();
 			for(Skill s:user.getSkills()){
-				String h="from Skill where skill='"+s.getSkill()+"'";
+				String h="from Skill where skillName='"+s.getSkillName()+"'";
 				Query q=session.createQuery(h);
 				skills.addAll(q.list());
 				

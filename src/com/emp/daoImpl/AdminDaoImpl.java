@@ -51,11 +51,27 @@ public class AdminDaoImpl implements AdminDao {
 		/* Adding skills to user object */
 		List<Skill> skills = new ArrayList<Skill>();
 		for(Skill s:user.getSkills()){
-			String h="from Skill where skill='"+s.getSkill()+"'";
+			String h="from skill where skillName='"+s.getSkillName()+"'";
 			Query q=session.createQuery(h);
 			skills.addAll(q.list());
 			
 		}
+		
+		/* Adding department to user object */
+		if(user.getDepartment()!=null){
+			String h="from department where departmentName='"+user.getDepartment().getDeptName()+"'";
+			Query q=session.createQuery(h);
+			user.setDepartment(((Department)q.list().get(0)));
+		}
+
+		
+		/* Adding project to user object */
+		if(user.getProject()!=null){
+			String h="from project where projectName='"+user.getProject().getProjectName()+"'";
+			Query q=session.createQuery(h);
+			user.setProject(((Project)q.list().get(0)));
+		}
+	
 		user.setSkills(skills);
 
 		if(adminUser.getUsertype().equals("Admin")){

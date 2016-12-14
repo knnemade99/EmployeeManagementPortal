@@ -15,8 +15,8 @@ public class Department {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="department_sequence")
 	private int deptId;
 	
-	@Column(name="departmentName")
-	private String deptName;
+	@Column(name="departmentName" , unique=true)
+	private String departmentName;
 	
 	public int getDeptId() {
 		return deptId;
@@ -25,14 +25,14 @@ public class Department {
 		this.deptId = deptId;
 	}
 	public String getDeptName() {
-		return deptName;
+		return departmentName;
 	}
-	public void setDeptName(String deptName) {
-		this.deptName = deptName;
+	public void setDeptName(String departmentName) {
+		this.departmentName = departmentName;
 	}
 	@Override
 	public String toString() {
-		return "Department [deptId=" + deptId + ", deptName=" + deptName + "]";
+		return "Department [deptId=" + deptId + ", departmentName=" + departmentName + "]";
 	}
 
 

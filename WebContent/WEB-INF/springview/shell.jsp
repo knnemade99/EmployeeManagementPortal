@@ -28,6 +28,8 @@
 <script src="resources/scripts/ui/toggle.js"></script>
 <script src="resources/scripts/urban-constants.js"></script>
 <script src="resources/scripts/extentions/lib.js"></script>
+<script src="resources/scripts/countries.js"></script>
+<script src="resources/scripts/checklist-model.js"></script>
 	
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="stylesheet"	href="resources/vendor/bootstrap/dist/css/bootstrap.css">
@@ -78,6 +80,12 @@
 							<span>User Management</span>
 					</a></li>
 					<!-- /User Management  -->
+					
+					<!-- Add Employee -->
+					<li><a href="#/addEmployee"> <i class="fa fa-toggle-on"></i>
+							<span>Add Employee</span>
+					</a></li>
+					<!-- /Add Employee  -->
 
 					<!-- Profile -->
 					<li><a href="#/landingPage"> <i class="fa fa-tag"></i> <span>Profile</span>

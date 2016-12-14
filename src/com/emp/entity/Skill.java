@@ -17,14 +17,14 @@ public class Skill {
 	@Column(name="id")
 	private int id;
 	
-	@Column(name="skill")
-	private String skill;
+	@Column(name="skillName")
+	private String skillName;
 	
 
 
 	@Override
 	public String toString() {
-		return "Skill [id=" + id + ", skill=" + skill + "]";
+		return "Skill [id=" + id + ", skillName=" + skillName + "]";
 	}
 
 	public int getId() {
@@ -35,12 +35,12 @@ public class Skill {
 		id = id;
 	}
 
-	public String getSkill() {
-		return skill;
+	public String getSkillName() {
+		return skillName;
 	}
 
-	public void setSkill(String skill) {
-		this.skill = skill;
+	public void setSkillName(String skillName) {
+		this.skillName = skillName;
 	}
 
 }
