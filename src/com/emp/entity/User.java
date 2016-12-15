@@ -38,7 +38,7 @@ public class User {
 	@Column(name="employeeId")
 	private int empId;
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="user_skill")
 	private List<Skill> skills = new ArrayList<Skill>();
 	
@@ -69,7 +69,7 @@ public class User {
 	@Column(name="contact")
 	private long contact;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
+	@OneToOne
 	@JoinColumn(name="departmentId")
 	private Department department;
 	

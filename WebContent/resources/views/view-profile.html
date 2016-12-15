@@ -1,0 +1,163 @@
+        <div class="row" ng-init="viewEmployee(empId)">
+        
+        <!-- Personal Information -->
+          <div class="col-sm-3">
+            <div class="profile-sidebar">
+              <div class="profile-sidebar-item profile-avatar">
+                <img src="resources/images/avatar.jpg" alt="" class="img-rounded">
+              </div>
+              <div class="profile-sidebar-item profile-info">
+                <span class="h5 bold" style="font-size:24px">{{profileName}}</span>                                
+                <div class="w150 center-block mt10">                  
+                    <span class="bold">X448{{empId}}</span>
+                    <p>{{checkForType()}}</p>
+                </div>
+              </div>
+
+              <hr>
+
+				<ul class="profile-sidebar-item profile-numbers-count">
+                <li>
+                  <span class="bold">Gender</span>{{gender}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       
+                </li>
+                <li>
+                  <span class="bold" style="text-transform: capitalize;">Marital Status</span> {{maritalStatus}}
+                </li>
+              </ul>              
+
+              <hr>
+              
+              <ul class="profile-sidebar-item profile-numbers-count">
+                <li>
+                  <span class="bold">Date of Birth</span> {{dob}}
+                </li>
+                <li>
+                  <span class="bold">Date of Joining</span> {{doj}}
+                </li>
+              </ul>
+              
+              <hr>
+
+              <div class="profile-sidebar-item profile-bio">
+                <small class="bold text-uppercase"><strong></strong></small>
+                <p></p>
+              </div>
+
+              
+
+              <div class="profile-sidebar-item profile-reccomendations">
+                <small class="bold text-uppercase"></small>
+               
+              </div>
+            </div>
+
+          </div>
+          
+          
+          <!--  Professional Information -->
+          <div class="col-sm-6">
+            <div class="profile-sidebar">
+              <div class="profile-sidebar-item profile-avatar">
+                
+              </div>
+              <div class="profile-sidebar-item profile-info">
+                <span class="h5 bold" style="font-size: 16px;">Professional Information</span>
+                <p>{{designation}}</p>                
+                <div class="w150 center-block mt10">
+                  
+                    <span> </span>
+               		
+                </div>
+              </div>
+
+              <hr>
+
+              <ul class="profile-sidebar-item profile-numbers-count">
+                <li>
+                  <span class="bold">Project</span> {{project.projectName}}
+                </li>
+                <li>
+                  <span class="bold">Department</span> {{department.deptName}}
+                </li>
+              </ul>
+
+              <hr>
+
+			<div class="profile-sidebar-item profile-reccomendations">
+                <span class="bold text-uppercase">Skills</span>
+                <ul class="user-meta">
+                  <li ng-repeat="talent in skills">
+                    <a href="javascript:;">{{talent.skillName}}</a>
+                  </li>                 
+                </ul>
+
+            </div>
+
+              
+
+              <hr>
+				
+				<div class="profile-sidebar-item profile-bio">
+                <span class="bold text-uppercase">About</span>
+                <p>{{about}}</p>
+              </div>
+              
+            </div>
+          </div>
+          
+          
+          <!-- Contact Information -->
+          <div class="col-sm-3">
+            <div class="profile-sidebar">
+              <div class="profile-sidebar-item profile-avatar">
+                
+              </div>
+              <div class="profile-sidebar-item profile-info" style="margin-bottom: 34px;">
+                <span class="h5 bold" style="font-size: 16px;">Contact Information</span>
+                <p></p>
+                <div class="w150 center-block mt10" >
+                  
+                </div>
+              </div>
+
+				<hr>
+				
+				<ul class="profile-sidebar-item profile-numbers-count">
+                <li>
+                  <span class="bold">Email</span> {{email}}
+                </li>                
+              </ul>
+
+              <hr>
+
+              <ul class="profile-sidebar-item profile-numbers-count">
+                <li>
+                  <span class="bold">Mobile</span> {{contact}}
+                </li>                
+              </ul>
+
+              
+
+              <div class="profile-sidebar-item profile-bio">
+                <small class="bold text-uppercase"><strong></strong></small>
+                <p></p>
+              </div>
+
+              <hr>
+
+              <div class="profile-sidebar-item profile-reccomendations">
+                <span class="bold text-uppercase">Address</span>
+                <ul class="user-meta">
+                  <li>
+                    {{address.city}}-{{address.zip}}
+                  </li>                 
+                  <li>
+                    {{address.state}}, {{address.country}}
+                  </li>
+                  
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>

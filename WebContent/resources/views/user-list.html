@@ -1,6 +1,7 @@
 
       <!-- main area -->
-        <div class="panel" ng-controller="EMPController" ng-init="getAllEmployees()">
+      <div  ng-controller="EMPController" ng-init="getAllEmployees()">
+        <div class="panel">
           <div class="panel-heading border">
             <ol class="breadcrumb mb0 no-padding">
               <li>
@@ -16,6 +17,7 @@
             <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
               <thead>
                 <tr>
+                  <th>Employee Id</th>
                   <th>Name</th>
                   <th>Email</th>
                   <th>Desgination</th>
@@ -27,14 +29,16 @@
               </thead>
               <tbody>
                 <tr ng-repeat="user in UserList">
+                  <td>X448{{user.empId}}</td>
                   <td>{{user.name}}</td>
                   <td>{{user.email}}</td>
                   <td>{{user.designation}}</td>
                   <td>{{user.project.projectName}}</td>
                   <td>{{user.project.startDate}}</td>
-                  <td><a href="javascript:;" class="edit">Edit</a>
+                  <td>
+                  	<button type="button" class="btn btn-primary button-next" ng-click="viewEmployee(user.empId)">View</button>
                   </td>
-                  <td><a href="javascript:;" class="delete">Delete</a>
+                  <td><button type="button" class="btn btn-danger button-next" data-toggle="modal" data-target="#myModal123" ng-click="getUserId(user.empId)">Delete</button>
                   </td>
                 </tr>                
               </tbody>
@@ -42,3 +46,28 @@
           </div>
         </div>
       <!-- /main area -->
+      
+      <!-- Modal -->
+  <div class="modal fade" id="myModal123" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">DELETE</h4>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete ??</p>
+         </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" ng-click="deleteEmployee(delId)" data-dismiss="modal">Delete</button>
+<!--           <a class=" to-buy" ng-click="deleteEmployee(delId)"  style="cursor : pointer; text-decoration: none;" data-dismiss="modal">Delete User</a> -->
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  </div>
+  <!-- /Modal -->

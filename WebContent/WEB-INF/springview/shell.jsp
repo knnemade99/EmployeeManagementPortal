@@ -42,6 +42,7 @@
 <script src="resources/vendor/datatables/media/js/jquery.dataTables.js"></script>
 <script src="resources/scripts/extentions/bootstrap-datatables.js"></script>
 <script src="resources/scripts/pages/table-edit.js"></script>
+<script src="resources/scripts/bootbox.min.js"></script>
 <!-- /page level js-->
 
 <!-- page level css-->	

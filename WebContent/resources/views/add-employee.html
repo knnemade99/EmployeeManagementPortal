@@ -43,13 +43,13 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Password</label>
                   <div class="col-sm-4">
-                    <input type="text" class="form-control" id="passwordfield" ng-model="newAccountPassword">
+                    <input type="password" class="form-control" id="passwordfield" ng-model="newAccountPassword">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Confirm password</label>
                   <div class="col-sm-4">
-                    <input type="text" class="form-control" id="cpasswordfield" ng-model="newAccountRetypedPassword">
+                    <input type="password" class="form-control" id="cpasswordfield" ng-model="newAccountRetypedPassword">
                   </div>
                 </div>
                 <div class="pull-right">
@@ -206,13 +206,11 @@
                   </div>
                 </div>
                 
-                <div class="form-group">
-                
+                <div class="form-group">                                
+  
                 <label class="col-sm-2 control-label">Skills</label>
-                  <div class="col-sm-4">
-                  	
-					  <label class="checkbox-inline"  ng-repeat="talent in skills"><input type="checkbox" checklist-model="art.skill" checklist-value="talent.skillName">{{talent.skillName}}</label>
-					  
+                  <div class="col-sm-4">                  	
+					  <label class="checkbox-inline"  ng-repeat="talent in skills"><input type="checkbox" checklist-model="art.skill" checklist-value="talent.skillName">{{talent.skillName}}</label>					  
 	              </div>
                 
                 	 

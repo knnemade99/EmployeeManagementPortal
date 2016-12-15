@@ -376,6 +376,103 @@ console.log("dat:" +data);
 		    });
 	 }
 	 
+	 /* to fetch id */
+	 $scope.getUserId = function(uid){
+			$rootScope.delId = uid;
+		}
+	 
+	 /* get employee by id */
+	 $scope.deleteEmployee= function(id) {
+
+	        $http({
+		           method : 'DELETE',
+		           url : REST_SERVICE_URI+'deleteemployee/'+id,
+		           headers : {
+		                 'Content-Type' : 'application/json',
+		                 'authToken' : $cookieStore.get("authToken")
+		           },
+		           data : {
+		        	   		
+		                 }
+		    }).then(function successCallback(response) {
+		    	
+		    	for(var v=0;v<$rootScope.UserList.length;v++){
+					if(id==$rootScope.UserList[v].empId)
+					{
+						$rootScope.UserList.splice(v,1);
+					}
+				}
+				bootbox.dialog({
+					  message: 'User deleted successfully!',
+					  onEscape: function() { console.log("Ecsape"); },
+					  backdrop: true
+					});
+				
+		    	  
+		    			         
+		    }, function errorCallback(response) {
+		    	 
+		    	bootbox.dialog({
+					  message: 'Deleting the user failed!',
+					  onEscape: function() { console.log("Ecsape"); },
+					  backdrop: true
+					});
+		    });
+	 }
+	 
+	 
+	 $scope.viewEmployee= function(id) {
+
+	        $http({
+		           method : 'GET',
+		           url : REST_SERVICE_URI+'viewemployee/'+id,
+		           headers : {
+		                 'Content-Type' : 'application/json',
+		                 'authToken' : $cookieStore.get("authToken")
+		           },
+		           data : {
+		        	   		
+		                 }
+		    }).then(function successCallback(response) {
+		    	
+		    	  $rootScope.profileName = response.data.name;
+		    	  $rootScope.usertype = response.data.usertype;
+		    	  $rootScope.lockStatus=response.data.lockStatus;
+		    	  $rootScope.isLogged = "true";
+		    	  
+		    	  //personal
+		    	  $rootScope.designation=response.data.designation;
+		    	  $rootScope.empId=response.data.empId;		    	  		    	 
+		    	  $rootScope.dob=response.data.dob;
+		    	  $rootScope.doj=response.data.doj;		    	  		    	  
+		    	  $rootScope.gender=response.data.gender;
+		    	  $rootScope.maritalStatus=response.data.maritalStatus;
+		    	  
+		    	  //contact
+		    	  $rootScope.email=response.data.email;
+		    	  $rootScope.address=response.data.address;
+		    	  $rootScope.contact=response.data.contact;
+		    	  $rootScope.about=response.data.about;
+		    	  
+		    	  //professional		    	  
+		    	  $rootScope.salary=response.data.salary;		    	 
+		    	  $rootScope.experience=response.data.experience;		    	  
+		    	  $rootScope.manager=response.data.manager;
+		    	  $rootScope.project=response.data.project;
+		    	  $rootScope.skills=response.data.skills;
+		    	  $rootScope.department=response.data.department;
+		    	  
+		    	  
+		    	  console.log("Name: "+$rootScope.profileName);
+		    	  $location.path("/viewProfile");
+		    			         
+		    }, function errorCallback(response) {
+		    	 
+		          
+		    });
+	 }
+	 
+	 
 }
 
 myApp.controller('EMPController',EMPController);
@@ -389,6 +486,10 @@ myApp.config(function($routeProvider) {
 	.when('/landingPage', {
 		controller: 'EMPController',
 		templateUrl: 'resources/views/landing-page.html'
+	})
+	.when('/viewProfile', {
+		controller: 'EMPController',
+		templateUrl: 'resources/views/view-profile.html'
 	})
 	.when('/forgotPassword', {
 		controller: 'EMPController',
@@ -405,11 +506,7 @@ myApp.config(function($routeProvider) {
 	.when('/getAllUsers', {
 		controller: 'EMPController',
 		templateUrl: 'resources/views/user-list.html'
-	})
-	.when('/getAllUsers', {
-		controller: 'EMPController',
-		templateUrl: 'resources/views/user-list.html'
-	})
+	})	
     .otherwise({redirectTo: '/'})  
     
 });

@@ -82,7 +82,7 @@ public class AdminDaoImpl implements AdminDao {
 				/* Stores user and UserCredential in database  */
 				session.persist(user);
 				
-				String msg="Welcome to the Employee Management Portal.\nPlease sign in with the following credentials into the portal\nUsername:"+user.getUserCredential().getUsername()+"\nPassword:"+password+"\nIt is Strongly recommended to change the password after first login";
+				String msg="Welcome to the Urban-Xoriant, an Employee Management Portal designed by Ashish and Kunal.\n\nPlease sign in with the following credentials into the portal- \n Username:"+user.getUserCredential().getUsername()+"\nPassword:"+password+" \nIt is Strongly recommended to change the password after first login";
 								
 				/* sends Welcome Email */
 				email.sendEmail(user.getEmail(), "Welcome" , msg);

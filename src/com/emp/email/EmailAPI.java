@@ -1,5 +1,7 @@
 package com.emp.email;
 
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
@@ -14,7 +16,8 @@ public class EmailAPI {
 	public void sendEmail(String toAddress, String subject, String msgBody) {
  System.out.println(toAddress+subject+msgBody);
 		SimpleMailMessage msg = new SimpleMailMessage();
-		msg.setFrom("mihirkhote@gmail.com");
+		
+		msg.setFrom("urban.xoriant@gmail.com");
 		msg.setTo(toAddress);
 		msg.setSubject(subject);
 		msg.setText(msgBody);
