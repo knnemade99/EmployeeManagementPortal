@@ -1,0 +1,30 @@
+
+
+  <div class="app layout-fixed-header usersession" ng-controller="EMPController">
+    <div class="full-height">
+      <div class="center-wrapper" style="right: 130px; top: 10px;">
+        <div class="center-content">
+          <div class="text-center">
+            <div class="lockscreen-avatar shadows">
+              <img src="resources/images/avatar.jpg" alt="" class="avatar avatar-lg img-circle">
+            </div>
+            <span class="center-block mt25" style="font-size: 17px;">{{lockedUserName}}, you have been locked out of your account because you exceeded the max. no.of wrong attempts !!!</span>
+            <small style="font-size: 16px;">Kindly contact admin at the following Email Id. </small>
+            <strong style="font-size: 16px;">urban.xoriant@gmail.com</strong>
+          </div>
+          <div class="center-block lockcode">
+            <form role="form">
+              <div class="input-group mb15 mt25">
+                <span class="input-group-btn" style="padding-left: 110px;">
+                        <button class="btn btn-danger" ng-click="homeRedirect()">
+                            Home
+                        </button>
+                    </span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+

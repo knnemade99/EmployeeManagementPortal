@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['ngRoute', 'ngCookies', 'checklist-model'] );
+var myApp = angular.module('myApp', ['ngRoute', 'ngCookies', 'checklist-model' , 'angularUtils.directives.dirPagination'] );
 
 function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore) {
 	
@@ -26,6 +26,23 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore) {
 		}
 	}
 	
+	/* used to sort list of users */
+	$scope.sort = function(keyname){
+        $scope.sortKey = keyname;   //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    }
+	
+	/* redirects to home page */
+	$scope.homeRedirect = function(){
+		$cookieStore.put("numberOfAttempts",0);
+		$location.path("/");
+	}
+	
+	/* redirects to lock page */
+	$scope.lockRedirect = function(){
+		$rootScope.lockedUserName=$cookieStore.get("usernameLogging");
+		$location.path("/lockscreen");
+	}
 	
 	
 	$rootScope.initializeApp= function (){
@@ -36,12 +53,15 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore) {
 			  $cookieStore.remove("isLogged");
 			  $cookieStore.remove("targetEmpId");
 			  $cookieStore.remove("loggedUserId");
-			  
 		}
+		$cookieStore.put("numberOfAttempts",0);
 	}
 	
 	/* login */
 	 $scope.login= function() {
+		 
+		 if($cookieStore.get("numberOfAttempts")<3){
+			 $cookieStore.put("usernameLogging",$scope.username);
 	        $http({
 		           method : 'POST',
 		           url : REST_SERVICE_URI+'login',
@@ -53,51 +73,85 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore) {
 		           		password:$scope.password
 		                 }
 		    }).then(function successCallback(response) {
-		    	  $rootScope.authToken=response.data.authToken;
-		    	  $rootScope.username = response.data.user.userCredential.username;
-		    	  $rootScope.name = response.data.user.name;
-		    	  $rootScope.usertype = response.data.user.usertype;
-		    	  $rootScope.lockStatus=response.data.user.lockStatus;
-		    	  $rootScope.isLogged = "true";
+		    	
+		    	  if(response.data.user.lockStatus=="unlock"){
+		    		  $rootScope.authToken=response.data.authToken;
+			    	  $rootScope.username = response.data.user.userCredential.username;
+			    	  $rootScope.name = response.data.user.name;
+			    	  $rootScope.usertype = response.data.user.usertype;
+			    	  $rootScope.lockStatus=response.data.user.lockStatus;
+			    	  $rootScope.isLogged = "true";
+			    	  
+			    	  console.log("logged in successfully: "+ $scope.authToken);		    	  
+			    	  $cookieStore.put("isLogged", $rootScope.isLogged);
+			    	  $cookieStore.put("name", $rootScope.name );
+			    	  $cookieStore.put("authToken",$rootScope.authToken);
+			    	  $cookieStore.put("usertype", $rootScope.usertype);
+			    	  $cookieStore.put("lockStatus", $rootScope.lockStatus);
+			    	  
+			    	  //personal
+			    	  $rootScope.designation=response.data.user.designation;
+			    	  $rootScope.empId=response.data.user.empId;		    	  		    	 
+			    	  $rootScope.dob=response.data.user.dob;
+			    	  $rootScope.doj=response.data.user.doj;		    	  		    	  
+			    	  $rootScope.gender=response.data.user.gender;
+			    	  $rootScope.maritalStatus=response.data.user.maritalStatus;
+			    	  
+			    	  //contact
+			    	  $rootScope.email=response.data.user.email;
+			    	  $rootScope.address=response.data.user.address;
+			    	  $rootScope.contact=response.data.user.contact;
+			    	  $rootScope.about=response.data.user.about;
+			    	  
+			    	  //professional		    	  
+			    	  $rootScope.salary=response.data.user.salary;		    	 
+			    	  $rootScope.experience=response.data.user.experience;		    	  
+			    	  $rootScope.manager=response.data.user.manager;
+			    	  $rootScope.project=response.data.user.project;
+			    	  $rootScope.skills=response.data.user.skills;
+			    	  $rootScope.department=response.data.user.department;
+			    	  
+			    	  
+			    	  console.log($rootScope.role);
+			          $location.path("/viewProfile");
+		    	  }
 		    	  
-		    	  console.log("logged in successfully: "+ $scope.authToken);		    	  
-		    	  $cookieStore.put("isLogged", $rootScope.isLogged);
-		    	  $cookieStore.put("name", $rootScope.name );
-		    	  $cookieStore.put("authToken",$rootScope.authToken);
-		    	  $cookieStore.put("usertype", $rootScope.usertype);
-		    	  $cookieStore.put("lockStatus", $rootScope.lockStatus);
+		    	  else{
+		    		  $scope.lockRedirect();
+		    	  }
 		    	  
-		    	  //personal
-		    	  $rootScope.designation=response.data.user.designation;
-		    	  $rootScope.empId=response.data.user.empId;		    	  		    	 
-		    	  $rootScope.dob=response.data.user.dob;
-		    	  $rootScope.doj=response.data.user.doj;		    	  		    	  
-		    	  $rootScope.gender=response.data.user.gender;
-		    	  $rootScope.maritalStatus=response.data.user.maritalStatus;
-		    	  
-		    	  //contact
-		    	  $rootScope.email=response.data.user.email;
-		    	  $rootScope.address=response.data.user.address;
-		    	  $rootScope.contact=response.data.user.contact;
-		    	  $rootScope.about=response.data.user.about;
-		    	  
-		    	  //professional		    	  
-		    	  $rootScope.salary=response.data.user.salary;		    	 
-		    	  $rootScope.experience=response.data.user.experience;		    	  
-		    	  $rootScope.manager=response.data.user.manager;
-		    	  $rootScope.project=response.data.user.project;
-		    	  $rootScope.skills=response.data.user.skills;
-		    	  $rootScope.department=response.data.user.department;
-		    	  
-		    	  
-		    	  console.log($rootScope.role);
-		          $location.path("/viewProfile");
 		         
 		    }, function errorCallback(response) {
+		    	if($cookieStore.get("usernameLogging")==$scope.username){
+		    	  $cookieStore.put("numberOfAttempts",($cookieStore.get("numberOfAttempts")+1));
+		    	}
 		    	  console.log("logged in not successfully");
 		          $location.path("/login");
-		    }
-	 );}
+		    });
+	        
+		 }
+		 else{
+			 
+			 $http({
+		           method : 'POST',
+		           url : REST_SERVICE_URI+'lockemployee/'+$cookieStore.get("usernameLogging"),
+		           headers : {
+		                 'Content-Type' : 'application/json'
+		           },
+		           data : {	
+		                 }
+		    }).then(function successCallback(response) {  
+
+		    	$scope.lockRedirect();
+		    	
+		    }, function errorCallback(response) {
+		    	
+
+			          $location.path("/login");
+			    });
+			 
+		 }
+	 }
 	 
 	 /* check for login */
 	 $scope.checkForLogin= function() {
@@ -136,6 +190,8 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore) {
 				  $cookieStore.remove("usertype");
 				  $cookieStore.remove("isLogged");
 				  $cookieStore.remove("targetEmpId");
+				  $cookieStore.put("numberOfAttempts",0);
+				  $cookieStore.remove("usernameLogging");
 		          $location.path("/");
 		         
 		    }, function errorCallback(response) {
@@ -341,7 +397,7 @@ console.log("dat:" +data);
 		        		  }
 		    }).then(function successCallback(response) {
 		    	  
-		          $location.path("/landingPage");
+		          $location.path("/getAllUsers");
 		         
 		    }, function errorCallback(response) {
 		    	 
@@ -611,6 +667,10 @@ myApp.config(function($routeProvider) {
 	.when('/viewEmployeeProfile', {
 		controller: 'EMPController',
 		templateUrl: 'resources/views/view-emp-profile.html'
+	})
+	.when('/lockscreen', {
+		controller: 'EMPController',
+		templateUrl: 'resources/views/lockscreen.html'
 	})
 	.when('/forgotPassword', {
 		controller: 'EMPController',

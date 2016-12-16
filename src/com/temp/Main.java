@@ -66,42 +66,42 @@ public class Main {
 		
 		
 		/* create users */
-		User user=new User();
-		user.setAbout("I am Kunal Nemade. I belongs to Indore");
-			Address address=new Address();
-			address.setCity("Indore");
-			address.setCountry("India");
-			address.setState("Madhya Pradesh");
-			address.setZip(452010);
-		user.setAddress(address);
-		user.setContact(7697599287l);
-			Department department=s.get(Department.class, 1);
-		user.setDepartment(department);
-		user.setDesignation("Administrator");
-		user.setDob(new Date(1994,7,31));
-		user.setDoj(new Date());
-		user.setEmail("knnemade99@gmail.com");
-		user.setExperience(10);
-		user.setGender("Male");
-		user.setLockStatus("unlock");
-		user.setMaritalStatus("single");
-		user.setName("Kunal");
-			Project project=s.get(Project.class, 1);
-		user.setProject(project);
-			Salary salary=new Salary();
-			salary.setBasic(50000);
-			salary.setHra(6000f);
-			salary.setLta(1250);
-		user.setSalary(salary);
-		user.setUsertype("Admin");
-			UserCredential uc=new UserCredential();
-			uc.setUsername("admin");
-			uc.setPassword(Encrypt.encrypt("1234"));
-		user.setUserCredential(uc);
-			List<Skill> skills=new ArrayList<Skill>();
-			skills.add(s.get(Skill.class, 1));
-			skills.add(s.get(Skill.class, 2));
-		user.setSkills(skills);
+//		User user=new User();
+//		user.setAbout("I am Kunal Nemade. I belongs to Indore");
+//			Address address=new Address();
+//			address.setCity("Indore");
+//			address.setCountry("India");
+//			address.setState("Madhya Pradesh");
+//			address.setZip(452010);
+//		user.setAddress(address);
+//		user.setContact(7697599287l);
+//			Department department=s.get(Department.class, 1);
+//		user.setDepartment(department);
+//		user.setDesignation("Administrator");
+//		user.setDob(new Date(1994,7,31));
+//		user.setDoj(new Date());
+//		user.setEmail("knnemade99@gmail.com");
+//		user.setExperience(10);
+//		user.setGender("Male");
+//		user.setLockStatus("unlock");
+//		user.setMaritalStatus("single");
+//		user.setName("Kunal");
+//			Project project=s.get(Project.class, 1);
+//		user.setProject(project);
+//			Salary salary=new Salary();
+//			salary.setBasic(50000);
+//			salary.setHra(6000f);
+//			salary.setLta(1250);
+//		user.setSalary(salary);
+//		user.setUsertype("Admin");
+//			UserCredential uc=new UserCredential();
+//			uc.setUsername("admin");
+//			uc.setPassword(Encrypt.encrypt("1234"));
+//		user.setUserCredential(uc);
+//			List<Skill> skills=new ArrayList<Skill>();
+//			skills.add(s.get(Skill.class, 1));
+//			skills.add(s.get(Skill.class, 2));
+//		user.setSkills(skills);
 
 		
 		
@@ -131,10 +131,11 @@ public class Main {
 		
 
 		try{	
-			s.save(uc);
-			s.save(user);
+//			s.save(uc);
+//			s.save(user);
 //			s.save(skill);
 //			s.persist(skill);
+			
 		}
 		catch(Exception e){
 			s.getTransaction().rollback();

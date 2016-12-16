@@ -14,35 +14,67 @@
             </ol>
           </div>
           <div class="panel-body">
-            <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
-              <thead>
-                <tr>
-                  <th>Employee Id</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Desgination</th>
-                  <th>Project Name</th>
-                  <th>Start Date</th>
-                  <th>Edit</th>
-                  <th>Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="user in UserList">
-                  <td>X448{{user.empId}}</td>
-                  <td>{{user.name}}</td>
-                  <td>{{user.email}}</td>
-                  <td>{{user.designation}}</td>
-                  <td>{{user.project.projectName}}</td>
-                  <td>{{user.project.startDate}}</td>
-                  <td>
-                  	<button type="button" class="btn btn-primary button-next" ng-click="viewEmpProfile(user.empId)">View</button>
-                  </td>
-                  <td><button type="button" class="btn btn-danger button-next" data-toggle="modal" data-target="#myModal123" ng-click="getUserId(user.empId)">Delete</button>
-                  </td>
-                </tr>                
-              </tbody>
-            </table>
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline no-footer">
+               <div class="row">
+					<div class="col-sm-6">
+						
+						<div class="toolbar"></div>
+					</div>
+					<div class="col-sm-6">
+						<div id="DataTables_Table_0_filter" class="dataTables_filter">
+							<label><input type="search" class="form-control" ng-model="search" placeholder="Search" aria-controls="DataTables_Table_0"></label>
+						</div>
+					</div>
+				</div>
+		       <div class="table-responsive">
+		            <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
+		              <thead>
+		                <tr role="row">
+		                  <th class="sorting" ng-click="sort('emp_id')">Employee Id
+		                  	<span class="glyphicon sort-icon" ng-show="sortKey=='emp_id'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+		                  </th>
+		                  <th class="sorting" ng-click="sort('emp_name')">Name
+		                  	<span class="glyphicon sort-icon" ng-show="sortKey=='emp_name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+		                  </th>
+		                  <th class="sorting" ng-click="sort('emp_email')">Email
+		                  	<span class="glyphicon sort-icon" ng-show="sortKey=='emp_email'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+		                  </th>
+		                  <th class="sorting" ng-click="sort('emp_desgination')">Desgination
+		                  	<span class="glyphicon sort-icon" ng-show="sortKey=='emp_desgination'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+		                  </th>
+		                  <th class="sorting" ng-click="sort('emp_project_name')">Project Name
+		                  	<span class="glyphicon sort-icon" ng-show="sortKey=='emp_desgination'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+		                  </th>
+		                  <th class="sorting" ng-click="sort('emp_start_date')">Start Date
+		                  	<span class="glyphicon sort-icon" ng-show="sortKey=='emp_start_date'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+		                  </th>
+		                  <th class="sorting" >Edit</th>
+		                  <th class="sorting">Delete</th>
+		                </tr>
+		              </thead>
+		              <tbody>
+		                <tr dir-paginate="user in UserList|orderBy:sortKey:reverse|filter:search|itemsPerPage:2" role="row">
+		                  <td>X448{{user.empId}}</td>
+		                  <td>{{user.name}}</td>
+		                  <td>{{user.email}}</td>
+		                  <td>{{user.designation}}</td>
+		                  <td>{{user.project.projectName}}</td>
+		                  <td>{{user.project.startDate}}</td>
+		                  <td>
+		                  	<button type="button" class="btn btn-primary button-next" ng-click="viewEmpProfile(user.empId)">View</button>
+		                  </td>
+		                  <td><button type="button" class="btn btn-danger button-next" data-toggle="modal" data-target="#myModal123" ng-click="getUserId(user.empId)">Delete</button>
+		                  </td>
+		                </tr>                
+		              </tbody>
+		            </table>
+		        </div>
+		         	<div class="datatable-bottom">					
+						<div class="pull-right">
+							<dir-pagination-controls max-size="2" direction-links="true" boundary-links="true" ></dir-pagination-controls>
+						</div>
+					</div>   
+		      </div>      
           </div>
         </div>
       <!-- /main area -->
