@@ -1,0 +1,220 @@
+
+
+      <!-- main area -->
+      <div class="main-content checkbo" ng-controller="EMPController" style="margin-top: -75px;" ng-init="getAllDepartments(); getAllProjects(); getAllSkills();">
+        <form id="commentForm" class="form-horizontal" role="form" style="background: #e0e8f2" ng-model="registrationForm">
+          <div class="box-tab justified" id="rootwizard">
+            <ul class="nav nav-tabs">
+              <li ng-class="{'active' : activeTab==1}"><a href="" ng-click="setActiveTab(1)"><strong>Account details</strong></a>
+              </li>
+              <li ng-class="{'active' : activeTab==2}"><a href="" ng-click="setActiveTab(2)"><strong>Personal Info</strong></a>
+              </li>
+              <li ng-class="{'active' : activeTab==3}"><a href="" ng-click="setActiveTab(3)"><strong>Contact Info</strong></a>
+              </li>
+              <li ng-class="{'active' : activeTab==4}"><a href="" ng-click="setActiveTab(4)"><strong>Professional Info</strong></a>
+              </li>
+              <li ng-class="{'active' : activeTab==5}"><a href="" ng-click="setActiveTab(5)"><strong>Register</strong></a>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div id="tab1" ng-class="{'tab-pane active': activeTab === 1, 'tab-pane' : activeTab !== 1}">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Email address</label>
+                  <div class="col-sm-4">
+                    <input type="email" disabled  class="form-control" id="emailfield" ng-model="email" ng-value="email">
+                  </div>
+                  <label class="col-sm-2 control-label">User Type</label>
+                  <div class="col-sm-4">
+                    <div class="radio">
+					  <label><input type="radio" disabled style="cursor: not-allowed;" name="newUserType" ng-model="usertype" ng-value="usertype" class="control-label"><span style="cursor: not-allowed;">Admin</span></label>
+					</div>
+					<div class="radio">
+					  <label><input type="radio" disabled name="newUserType" ng-model="usertype" class="control-label"><span style="cursor: not-allowed;">Employee</span></label>
+					</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Username</label>
+                  <div class="col-sm-4">
+                    <input type="text" disabled class="form-control" id="namefield" ng-model="username" ng-value="username">
+                  </div>
+                  
+                </div>                
+                <div class="pull-right">
+                  <button type="button" class="btn btn-primary button-next" ng-click="nextTab()">Next</button>
+                </div>
+              </div>
+              <div id="tab2" ng-class="{'tab-pane active': activeTab === 2, 'tab-pane' : activeTab !== 2}">              
+              	<div class="form-group">
+                 <label class="col-sm-2 control-label">Full Name</label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" id="name" ng-model="name" ng-value="name">
+                  </div>
+                  <label class="col-sm-2 control-label">Gender</label>
+                  <div class="col-sm-4">
+                    <div class="radio">
+					  <label><input type="radio" disabled name="newGender" ng-model="gender" ng-value="gender" class="control-label"><span style="cursor: not-allowed;">Male</span></label>
+					</div>
+					<div class="radio">
+					  <label><input type="radio" disabled name="newGender" ng-model="gender" ng-value="gender" class="control-label"><span style="cursor: not-allowed;">Female</span></label>
+					</div>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label class="col-sm-2  control-label">Date of Birth</label>
+                  <div class="col-sm-4">
+                    <input type="date" disabled style="cursor: not-allowed;" name="dob" ng-model="dob" ng-value="dob" style="width: 100%;" format-date>
+                  </div>
+                  <label class="col-sm-2 control-label">Marital Status</label>
+                  <div class="col-sm-4">
+                    <div class="radio">
+					  <label><input type="radio" name="newMaritalStatus" ng-model="maritalStatus" value="Married" class="control-label">Married</label>
+					</div>
+					<div class="radio">
+					  <label><input type="radio" name="newMaritalStatus" ng-model="maritalStatus" value="Unmarried" class="control-label">Unmarried</label>
+					</div>
+                  </div>                  
+                </div>
+                
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">About</label>
+                  <div class="col-sm-4">
+                    <textarea class="form-control" rows="3" ng-model="about"></textarea>
+                  </div>
+                  
+                </div>
+                <div class="pull-right">
+                  <button type="button" class="btn btn-default button-previous" ng-click="previousTab()">Previous</button>
+                  <button type="button" class="btn btn-primary button-next" ng-click="nextTab()">Next</button>
+                </div>
+              </div>
+              <div id="tab3" ng-class="{'tab-pane active': activeTab === 3, 'tab-pane' : activeTab !== 3}">				
+                
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Country</label>
+                  <div class='col-sm-4'>
+				  	<select id="country" name ="country" ng-model="address.country" value="address.country" class="form-control chosen" style="width: 100%;"></select>
+				  </div>
+				  
+				  <label class="col-sm-2 control-label">Mobile</label>
+                  <div class="col-sm-4">
+                    <input type="number" class="form-control" id="mobilefield" ng-model="contact">
+                  </div>				  								    				    
+                </div>
+				
+				<div class="form-group">
+                  <label class="col-sm-2 control-label">State</label>
+                  <div class='col-sm-4'>
+				  	<select name ="state" id ="state" ng-model="address.state" value="address.state" class="form-control chosen" style="width: 100%;"></select>
+				  </div>				  								    				    
+                </div>
+                
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">City</label>
+                  <div class='col-sm-4'>
+				  	<input type="text" class="form-control" id="newCity" ng-model="address.city" ng-value="address.city">
+				  </div>				  								    				    
+                </div>
+                
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Pincode</label>
+                  <div class='col-sm-4'>
+				  	<input type="number" class="form-control" id="newPinCode" ng-model="address.zip" ng-value="address.zip">
+				  </div>				  								    				    
+                </div>
+				
+               <div class="pull-right">
+                  <button type="button" class="btn btn-default button-previous" ng-click="previousTab()">Previous</button>
+                  <button type="button" class="btn btn-primary button-next" ng-click="nextTab()">Next</button>
+                </div>
+              </div>
+              <div id="tab4" ng-class="{'tab-pane active': activeTab === 4, 'tab-pane' : activeTab !== 4}">
+              
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Designation</label>
+                  <div class="col-sm-4">
+                    <input type="text" disabled class="form-control required" name="newDesignation" ng-model="designation" ng-value="designation">
+                  </div>                  
+                  <label class="col-sm-2 control-label">Date of Joining</label>
+                  <div class="col-sm-4">
+                    <input disabled style="cursor: not-allowed;" type="date" name="doj" ng-model="doj" style="width: 100%;" ng-value="doj" format-date>
+                  </div>
+                  
+                </div>
+                
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Department</label>
+                  <div class="col-sm-4">
+                    <select name ="newDepartment" disabled ng-model="department.departmentName" ng-value="department.departmentName" class="form-control chosen" style="width: 100%;" >
+                    	<option ng-repeat="department in departments">{{department.departmentName}}</option>
+                    </select>
+                  </div>
+                  <label class="col-sm-2 control-label">Basic Salary</label>
+                  <div class="col-sm-4">
+                    <input type="number" disabled class="form-control required" name="newBasicSalary" ng-model="salary.basic" ng-value="salary.basic">
+                  </div>
+                  
+                </div>
+                
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Project</label>
+                  <div class="col-sm-4">
+                    <select name ="newProject" disabled ng-model="project.projectName" ng-value="project.projectName" class="form-control chosen" style="width: 100%;">
+                    <option ng-repeat="project in projects">{{project.projectName}}</option>
+                    </select>
+                  </div>
+                  <label class="col-sm-2 control-label">HRA</label>
+                  <div class="col-sm-4">
+                    <input type="number" disabled class="form-control required" name="newHra" ng-model="salary.hra" ng-value="salary.hra">
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                
+                  <label class="col-sm-2 control-label">Experience (in years)</label>
+                  <div class="col-sm-4">
+					 <input type="number" class="form-control required" ng-model="experience" ng-value="experience">
+	              </div>
+                
+				  <label class="col-sm-2 control-label">LTA</label>
+                  <div class="col-sm-4">
+                    <input type="number" disabled class="form-control required" name="newLta" ng-model="salary.lta" ng-value="salary.lta">
+                  </div>
+                </div>
+                
+                <div class="form-group">                                
+  
+                <label class="col-sm-2 control-label">Skills</label>
+                  <div class="col-sm-4">                  	
+					  <label class="checkbox-inline"  ng-repeat="talent in skills"><input type="checkbox" checklist-model="art.skill" checklist-value="talent.skillName">{{talent.skillName}}</label>
+					  
+<!-- 					  <label class="checkbox-inline"  ng-repeat="talent in skills"><input type="checkbox" checklist-model="art.skill" checklist-value="talent.skillName">{{talent.skillName}}</label>					   -->
+	              </div>
+                
+                	 
+                 </div>
+                
+                <div class="pull-right">
+                  <button type="button" class="btn btn-default button-previous" ng-click="previousTab()">Previous</button>
+                  <button type="button" class="btn btn-primary button-next" ng-click="nextTab()">Next</button>
+                </div>
+              </div>
+              <div id="tab5" ng-class="{'tab-pane active': activeTab === 5, 'tab-pane' : activeTab !== 5}">Are you sure to update the profile...?
+                <div class="pull-right">
+                  <button type="button" class="btn btn-default button-previous" ng-click="previousTab()">Previous</button>
+                  <button type="button" class="btn btn-primary button-next" ng-click="updateEmployee()">Edit Employee</button>
+                </div>
+              </div>
+              <div class="wizard-pager">
+
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- /main area -->
+    
+<script language="javascript">
+	populateCountries("country", "state"); // first parameter is id of country drop-down and second parameter is id of state drop-down
+</script>    

@@ -34,6 +34,9 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore) {
 			  $cookieStore.remove("name");
 			  $cookieStore.remove("usertype");
 			  $cookieStore.remove("isLogged");
+			  $cookieStore.remove("targetEmpId");
+			  $cookieStore.remove("loggedUserId");
+			  
 		}
 	}
 	
@@ -51,6 +54,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore) {
 		                 }
 		    }).then(function successCallback(response) {
 		    	  $rootScope.authToken=response.data.authToken;
+		    	  $rootScope.username = response.data.user.userCredential.username;
 		    	  $rootScope.name = response.data.user.name;
 		    	  $rootScope.usertype = response.data.user.usertype;
 		    	  $rootScope.lockStatus=response.data.user.lockStatus;
@@ -62,7 +66,6 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore) {
 		    	  $cookieStore.put("authToken",$rootScope.authToken);
 		    	  $cookieStore.put("usertype", $rootScope.usertype);
 		    	  $cookieStore.put("lockStatus", $rootScope.lockStatus);
-		    	  console.log("Value of isLogged after login: "+$scope.isLogged);
 		    	  
 		    	  //personal
 		    	  $rootScope.designation=response.data.user.designation;
@@ -88,7 +91,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore) {
 		    	  
 		    	  
 		    	  console.log($rootScope.role);
-		          $location.path("/landingPage");
+		          $location.path("/viewProfile");
 		         
 		    }, function errorCallback(response) {
 		    	  console.log("logged in not successfully");
@@ -132,8 +135,8 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore) {
 				  $cookieStore.remove("name");
 				  $cookieStore.remove("usertype");
 				  $cookieStore.remove("isLogged");
-		    	  console.log("Value of isLogged after logout: "+$scope.isLogged);
-		          $location.path("/manageUser");
+				  $cookieStore.remove("targetEmpId");
+		          $location.path("/");
 		         
 		    }, function errorCallback(response) {
 		    	  console.log("logged out not successfully");
@@ -160,6 +163,7 @@ console.log("in getalldepartments");
 		                 }
 		    }).then(function successCallback(response) {
 		    	  $scope.departments=response.data;
+		    	  console.log($scope.departments);
 		         
 		    }, function errorCallback(response) {
 		    });
@@ -272,7 +276,7 @@ console.log("in getalldepartments");
 	console.log($scope.newDepartment);
 	console.log($scope.newBasicSalary);
 	console.log($scope.newProject);
-	console.log($scope.newHRA);
+	console.log($scope.newHra);
 	console.log($scope.art);
 	console.log($scope.newLta);
 	console.log($scope.newExperience);
@@ -324,7 +328,7 @@ console.log("dat:" +data);
 		        		    "about": $scope.newAbout,
 		        		    "contact": $scope.newMobile,
 		        		    "department": {
-		        		      "deptName": $scope.newDepartment
+		        		      "departmentName": $scope.newDepartment
 		        		    },
 		        		    "designation": $scope.newDesignation,
 		        		    "dob": $scope.newDob,
@@ -376,12 +380,12 @@ console.log("dat:" +data);
 		    });
 	 }
 	 
-	 /* to fetch id */
+	 /* to fetch id for delete function */
 	 $scope.getUserId = function(uid){
 			$rootScope.delId = uid;
 		}
 	 
-	 /* get employee by id */
+	 /* delete employee by id */
 	 $scope.deleteEmployee= function(id) {
 
 	        $http({
@@ -420,60 +424,177 @@ console.log("dat:" +data);
 		    });
 	 }
 	 
+
+	 /* to fetch id for view function */
+	 $scope.getIdForUser = function(){
+		 $scope.viewEmpProfile($cookieStore.get("targetEmpId"));
+		}
 	 
-	 $scope.viewEmployee= function(id) {
+	 
+	 /* get own profile*/
+	 $scope.viewProfile= function() {
+
+		 $http({
+	           method : 'GET',
+	           url : REST_SERVICE_URI+'viewprofile',
+	           headers : {
+	                 'Content-Type' : 'application/json',
+	                 'authToken' : $cookieStore.get("authToken")
+	           },
+	           data : {
+	        	   		
+	                 }
+	    }).then(function successCallback(response) {
+	    	  
+	    	  $rootScope.profileName = response.data.name;
+	    	  $rootScope.usertype = response.data.usertype;
+	    	  $rootScope.lockStatus=response.data.lockStatus;
+
+	    	  
+	    	  //personal
+	    	  $rootScope.designation=response.data.designation;
+	    	  $rootScope.empId=response.data.empId;		    	  		    	 
+	    	  $rootScope.dob=response.data.dob;
+	    	  $rootScope.doj=response.data.doj;		    	  		    	  
+	    	  $rootScope.gender=response.data.gender;
+	    	  $rootScope.maritalStatus=response.data.maritalStatus;
+	    	 
+	    	  //contact
+	    	  $rootScope.email=response.data.email;
+	    	  $rootScope.address=response.data.address;
+	    	  $rootScope.contact=response.data.contact;
+	    	  $rootScope.about=response.data.about;
+	    	  
+	    	  //professional		    	  
+	    	  $rootScope.salary=response.data.salary;		    	 
+	    	  $rootScope.experience=response.data.experience;		    	  
+	    	  $rootScope.manager=response.data.manager;
+	    	  $rootScope.project=response.data.project;
+	    	  $rootScope.skills=response.data.skills;
+	    	  $rootScope.department=response.data.department;
+	    	  
+			   $location.path("/viewProfile");
+	         
+	    }, function errorCallback(response) {
+
+	    });
+	 }
+	 
+	 
+	 /* get specific emp profile*/
+	 $scope.viewEmpProfile= function(id) {
+	
+		 $http({
+	           method : 'GET',
+	           url : REST_SERVICE_URI+'viewemployee/'+id,
+	           headers : {
+	                 'Content-Type' : 'application/json',
+	                 'authToken' : $cookieStore.get("authToken")
+	           },
+	           data : {
+	        	   		
+	                 }
+	    }).then(function successCallback(response) {
+	    	  
+	    	  $rootScope.profileName = response.data.name;
+	    	  $rootScope.usertype = response.data.usertype;
+	    	  $rootScope.lockStatus=response.data.lockStatus;
+	    	  $rootScope.isLogged = "true";
+	    	  
+	    	  //personal
+	    	  $rootScope.designation=response.data.designation;
+	    	  $rootScope.empId=response.data.empId;		    	  		    	 
+	    	  $rootScope.dob=response.data.dob;
+	    	  $rootScope.doj=response.data.doj;		    	  		    	  
+	    	  $rootScope.gender=response.data.gender;
+	    	  $rootScope.maritalStatus=response.data.maritalStatus;
+	    	 
+	    	  //contact
+	    	  $rootScope.email=response.data.email;
+	    	  $rootScope.address=response.data.address;
+	    	  $rootScope.contact=response.data.contact;
+	    	  $rootScope.about=response.data.about;
+	    	  
+	    	  //professional		    	  
+	    	  $rootScope.salary=response.data.salary;		    	 
+	    	  $rootScope.experience=response.data.experience;		    	  
+	    	  $rootScope.manager=response.data.manager;
+	    	  $rootScope.project=response.data.project;
+	    	  $rootScope.skills=response.data.skills;
+	    	  $rootScope.department=response.data.department;
+	    	  
+	    	  $cookieStore.put("targetEmpId",id);
+	    	  
+			  $location.path("/viewEmployeeProfile");
+	         
+	    }, function errorCallback(response) {
+
+	    });
+	 }
+	 
+
+	 
+	 /* update employee profile */
+	 $scope.updateEmployee= function() {
+		 
+		 console.log($scope.address);
+		 console.log($scope.name);
+		 console.log($scope.maritalStatus);
+		 console.log($scope.about);
+		 console.log($scope.contact);
+		 console.log($scope.experience);
 
 	        $http({
-		           method : 'GET',
-		           url : REST_SERVICE_URI+'viewemployee/'+id,
+		           method : 'PUT',
+		           url : REST_SERVICE_URI+'updateprofile/',
 		           headers : {
 		                 'Content-Type' : 'application/json',
 		                 'authToken' : $cookieStore.get("authToken")
 		           },
 		           data : {
-		        	   		
+		        	   "address": {
+		     		      "city": $scope.address.city,
+		     		      "state": $scope.address.state,
+		     		      "country": $scope.address.country,
+		     		      "zip": $scope.address.zip
+		     		    },
+		     		    "name": $scope.name,
+		     		    "about": $scope.about,
+		     		    "contact": $scope.contact,
+		     		    "maritalStatus": $scope.maritalStatus,
+		     		    "experience": $scope.experience
 		                 }
 		    }).then(function successCallback(response) {
+		    	bootbox.dialog({
+					  message: 'Profile updated successfully!',
+					  onEscape: function() { console.log("Ecsape"); },
+					  backdrop: true
+					});
+		    	$location.path("/viewProfile");
 		    	
-		    	  $rootScope.profileName = response.data.name;
-		    	  $rootScope.usertype = response.data.usertype;
-		    	  $rootScope.lockStatus=response.data.lockStatus;
-		    	  $rootScope.isLogged = "true";
-		    	  
-		    	  //personal
-		    	  $rootScope.designation=response.data.designation;
-		    	  $rootScope.empId=response.data.empId;		    	  		    	 
-		    	  $rootScope.dob=response.data.dob;
-		    	  $rootScope.doj=response.data.doj;		    	  		    	  
-		    	  $rootScope.gender=response.data.gender;
-		    	  $rootScope.maritalStatus=response.data.maritalStatus;
-		    	  
-		    	  //contact
-		    	  $rootScope.email=response.data.email;
-		    	  $rootScope.address=response.data.address;
-		    	  $rootScope.contact=response.data.contact;
-		    	  $rootScope.about=response.data.about;
-		    	  
-		    	  //professional		    	  
-		    	  $rootScope.salary=response.data.salary;		    	 
-		    	  $rootScope.experience=response.data.experience;		    	  
-		    	  $rootScope.manager=response.data.manager;
-		    	  $rootScope.project=response.data.project;
-		    	  $rootScope.skills=response.data.skills;
-		    	  $rootScope.department=response.data.department;
-		    	  
-		    	  
-		    	  console.log("Name: "+$rootScope.profileName);
-		    	  $location.path("/viewProfile");
-		    			         
 		    }, function errorCallback(response) {
-		    	 
+		    	bootbox.dialog({
+					  message: 'Profile could not be updated!',
+					  onEscape: function() { console.log("Ecsape"); },
+					  backdrop: true
+					});
 		          
 		    });
 	 }
 	 
 	 
 }
+
+myApp.directive("formatDate", function(){
+	  return {
+		   require: 'ngModel',
+		    link: function(scope, elem, attr, modelCtrl) {
+		      modelCtrl.$formatters.push(function(modelValue){
+		        return new Date(modelValue);
+		      })
+		    }
+		  }
+		})
 
 myApp.controller('EMPController',EMPController);
 
@@ -483,13 +604,13 @@ myApp.config(function($routeProvider) {
 		controller: 'EMPController',
 		templateUrl: 'resources/views/login.html'
 	})
-	.when('/landingPage', {
-		controller: 'EMPController',
-		templateUrl: 'resources/views/landing-page.html'
-	})
 	.when('/viewProfile', {
 		controller: 'EMPController',
 		templateUrl: 'resources/views/view-profile.html'
+	})
+	.when('/viewEmployeeProfile', {
+		controller: 'EMPController',
+		templateUrl: 'resources/views/view-emp-profile.html'
 	})
 	.when('/forgotPassword', {
 		controller: 'EMPController',
@@ -507,6 +628,10 @@ myApp.config(function($routeProvider) {
 		controller: 'EMPController',
 		templateUrl: 'resources/views/user-list.html'
 	})	
+	.when('/editProfile', {
+		controller: 'EMPController',
+		templateUrl: 'resources/views/edit-employee.html'
+	})
     .otherwise({redirectTo: '/'})  
     
 });

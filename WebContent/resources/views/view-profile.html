@@ -1,4 +1,4 @@
-        <div class="row" ng-init="viewEmployee(empId)">
+        <div class="row" ng-init="viewProfile()">
         
         <!-- Personal Information -->
           <div class="col-sm-3">
@@ -10,7 +10,7 @@
                 <span class="h5 bold" style="font-size:24px">{{profileName}}</span>                                
                 <div class="w150 center-block mt10">                  
                     <span class="bold">X448{{empId}}</span>
-                    <p>{{checkForType()}}</p>
+                    <p>{{usertype}}</p>
                 </div>
               </div>
 
@@ -77,7 +77,7 @@
                   <span class="bold">Project</span> {{project.projectName}}
                 </li>
                 <li>
-                  <span class="bold">Department</span> {{department.deptName}}
+                  <span class="bold">Department</span> {{department.departmentName}}
                 </li>
               </ul>
 

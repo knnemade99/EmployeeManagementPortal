@@ -33,7 +33,7 @@ import ch.qos.logback.classic.util.LoggerNameUtil;
 @Component("userDao")
 public class UserDaoImpl implements UserDao {
 	
-	SessionFactory sessionFactory=new Configuration().configure().buildSessionFactory();
+	public final SessionFactory sessionFactory=new Configuration().configure().buildSessionFactory();
 	
 
 	@Autowired
@@ -44,7 +44,7 @@ public class UserDaoImpl implements UserDao {
 	@Transactional()
 	@Override
 	public AuthTable login(Map<String, String> logincredentials) {
-		String username=logincredentials.get("username");
+		final	String username=logincredentials.get("username");
 		
 		/* encrypts password */
 		String password=Encrypt.encrypt(logincredentials.get("password"));
@@ -101,7 +101,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	@Transactional
 	public ResponseEntity<String> logout(String authToken) {
-		Session session=sessionFactory.openSession();
+		final	Session session=sessionFactory.openSession();
 		session.beginTransaction();
 		
 		/* Deletes all previous entries for the user from autable if Exist*/ 
@@ -125,7 +125,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	@Transactional
 	public ResponseEntity<String> changePassword(String authToken, Map<String, String> passwords) {
-		Session session=sessionFactory.openSession();
+		final	Session session=sessionFactory.openSession();
 		
 		String oldPassword=passwords.get("oldPassword");
 		String newPassword=passwords.get("newPassword");
@@ -165,7 +165,7 @@ public class UserDaoImpl implements UserDao {
 	/* Forget Password */
 	@Override
 	public ResponseEntity<String> forgetPassword(Map<String, String> email) {
-		Session session=sessionFactory.openSession();
+		final	Session session=sessionFactory.openSession();
 		
 		String recoveryEmail=email.get("email");
 		
@@ -213,23 +213,28 @@ public class UserDaoImpl implements UserDao {
 	public ResponseEntity<String> updateProfile(User user, String authToken) {
 		ResponseEntity<String> responseEntity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		
-		Session session=sessionFactory.openSession();
+		final	Session session=sessionFactory.openSession();
 		
 		/* check for authToken of User*/
 		session.beginTransaction();
 		AuthTable authtable=session.get(AuthTable.class, authToken);
 		if(authtable!=null){
 			User loggedUser = session.get(User.class, authtable.getUser().getEmpId());
-	
-			/* Adding skills to user object */
-			List<Skill> skills = new ArrayList<Skill>();
-			for(Skill s:user.getSkills()){
-				String h="from Skill where skillName='"+s.getSkillName()+"'";
-				Query q=session.createQuery(h);
-				skills.addAll(q.list());
-				
+			
+			if(!user.getSkills().isEmpty()){
+				/* Adding skills to user object */
+				List<Skill> skills = new ArrayList<Skill>();
+				for(Skill s:user.getSkills()){
+					String h="from Skill where skillName='"+s.getSkillName()+"'";
+					Query q=session.createQuery(h);
+					skills.addAll(q.list());
+					
+				}
+				user.setSkills(skills);
 			}
-			user.setSkills(skills);
+			else{
+				user.setSkills(loggedUser.getSkills());
+			}
 			
 				String about=user.getAbout();
 				Address address=user.getAddress();
@@ -254,7 +259,7 @@ public class UserDaoImpl implements UserDao {
 				if(skills2!=null)
 					loggedUser.setSkills(skills2);
 
-
+				System.out.println("User to update"+user);
 			session.update(loggedUser);	
 			session.getTransaction().commit();
 			session.close();
@@ -268,12 +273,12 @@ public class UserDaoImpl implements UserDao {
 		return responseEntity;
 	}
 	
-	/* Update Profile */
+	/* View Profile */
 	@Override
 	public User viewProfile(String authToken) {
 		User user=null;
 		
-		Session session=sessionFactory.openSession();
+		final	Session session=sessionFactory.openSession();
 		
 		/* check for authToken of User*/
 		session.beginTransaction();
@@ -281,6 +286,8 @@ public class UserDaoImpl implements UserDao {
 		if(authtable!=null){
 			user=authtable.getUser();
 		}
+		session.getTransaction().commit();
+		session.close();
 		return user;
 	}
 

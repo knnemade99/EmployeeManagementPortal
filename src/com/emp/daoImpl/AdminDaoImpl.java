@@ -27,7 +27,7 @@ import com.encryption.Encrypt;
 @Component("adminDao")
 public class AdminDaoImpl implements AdminDao {
 
-	SessionFactory sessionFactory=new Configuration().configure().buildSessionFactory();
+	public final SessionFactory sessionFactory=new Configuration().configure().buildSessionFactory();
 
 	@Autowired
 	EmailAPI email;
@@ -39,7 +39,7 @@ public class AdminDaoImpl implements AdminDao {
 		
 		ResponseEntity<User> responseEntity = new ResponseEntity<User>(HttpStatus.BAD_REQUEST);;
 		
-		Session session=sessionFactory.openSession();
+		final Session session=sessionFactory.openSession();
 		String password=user.getUserCredential().getPassword();
 		user.getUserCredential().setPassword(Encrypt.encrypt(user.getUserCredential().getPassword()));
 		
@@ -59,7 +59,7 @@ public class AdminDaoImpl implements AdminDao {
 		
 		/* Adding department to user object */
 		if(user.getDepartment()!=null){
-			String h="from department where departmentName='"+user.getDepartment().getDeptName()+"'";
+			String h="from department where departmentName='"+user.getDepartment().getDepartmentName()+"'";
 			Query q=session.createQuery(h);
 			user.setDepartment(((Department)q.list().get(0)));
 		}
@@ -101,7 +101,7 @@ public class AdminDaoImpl implements AdminDao {
 	/* View All Employees */
 	@Override
 	public List<UserCredential> viewAllEmployees(String authToken) {
-		Session session=sessionFactory.openSession();
+		final	Session session=sessionFactory.openSession();
 		List<UserCredential> userlist =null;
 
 		/* check for authToken of admin */
@@ -122,7 +122,7 @@ public class AdminDaoImpl implements AdminDao {
 	/* View Employee by Id */
 	@Override
 	public User viewEmployee(int employeeId,String authToken) {
-		Session session=sessionFactory.openSession();
+		final	Session session=sessionFactory.openSession();
 		
 		User user=null;;
 		
@@ -146,7 +146,7 @@ public class AdminDaoImpl implements AdminDao {
 	/* Delete Employee by Id */
 	@Override
 	public ResponseEntity<String> deleteEmployee(int employeeId,String authToken) {
-		Session session=sessionFactory.openSession();
+		final	Session session=sessionFactory.openSession();
 		
 		ResponseEntity<String> responseEntity=new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		
@@ -194,7 +194,7 @@ public class AdminDaoImpl implements AdminDao {
 	/* Unlock Employee by Id */
 	@Override
 	public ResponseEntity<String> unlockEmployee(int employeeId,String authToken) {
-		Session session=sessionFactory.openSession();
+		final	Session session=sessionFactory.openSession();
 		
 		ResponseEntity<String> responseEntity=new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		
@@ -227,7 +227,7 @@ public class AdminDaoImpl implements AdminDao {
 	/* View All Departments */
 	@Override
 	public List<Department> viewAllDepartments(String authToken) {
-		Session session=sessionFactory.openSession();
+		final	Session session=sessionFactory.openSession();
 		List<Department> departmentList =null;
 
 		/* check for authToken of admin */
@@ -248,7 +248,7 @@ public class AdminDaoImpl implements AdminDao {
 	/* View All Projects */
 	@Override
 	public List<Project> viewAllProjects(String authToken) {
-		Session session=sessionFactory.openSession();
+		final	Session session=sessionFactory.openSession();
 		List<Project> projectList =null;
 
 		/* check for authToken of admin */
@@ -269,7 +269,7 @@ public class AdminDaoImpl implements AdminDao {
 	/* View All Skills */
 	@Override
 	public List<Skill> viewAllSkills(String authToken) {
-		Session session=sessionFactory.openSession();
+		final	Session session=sessionFactory.openSession();
 		List<Skill> skillList =null;
 
 		/* check for authToken of admin */
@@ -277,11 +277,11 @@ public class AdminDaoImpl implements AdminDao {
 		AuthTable authtable=session.get(AuthTable.class, authToken);
 
 		User user = authtable.getUser();
-		if(user.getUsertype().equals("Admin")){
+
 			String hql="from skill";
 			Query q=session.createQuery(hql);
 			skillList=(List)q.list();
-		}
+
 		session.getTransaction().commit();
 		session.close();
 		return skillList;

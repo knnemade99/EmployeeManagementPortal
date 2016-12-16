@@ -108,12 +108,17 @@
 					<li><a href="#/addEmployee"> <i class="fa fa-toggle-on"></i>
 							<span>Add Employee</span>
 					</a></li>
-					<!-- /User Management  -->
+					<!-- /Add Employee  -->
 
 					<!-- Profile -->
-					<li><a href="#/landingPage"> <i class="fa fa-tag"></i> <span>Profile</span>
+					<li><a href="#/viewProfile"> <i class="fa fa-tag"></i> <span>Profile</span>
 					</a></li>
 					<!-- /Profile -->
+					
+					<!-- Edit Profile -->
+					<li><a href="#/editProfile"> <i class="fa fa-tag"></i> <span>Edit Profile</span>
+					</a></li>
+					<!-- /Edit Profile -->
 
 					<!-- Change Password -->
 					<li><a href="#changePassword"> <i class="fa fa-tint"></i> <span>Change

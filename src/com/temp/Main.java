@@ -27,7 +27,7 @@ public class Main {
 		
 		/* Create Department */
 //		Department dept=new Department();
-//		dept.setdepartmentName("Support");
+//		dept.setDepartmentName("HR");
 		
 		
 		
@@ -50,7 +50,7 @@ public class Main {
 //		Project project =new Project();
 //		project.setBudget(1000000);
 //		project.setEndDate(new Date(2016,11,31));
-//		project.setProjectName("Newtonics");
+//		project.setProjectName("HDS");
 //		project.setStartDate(new Date(2016,0,1));
 		
 		
@@ -108,7 +108,7 @@ public class Main {
 		
 		/* Create Skills */
 //		Skill skill=new Skill();
-//				skill.setSkillName("Java");
+//				skill.setSkillName("Ruby");
 		
 		
 		
@@ -131,10 +131,10 @@ public class Main {
 		
 
 		try{	
-//			s.save(uc);
-//			s.save(user);
+			s.save(uc);
+			s.save(user);
 //			s.save(skill);
-			s.persist(user);
+//			s.persist(skill);
 		}
 		catch(Exception e){
 			s.getTransaction().rollback();

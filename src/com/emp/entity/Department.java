@@ -13,27 +13,29 @@ public class Department {
 	@Column(name="departmentId")
 	@SequenceGenerator(name="department_sequence",sequenceName="department_sequence", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="department_sequence")
-	private int deptId;
+	private int departmentId;
 	
 	@Column(name="departmentName" , unique=true)
 	private String departmentName;
 	
 	public int getDeptId() {
-		return deptId;
+		return departmentId;
 	}
-	public void setDeptId(int deptId) {
-		this.deptId = deptId;
+	public void setDeptId(int departmentId) {
+		this.departmentId = departmentId;
 	}
-	public String getDeptName() {
+
+	public String getDepartmentName() {
 		return departmentName;
 	}
-	public void setDeptName(String departmentName) {
+	public void setDepartmentName(String departmentName) {
 		this.departmentName = departmentName;
 	}
 	@Override
 	public String toString() {
-		return "Department [deptId=" + deptId + ", departmentName=" + departmentName + "]";
+		return "Department [departmentId=" + departmentId + ", departmentName=" + departmentName + "]";
 	}
+
 
 
 }
