@@ -286,4 +286,123 @@ public class AdminDaoImpl implements AdminDao {
 		session.close();
 		return skillList;
 	}
+	
+	/*Add new Skill */
+	@Transactional
+	@Override
+	public ResponseEntity<String> addSkill(String authToken , Skill skill) {
+		ResponseEntity<String> responseEntity=new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		Session session=sessionFactory.openSession();
+
+		/* check for authToken of admin */
+		session.beginTransaction();
+		AuthTable authtable=session.get(AuthTable.class, authToken);
+
+		User user = authtable.getUser();
+		if(user.getUsertype().equals("Admin")){
+			session.save(skill);
+			responseEntity=new ResponseEntity<String>(HttpStatus.OK);
+		}
+		else{
+			responseEntity=new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
+		}
+		session.getTransaction().commit();
+		session.close();
+		return responseEntity;
+	}
+	
+	/*Add new Department */
+	@Transactional
+	@Override
+	public ResponseEntity<String> addDepartment(String authToken , Department newDepartment) {
+		ResponseEntity<String> responseEntity=new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		Session session=sessionFactory.openSession();
+
+		/* check for authToken of admin */
+		session.beginTransaction();
+		AuthTable authtable=session.get(AuthTable.class, authToken);
+
+		User user = authtable.getUser();
+		if(user.getUsertype().equals("Admin")){
+			session.save(newDepartment);
+			responseEntity=new ResponseEntity<String>(HttpStatus.OK);
+		}
+		else{
+			responseEntity=new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
+		}
+		session.getTransaction().commit();
+		session.close();
+		return responseEntity;
+	}
+	
+	/*Add new Project */
+	@Transactional
+	@Override
+	public ResponseEntity<String> addProject(String authToken , Project project) {
+		ResponseEntity<String> responseEntity=new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		Session session=sessionFactory.openSession();
+
+		/* check for authToken of admin */
+		session.beginTransaction();
+		AuthTable authtable=session.get(AuthTable.class, authToken);
+
+		User user = authtable.getUser();
+		if(user.getUsertype().equals("Admin")){
+			session.save(project);
+			responseEntity=new ResponseEntity<String>(HttpStatus.OK);
+		}
+		else{
+			responseEntity=new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
+		}
+		session.getTransaction().commit();
+		session.close();
+		return responseEntity;
+	}
+	
+	/* Delete a Project*/
+	@Transactional
+	@Override
+	public ResponseEntity<String> deleteProject(String authToken , int projectId) {
+		Session session=sessionFactory.openSession();
+		
+		ResponseEntity<String> responseEntity=new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		
+		/* check for authToken of admin */
+		session.beginTransaction();
+		AuthTable authtable=session.get(AuthTable.class, authToken);
+		User userAdmin=session.get(User.class, authtable.getUser().getEmpId());
+		if(userAdmin.getUsertype().equals("Admin")){	
+			
+				/* get The Project */
+				String hql = "FROM project where projectId= "+projectId ;
+				Query query = session.createQuery(hql);
+				Project returnedProject=(Project)query.list().get(0);
+			
+				/* get user of that Project */
+				hql = "FROM user where projectId="+returnedProject.getProjectId() ;
+				query = session.createQuery(hql);
+				List<User> users=(List<User>)query.list();
+				
+				/* Deleting project from users */
+				for(User user:users){
+					user.setProject(null);
+					session.persist(user);
+				}
+			
+							
+				/* delete from project table */
+				if(returnedProject!=null){
+					session.delete(returnedProject);
+					responseEntity=new ResponseEntity<String>(HttpStatus.OK);
+				}
+				else
+					responseEntity=new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+		}
+		else{
+			responseEntity=new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
+		}
+		session.getTransaction().commit();
+		session.close();
+		return responseEntity;
+	}
 }

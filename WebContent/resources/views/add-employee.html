@@ -2,12 +2,12 @@
 
       <!-- main area -->
       <div class="main-content checkbo" ng-controller="EMPController" style="margin-top: -75px;" ng-init="getAllDepartments(); getAllProjects(); getAllSkills();">
-        <form id="commentForm" class="form-horizontal" role="form" style="background: #e0e8f2" ng-model="registrationForm">
+        <form id="commentForm" name="addEmpForm" class="form-horizontal" role="form" style="background: #e0e8f2" ng-model="registrationForm">
           <div class="box-tab justified" id="rootwizard">
             <ul class="nav nav-tabs">
               <li ng-class="{'active' : activeTab==1}"><a href="" ng-click="setActiveTab(1)"><strong>Account details</strong></a>
               </li>
-              <li ng-class="{'active' : activeTab==2}"><a href="" ng-click="setActiveTab(2)"><strong>Personal Info</strong></a>
+              <li ng-class="{'active' : activeTab==2}" ><a href="" ng-click="setActiveTab(2)" ><strong>Personal Info</strong></a>
               </li>
               <li ng-class="{'active' : activeTab==3}"><a href="" ng-click="setActiveTab(3)"><strong>Contact Info</strong></a>
               </li>
@@ -21,7 +21,11 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Email address</label>
                   <div class="col-sm-4">
-                    <input type="text" class="form-control" id="emailfield" ng-model="newEmail">
+                    <input type="email" class="form-control" id="emailfield" ng-model="newEmail" name="newEmail" required>
+                    <div  ng-messages="addEmpForm.newEmail.$error" ng-if="addEmpForm.newEmail.$dirty || addEmpForm.newEmail.$touched">
+					  <div class="validate" ng-message="required">This field is required</div>
+					  <div class="validate" ng-message="email">Your email address is invalid</div>
+					</div>
                   </div>
                   <label class="col-sm-2 control-label">User Type</label>
                   <div class="col-sm-4">
@@ -36,31 +40,50 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Username</label>
                   <div class="col-sm-4">
-                    <input type="text" class="form-control" id="namefield" ng-model="newUsername">
+                    <input type="text" class="form-control" id="namefield" ng-model="newUsername" name="newUsername" ng-minlength="5" ng-maxlength="10" required>
+                    <div ng-messages="addEmpForm.newUsername.$error" ng-if="addEmpForm.newUsername.$dirty || addEmpForm.newUsername.$touched">
+					  <div class="validate" ng-message="required">This field is required</div>
+					  <div class="validate" ng-message="minlength">Must be grater than 5 characters</div>
+					  <div class="validate" ng-message="maxlength">Must be less than 10 characters</div>
+					</div>
                   </div>
                   
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Password</label>
                   <div class="col-sm-4">
-                    <input type="password" class="form-control" id="passwordfield" ng-model="newAccountPassword">
+                    <input type="password" class="form-control" id="newAccountPassword" ng-model="newAccountPassword" name="newAccountPassword" ng-minlength="5" ng-maxlength="15" required>
+                    <div ng-messages="addEmpForm.newAccountPassword.$error" ng-if="addEmpForm.newAccountPassword.$dirty || addEmpForm.newAccountPassword.$touched">
+					  <div class="validate" ng-message="required">This field is required</div>
+					  <div class="validate" ng-message="minlength">Must be grater than 5 characters</div>
+					  <div class="validate" ng-message="maxlength">Must be less than 15 characters</div>
+					</div>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Confirm password</label>
                   <div class="col-sm-4">
-                    <input type="password" class="form-control" id="cpasswordfield" ng-model="newAccountRetypedPassword">
+                    <input type="password" class="form-control" id="newAccountRetypedPassword" ng-model="newAccountRetypedPassword" name="newAccountRetypedPassword" required>
+                    <div ng-messages="addEmpForm.newAccountRetypedPassword.$error" ng-if="addEmpForm.newAccountRetypedPassword.$dirty || addEmpForm.newAccountRetypedPassword.$touched">
+					  <div class="validate" ng-message="required">This field is required</div>
+					  <div class="validate" ng-show="addEmpForm.newAccountRetypedPassword.$viewValue!=addEmpForm.newAccountPassword.$viewValue">Passwords must be same</div>
+					</div>
                   </div>
                 </div>
-                <div class="pull-right">
-                  <button type="button" class="btn btn-primary button-next" ng-click="nextTab()">Next</button>
+                <div class="pull-right" style="cursor:not-allowed">
+                  	<button ng-disabled= "addEmpForm.newEmail.$invalid || addEmpForm.newUsername.$invalid || addEmpForm.newAccountPassword.$invalid || addEmpForm.newAccountRetypedPassword.$invalid || addEmpForm.newAccountRetypedPassword.$viewValue!=addEmpForm.newAccountPassword.$viewValue"  type="button" class="btn btn-primary button-next" ng-click="nextTab()" >Next</button>
                 </div>
               </div>
               <div id="tab2" ng-class="{'tab-pane active': activeTab === 2, 'tab-pane' : activeTab !== 2}">              
               	<div class="form-group">
                  <label class="col-sm-2 control-label">Full Name</label>
                   <div class="col-sm-4">
-                    <input type="text" class="form-control" id="name" ng-model="newName">
+                    <input type="text" class="form-control" name="newName" id="newName" ng-model="newName"  ng-minlength="5" ng-maxlength="20" required>
+	                 <div ng-messages="addEmpForm.newName.$error" ng-if="addEmpForm.newName.$dirty || addEmpForm.newName.$touched">
+						  <div class="validate" ng-message="required">This field is required</div>
+						  <div class="validate" ng-message="minlength">Must be grater than 5 characters</div>
+						  <div class="validate" ng-message="maxlength">Must be less than 10 characters</div>
+					</div>
                   </div>
                   <label class="col-sm-2 control-label">Gender</label>
                   <div class="col-sm-4">
@@ -76,7 +99,10 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Date of Birth</label>
                   <div class="col-sm-4">
-                    <input type="date" name="dob" ng-model="newDob" style="width: 100%;">
+                    <input type="date" id="newDob" name="newDob" ng-model="newDob" style="width: 100%;" required>
+                    <div ng-messages="addEmpForm.newDob.$error" ng-if="addEmpForm.newDob.$dirty || addEmpForm.newDob.$touched">
+						  <div class="validate" ng-message="required">This field is required</div>
+					</div>
                   </div>
                   <label class="col-sm-2 control-label">Marital Status</label>
                   <div class="col-sm-4">
@@ -92,24 +118,18 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">About</label>
                   <div class="col-sm-4">
-                    <textarea class="form-control" rows="3" ng-model="newAbout"></textarea>
+                    <textarea class="form-control" rows="3" id="newAbout" name="newAbout" ng-model="newAbout" ng-minlength="10" ng-maxlength="100" required></textarea>
+                     <div ng-messages="addEmpForm.newAbout.$error" ng-if="addEmpForm.newAbout.$dirty || addEmpForm.newAbout.$touched">
+						  <div class="validate" ng-message="required">This field is required</div>
+						  <div class="validate" ng-message="minlength">Must be grater than 10 characters</div>
+						  <div class="validate" ng-message="maxlength">Must be less than 100 characters</div>
+					</div>
                   </div>
                   
                 </div>
-<!--                 <div class="form-group"> -->
-<!--                   <label class="col-sm-2 control-label">Job description</label> -->
-<!--                   <div class="col-sm-4"> -->
-<!--                     <select class="form-control chosen" style="width: 100%;" id="description" name="description"> -->
-<!--                       <option>Human resources</option> -->
-<!--                       <option>Frontend developer</option> -->
-<!--                       <option>Backend developer</option> -->
-<!--                       <option>Network engineer</option> -->
-<!--                     </select> -->
-<!--                   </div> -->
-<!--                 </div>                 -->
-                <div class="pull-right">
+                <div class="pull-right" style="cursor:not-allowed">
                   <button type="button" class="btn btn-default button-previous" ng-click="previousTab()">Previous</button>
-                  <button type="button" class="btn btn-primary button-next" ng-click="nextTab()">Next</button>
+                  <button ng-disabled= "addEmpForm.newName.$invalid || addEmpForm.newDob.$invalid || addEmpForm.newAbout.$invalid" type="button" class="btn btn-primary button-next" ng-click="nextTab()">Next</button>
                 </div>
               </div>
               <div id="tab3" ng-class="{'tab-pane active': activeTab === 3, 'tab-pane' : activeTab !== 3}">				
@@ -117,39 +137,58 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Country</label>
                   <div class='col-sm-4'>
-				  	<select id="country" name ="country" ng-model="newCountry" class="form-control chosen" style="width: 100%;"></select>
+						<input type="text" name="newCountry" id="newCountry" class="form-control" ng-model="newCountry" required>
+						  <div ng-messages="addEmpForm.newCountry.$error" ng-if="addEmpForm.newCountry.$dirty || addEmpForm.newCountry.$touched">
+							  <div class="validate" ng-message="required">This field is required</div>
+						  </div>
 				  </div>
 				  
 				  <label class="col-sm-2 control-label">Mobile</label>
                   <div class="col-sm-4">
-                    <input type="number" class="form-control" id="mobilefield" ng-model="newMobile">
+                    <input type="number" class="form-control" name="newMobile" id="newMobile" ng-model="newMobile" ng-minlength="10" ng-maxlength="10" required>
+      	               <div ng-messages="addEmpForm.newMobile.$error" ng-if="addEmpForm.newMobile.$dirty || addEmpForm.newMobile.$touched">
+						  <div class="validate" ng-message="required">This field is required</div>
+						  <div class="validate" ng-message="minlength">Must be 10 digit</div>
+						  <div class="validate" ng-message="maxlength">Must be 10 digit</div>
+		               </div>
                   </div>				  								    				    
                 </div>
 				
 				<div class="form-group">
                   <label class="col-sm-2 control-label">State</label>
                   <div class='col-sm-4'>
-				  	<select name ="state" id ="state" ng-model="newState" class="form-control chosen" style="width: 100%;"></select>
+				  	<input type="text" name="newState" id="newState" class="form-control" ng-model="newState" required>
+				  		<div ng-messages="addEmpForm.newState.$error" ng-if="addEmpForm.newState.$dirty || addEmpForm.newState.$touched">
+							  <div class="validate" ng-message="required">This field is required</div>
+						</div>
 				  </div>				  								    				    
                 </div>
                 
                 <div class="form-group">
                   <label class="col-sm-2 control-label">City</label>
                   <div class='col-sm-4'>
-				  	<input type="text" class="form-control" id="newCity" ng-model="newCity">
+				  	<input type="text" class="form-control" name="newCity" id="newCity" ng-model="newCity" required>
+				   		<div ng-messages="addEmpForm.newCity.$error" ng-if="addEmpForm.newCity.$dirty || addEmpForm.newCity.$touched">
+							  <div class="validate" ng-message="required">This field is required</div>
+						</div>
 				  </div>				  								    				    
                 </div>
                 
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Pincode</label>
                   <div class='col-sm-4'>
-				  	<input type="number" class="form-control" id="newPinCode" ng-model="newPinCode">
+				  	<input type="number" class="form-control" name="newPinCode" id="newPinCode" ng-model="newPinCode" ng-minlength="6" ng-maxlength="6" required>
+				   		<div ng-messages="addEmpForm.newPinCode.$error" ng-if="addEmpForm.newPinCode.$dirty || addEmpForm.newPinCode.$touched">
+						<div class="validate" ng-message="required">This field is required</div>
+						  <div class="validate" ng-message="minlength">Must be 6 digit</div>
+						  <div class="validate" ng-message="maxlength">Must be 6 digit</div>
+						</div>
 				  </div>				  								    				    
                 </div>
 				
-               <div class="pull-right">
+               <div class="pull-right" style="cursor:not-allowed">
                   <button type="button" class="btn btn-default button-previous" ng-click="previousTab()">Previous</button>
-                  <button type="button" class="btn btn-primary button-next" ng-click="nextTab()">Next</button>
+                  <button ng-disabled= "addEmpForm.newCountry.$invalid || addEmpForm.newState.$invalid || addEmpForm.newCity.$invalid || addEmpForm.newPinCode.$invalid || addEmpForm.newMobile.$invalid" type="button" class="btn btn-primary button-next" ng-click="nextTab()">Next</button>
                 </div>
               </div>
               <div id="tab4" ng-class="{'tab-pane active': activeTab === 4, 'tab-pane' : activeTab !== 4}">
@@ -157,11 +196,17 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Designation</label>
                   <div class="col-sm-4">
-                    <input type="text" class="form-control required" name="newDesignation" ng-model="newDesignation">
+                    <input type="text" class="form-control required" name="newDesignation" ng-model="newDesignation" required>
+                    	<div ng-messages="addEmpForm.newDesignation.$error" ng-if="addEmpForm.newDesignation.$dirty || addEmpForm.newDesignation.$touched">
+							<div class="validate" ng-message="required">This field is required</div>
+						</div>  
                   </div>                  
                   <label class="col-sm-2 control-label">Date of Joining</label>
                   <div class="col-sm-4">
-                    <input type="date" name="newDoj" ng-model="newDoj" style="width: 100%;">
+                    <input type="date" name="newDoj" ng-model="newDoj" style="width: 100%;" required>
+                      	<div ng-messages="addEmpForm.newDoj.$error" ng-if="addEmpForm.newDoj.$dirty || addEmpForm.newDoj.$touched">
+							<div class="validate" ng-message="required">This field is required</div>
+						</div>
                   </div>
                   
                 </div>
@@ -169,13 +214,17 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Department</label>
                   <div class="col-sm-4">
-                    <select name ="newDepartment" ng-model="newDepartment" class="form-control chosen" style="width: 100%;" >
+                    <select name ="newDepartment" ng-model="newDepartment" class="form-control chosen" style="width: 100%;" ng-init="newDepartment='count'">
+                    	<option value="count" >Select</option>
                     	<option ng-repeat="department in departments">{{department.departmentName}}</option>
                     </select>
                   </div>
                   <label class="col-sm-2 control-label">Basic Salary</label>
                   <div class="col-sm-4">
-                    <input type="number" class="form-control required" name="newBasicSalary" ng-model="newBasicSalary">
+                    <input type="number" class="form-control required" name="newBasicSalary" ng-model="newBasicSalary" required>
+                       	<div ng-messages="addEmpForm.newBasicSalary.$error" ng-if="addEmpForm.newBasicSalary.$dirty || addEmpForm.newBasicSalary.$touched">
+							<div class="validate" ng-message="required">This field is required</div>
+						</div>
                   </div>
                   
                 </div>
@@ -183,13 +232,17 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Project</label>
                   <div class="col-sm-4">
-                    <select name ="newProject" ng-model="newProject" class="form-control chosen" style="width: 100%;">
-                    <option ng-repeat="project in projects">{{project.projectName}}</option>
+                    <select name ="newProject" ng-model="newProject" class="form-control chosen" style="width: 100%;" ng-init="newProject='count'">
+                    <option value="count" >Select</option>
+                    <option ng-repeat="project in projects" >{{project.projectName}}</option>
                     </select>
                   </div>
                   <label class="col-sm-2 control-label">HRA</label>
                   <div class="col-sm-4">
-                    <input type="number" class="form-control required" name="newHra" ng-model="newHra">
+                    <input type="number" class="form-control required" name="newHra" ng-model="newHra" required>
+                       	<div ng-messages="addEmpForm.newHra.$error" ng-if="addEmpForm.newHra.$dirty || addEmpForm.newHra.$touched">
+							<div class="validate" ng-message="required">This field is required</div>
+						</div>
                   </div>
                 </div>
                 
@@ -197,12 +250,18 @@
                 
                   <label class="col-sm-2 control-label">Experience (in years)</label>
                   <div class="col-sm-4">
-					 <input type="number" class="form-control required" ng-model="newExperience">
+					 <input type="number" class="form-control required" name="newExperience" ng-model="newExperience" required>
+					    <div ng-messages="addEmpForm.newExperience.$error" ng-if="addEmpForm.newExperience.$dirty || addEmpForm.newExperience.$touched">
+							<div class="validate" ng-message="required">This field is required</div>
+						</div>
 	              </div>
                 
 				  <label class="col-sm-2 control-label">LTA</label>
                   <div class="col-sm-4">
-                    <input type="number" class="form-control required" name="newLta" ng-model="newLta">
+                    <input type="number" class="form-control required" name="newLta" ng-model="newLta" required>
+                    	<div ng-messages="addEmpForm.newLta.$error" ng-if="addEmpForm.newLta.$dirty || addEmpForm.newLta.$touched">
+							<div class="validate" ng-message="required">This field is required</div>
+						</div>
                   </div>
                 </div>
                 
@@ -216,15 +275,15 @@
                 	 
                  </div>
                 
-                <div class="pull-right">
+                <div class="pull-right" style="cursor:not-allowed">
                   <button type="button" class="btn btn-default button-previous" ng-click="previousTab()">Previous</button>
-                  <button type="button" class="btn btn-primary button-next" ng-click="nextTab()">Next</button>
+                  <button ng-disabled= "addEmpForm.newDesignation.$invalid || addEmpForm.newExperience.$invalid || addEmpForm.newBasicSalary.$invalid || addEmpForm.newHra.$invalid || addEmpForm.newLta.$invalid || addEmpForm.newDoj.$invalid" type="button" class="btn btn-primary button-next" ng-click="nextTab()">Next</button>
                 </div>
               </div>
               <div id="tab5" ng-class="{'tab-pane active': activeTab === 5, 'tab-pane' : activeTab !== 5}">Are you sure to add this Employee...?
-                <div class="pull-right">
+                <div class="pull-right" style="cursor: not-allowed">
                   <button type="button" class="btn btn-default button-previous" ng-click="previousTab()">Previous</button>
-                  <button type="button" class="btn btn-primary button-next" ng-click="addEmployee()">Add Employee</button>
+                  <button ng-disabled="addEmpForm.$invalid" type="button" class="btn btn-primary button-next" ng-click="addEmployee()">Add Employee</button>
                 </div>
               </div>
               <div class="wizard-pager">
@@ -236,6 +295,4 @@
       </div>
       <!-- /main area -->
     
-<script language="javascript">
-	populateCountries("country", "state"); // first parameter is id of country drop-down and second parameter is id of state drop-down
-</script>    
+  

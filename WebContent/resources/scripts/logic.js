@@ -1,6 +1,6 @@
-var myApp = angular.module('myApp', ['ngRoute', 'ngCookies', 'checklist-model' , 'angularUtils.directives.dirPagination'] );
+var myApp = angular.module('myApp', ['ngRoute', 'ngCookies', 'checklist-model' , 'angularUtils.directives.dirPagination' , 'ngMessages'] );
 
-function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore) {
+function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route) {
 	
 	var REST_SERVICE_URI="http://localhost:9091/EmployeeManagementPortal/";
 	
@@ -156,6 +156,11 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore) {
 	 /* check for login */
 	 $scope.checkForLogin= function() {
 			 return $cookieStore.get("isLogged");
+	 }
+	 
+	 /* check for login */
+	 $scope.getUserType= function() {
+			 return $cookieStore.get("usertype");
 	 }
 	 
 	 /* check for name */	 
@@ -436,9 +441,14 @@ console.log("dat:" +data);
 		    });
 	 }
 	 
-	 /* to fetch id for delete function */
+	 /* to fetch id of employee for delete function */
 	 $scope.getUserId = function(uid){
 			$rootScope.delId = uid;
+		}
+	 
+	 /* to fetch id of project for delete function */
+	 $scope.geProjectId = function(uid){
+			$rootScope.delProjectId = uid;
 		}
 	 
 	 /* delete employee by id */
@@ -474,6 +484,45 @@ console.log("dat:" +data);
 		    	 
 		    	bootbox.dialog({
 					  message: 'Deleting the user failed!',
+					  onEscape: function() { console.log("Ecsape"); },
+					  backdrop: true
+					});
+		    });
+	 }
+	 
+	 /* delete project by id */
+	 $scope.deleteProject= function(id) {
+
+	        $http({
+		           method : 'DELETE',
+		           url : REST_SERVICE_URI+'deleteproject/'+id,
+		           headers : {
+		                 'Content-Type' : 'application/json',
+		                 'authToken' : $cookieStore.get("authToken")
+		           },
+		           data : {
+		        	   		
+		                 }
+		    }).then(function successCallback(response) {
+		    	
+		    	for(var v=0;v<$rootScope.projectList.length;v++){
+					if(id==$rootScope.projectList[v].projectId)
+					{
+						$rootScope.projectList.splice(v,1);
+					}
+				}
+				bootbox.dialog({
+					  message: 'Project deleted successfully!',
+					  onEscape: function() { console.log("Ecsape"); },
+					  backdrop: true
+					});
+				
+		    	  
+		    			         
+		    }, function errorCallback(response) {
+		    	 
+		    	bootbox.dialog({
+					  message: 'Deleting the project failed!',
 					  onEscape: function() { console.log("Ecsape"); },
 					  backdrop: true
 					});
@@ -536,6 +585,57 @@ console.log("dat:" +data);
 	    });
 	 }
 	 
+	 
+	 /* get specific emp profile*/
+	 $scope.viewProfileTOUpdate= function() {
+	
+		 $http({
+	           method : 'GET',
+	           url : REST_SERVICE_URI+'viewprofile',
+	           headers : {
+	                 'Content-Type' : 'application/json',
+	                 'authToken' : $cookieStore.get("authToken")
+	           },
+	           data : {
+	        	   		
+	                 }
+	    }).then(function successCallback(response) {
+	    	  
+	    	  $rootScope.profileName = response.data.name;
+	    	  $rootScope.usertype = response.data.usertype;
+	    	  $rootScope.lockStatus=response.data.lockStatus;
+	    	  $rootScope.isLogged = "true";
+	    	  
+	    	  //personal
+	    	  $rootScope.designation=response.data.designation;
+	    	  $rootScope.empId=response.data.empId;		    	  		    	 
+	    	  $rootScope.dob=response.data.dob;
+	    	  $rootScope.doj=response.data.doj;		    	  		    	  
+	    	  $rootScope.gender=response.data.gender;
+	    	  $rootScope.maritalStatus=response.data.maritalStatus;
+	    	  $rootScope.username=$cookieStore.get("usernameLogging");
+	    	  $rootScope.name=response.data.name;
+	    	 
+	    	  //contact
+	    	  $rootScope.email=response.data.email;
+	    	  $rootScope.address=response.data.address;
+	    	  $rootScope.contact=response.data.contact;
+	    	  $rootScope.about=response.data.about;
+	    	  
+	    	  //professional		    	  
+	    	  $rootScope.salary=response.data.salary;		    	 
+	    	  $rootScope.experience=response.data.experience;		    	  
+	    	  $rootScope.manager=response.data.manager;
+	    	  $rootScope.project=response.data.project;
+	    	  $rootScope.skills=response.data.skills;
+	    	  $rootScope.department=response.data.department;
+    	  
+			  $location.path("/editProfile");
+	         
+	    }, function errorCallback(response) {
+
+	    });
+	 }
 	 
 	 /* get specific emp profile*/
 	 $scope.viewEmpProfile= function(id) {
@@ -637,7 +737,61 @@ console.log("dat:" +data);
 		          
 		    });
 	 }
+	 	 
+	 /* unlock employee*/
+	 $scope.unlockEmployee= function(id) {
+
+	        $http({
+		           method : 'PUT',
+		           url : REST_SERVICE_URI+'unlockemployee/'+id,
+		           headers : {
+		                 'Content-Type' : 'application/json',
+		                 'authToken' : $cookieStore.get("authToken")
+		           },
+		           data : {
+		        	   
+		                 }
+		    }).then(function successCallback(response) {
+		    	bootbox.dialog({
+					  message: 'Employee unlocked successfully !',
+					  onEscape: function() { console.log("Ecsape"); },
+					  backdrop: true
+					});
+		    	//$location.path("/getAllUsers");
+		    	$route.reload();
+		    	
+		    }, function errorCallback(response) {
+		    	bootbox.dialog({
+					  message: 'Employee could not be unlocked !',
+					  onEscape: function() { console.log("Ecsape"); },
+					  backdrop: true
+					});
+		          
+		    });
+	 }
 	 
+
+	  /* show all projects*/
+	 $scope.showAllProjects= function(id) {
+
+	        $http({
+		           method : 'GET',
+		           url : REST_SERVICE_URI+'viewallprojects',
+		           headers : {
+		                 'Content-Type' : 'application/json',
+		                 'authToken' : $cookieStore.get("authToken")
+		           },
+		           data : {
+		        	   
+		                 }
+		    }).then(function successCallback(response) {
+		    	$rootScope.projectList = response.data;
+		    	$location.path("/viewProjects");
+		    	
+		    }, function errorCallback(response) {
+		    	
+		    });
+	 }
 	 
 }
 
@@ -691,6 +845,10 @@ myApp.config(function($routeProvider) {
 	.when('/editProfile', {
 		controller: 'EMPController',
 		templateUrl: 'resources/views/edit-employee.html'
+	})
+	.when('/viewProjects', {
+		controller: 'EMPController',
+		templateUrl: 'resources/views/view-projects.html'
 	})
     .otherwise({redirectTo: '/'})  
     

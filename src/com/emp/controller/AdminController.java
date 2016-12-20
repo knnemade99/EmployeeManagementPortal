@@ -81,4 +81,32 @@ public class AdminController {
 	public List<Skill> viewAllSkills(@RequestHeader("authToken") String authToken){
 		return adminService.viewAllSkills(authToken);
 	}
+	
+	/* Add new Skill */
+	@RequestMapping(value="/addskill" , method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<String> addSkill(@RequestHeader("authToken") String authToken , @RequestBody Skill skill){
+		return adminService.addSkill(authToken , skill);
+	}
+	
+	/* Add new Department */
+	@RequestMapping(value="/adddepartment" , method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<String> addDepartment(@RequestHeader("authToken") String authToken , @RequestBody Department newDepartment ){
+		return adminService.addDepartment(authToken , newDepartment);
+	}
+	
+	/* Add new Project */
+	@RequestMapping(value="/addproject" , method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<String> addProject(@RequestHeader("authToken") String authToken , @RequestBody Project project ){
+		return adminService.addProject(authToken , project);
+	}
+	
+	/* Delete a Project */
+	@RequestMapping(value="/deleteproject/{id}" , method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<String> deleteProject(@PathVariable("id") int projectId , @RequestHeader("authToken") String authToken){
+		return adminService.deleteProject(authToken , projectId);
+	}
 }

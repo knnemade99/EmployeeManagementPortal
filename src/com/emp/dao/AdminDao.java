@@ -20,5 +20,10 @@ public interface AdminDao {
 	public List<Department> viewAllDepartments(String authToken);
 	public List<Project> viewAllProjects(String authToken);
 	public List<Skill> viewAllSkills(String authToken);
+	public ResponseEntity<String> addSkill(String authToken , Skill skill);
+	public ResponseEntity<String> addDepartment(String authToken , Department newDepartment);
+	public ResponseEntity<String> addProject(String authToken, Project project);
+	public ResponseEntity<String> deleteProject(String authToken, int projectId);
+
 
 }

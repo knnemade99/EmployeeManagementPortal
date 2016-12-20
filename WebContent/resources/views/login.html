@@ -5,21 +5,28 @@
 			<div class="center-content">
 				<div class="row no-margin">
 					<div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4" style="margin-left: 25%">
-						<form role="form" class="form-layout">
+						<form role="form" class="form-layout" name="loginForm">
 							<div class="text-center mb15">
 								<img src="resources/images/xoriant.png" />
 							</div>
 							<p class="text-center mb30">Welcome to Xoriant. Please sign
 								in to your account</p>
 							<div class="form-inputs">
-								<input type="text" class="form-control input-lg"
-									placeholder="Username" ng-model="username" required autofocus>
-								<input type="password" class="form-control input-lg"
-									placeholder="Password" ng-model="password" required>
+								<input type="text" class="form-control input-lg" placeholder="Username" ng-model="username" required autofocus name="username">
+								<div ng-messages="loginForm.username.$error" ng-if="loginForm.username.$dirty || loginForm.username.$touched">
+					  				<div class="validate" ng-message="required">This field is required</div>
+								</div>
+								
+								<input type="password" class="form-control input-lg" placeholder="Password" ng-model="password" required name="password">
+								<div ng-messages="loginForm.password.$error" ng-if="loginForm.password.$dirty || loginForm.password.$touched">
+					  				<div class="validate" ng-message="required">This field is required</div>
+								</div>
 							</div>
-							<button class="btn btn-success btn-block btn-lg mb15" ng-click="login()">
-								<span>Sign in</span>
-							</button>
+							<div style="cursor: not-allowed">
+								<button ng-disabled="loginForm.$invalid" class="btn btn-success btn-block btn-lg mb15" ng-click="login()">
+									<span>Sign in</span>
+								</button>
+							</div>
 							<p>
 								<a href="#forgotPassword">Forgot your password?</a>
 							</p>

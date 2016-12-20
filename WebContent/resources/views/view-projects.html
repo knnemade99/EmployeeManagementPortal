@@ -1,6 +1,6 @@
 
       <!-- main area -->
-      <div  ng-controller="EMPController" ng-init="getAllEmployees()">
+      <div  ng-controller="EMPController" ng-init="showAllProjects()">
         <div class="panel">
           <div class="panel-heading border">
             <ol class="breadcrumb mb0 no-padding">
@@ -30,45 +30,31 @@
 		            <table class="table table-bordered table-striped datatable editable-datatable responsive align-middle bordered">
 		              <thead>
 		                <tr role="row">
-		                  <th class="sorting" ng-click="sort('emp_id')">Employee Id
+		                  <th class="sorting" ng-click="sort('emp_id')">Projects Id
 		                  	<span class="glyphicon sort-icon" ng-show="sortKey=='emp_id'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 		                  </th>
 		                  <th class="sorting" ng-click="sort('emp_name')">Name
 		                  	<span class="glyphicon sort-icon" ng-show="sortKey=='emp_name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 		                  </th>
-		                  <th class="sorting" ng-click="sort('emp_email')">Email
+		                  <th class="sorting" ng-click="sort('emp_email')">Budget
 		                  	<span class="glyphicon sort-icon" ng-show="sortKey=='emp_email'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 		                  </th>
-		                  <th class="sorting" ng-click="sort('emp_desgination')">Desgination
+		                  <th class="sorting" ng-click="sort('emp_desgination')">Start Date
 		                  	<span class="glyphicon sort-icon" ng-show="sortKey=='emp_desgination'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 		                  </th>
-		                  <th class="sorting" ng-click="sort('emp_project_name')">Project Name
-		                  	<span class="glyphicon sort-icon" ng-show="sortKey=='emp_desgination'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-		                  </th>
-		                  <th class="sorting">View</th>
-		                  <th class="sorting" >Lock</th>
+		                  <th class="sorting" ng-click="sort('emp_project_name')">End Date
 		                  <th class="sorting">Delete</th>
 		                </tr>
 		              </thead>
 		              <tbody>
-		                <tr dir-paginate="user in UserList|orderBy:sortKey:reverse|filter:search|itemsPerPage:3" role="row">
-		                  <td>X448{{user.empId}}</td>
-		                  <td>{{user.name}}</td>
-		                  <td>{{user.email}}</td>
-		                  <td>{{user.designation}}</td>
-		                  <td>{{user.project.projectName}}</td>
-		                  <td>
-		                  	<button type="button" class="btn btn-success button-next" ng-click="viewEmpProfile(user.empId)"><span class="glyphicon glyphicon-eye-open"></span></button>
-		                  </td>
-		                  <td> 
-		                  	<div ng-if="user.lockStatus == 'locked' ">
-		                  		<button type="button" class="btn btn-primary button-next" ng-click="unlockEmployee(user.empId)"><span class="glyphicon glyphicon-lock"></span>  Unlock</button>
-		                  	</div>
-		                  	<div ng-if="user.lockStatus != 'locked' " style="cursor: not-allowed;">
-		                  		<button disabled type="button" class="btn btn-primary button-next" style="padding-left: 23px; padding-right: 23px;"><span class="glyphicon glyphicon-lock"></span>  Unlock</button>
-		                  	</div>
-		                  </td> 
-		                  <td><button type="button" class="btn btn-danger button-next" data-toggle="modal" data-target="#myModal123" ng-click="getUserId(user.empId)"><span class="glyphicon glyphicon-trash"></span></button>
+		                <tr dir-paginate="project in projectList|orderBy:sortKey:reverse|filter:search|itemsPerPage:5" role="row">
+		                  <td>{{project.projectId}}</td>
+		                  <td>{{project.projectName}}</td>
+		                  <td>{{project.budget}}</td>
+		                  <td>{{project.startDate}}</td>
+		                  <td>{{project.endDate}}</td>
+
+		                  <td><button type="button" class="btn btn-danger button-next" data-toggle="modal" data-target="#myModal123" ng-click="geProjectId(project.projectId)"><span class="glyphicon glyphicon-trash"></span>  Delete</button>
 		                  </td>
 		                </tr>                
 		              </tbody>
@@ -76,7 +62,7 @@
 		        </div>
 		         	<div class="datatable-bottom">					
 						<div class="pull-right">
-							<dir-pagination-controls max-size="3" direction-links="true" boundary-links="true" ></dir-pagination-controls>
+							<dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" ></dir-pagination-controls>
 						</div>
 					</div>   
 		      </div>      
@@ -98,7 +84,7 @@
           <p>Are you sure you want to delete ??</p>
          </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" ng-click="deleteEmployee(delId)" data-dismiss="modal">Delete</button>
+          <button type="button" class="btn btn-danger" ng-click="deleteProject(delProjectId)" data-dismiss="modal">Delete</button>
 <!--           <a class=" to-buy" ng-click="deleteEmployee(delId)"  style="cursor : pointer; text-decoration: none;" data-dismiss="modal">Delete User</a> -->
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         </div>

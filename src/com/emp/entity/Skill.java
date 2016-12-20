@@ -1,14 +1,16 @@
 package com.emp.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity(name="skill")
+@OnDelete(action=OnDeleteAction.CASCADE)
 public class Skill {
 	
 	@Id
@@ -17,7 +19,7 @@ public class Skill {
 	@Column(name="id")
 	private int id;
 	
-	@Column(name="skillName")
+	@Column(name="skillName",unique=true)
 	private String skillName;
 	
 

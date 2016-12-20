@@ -14,6 +14,7 @@
 <script src="resources/vendor/angular/angular.min.js"> </script>
 <script src="resources/vendor/angular/angular-route.min.js"> </script>
 <script src="resources/vendor/angular/angular-cookies.min.js"> </script>
+<script src="resources/scripts/angular-messages.js"> </script>
 <script src="resources/scripts/logic.js"> </script>
 <script src="resources/vendor/bootstrap/dist/js/bootstrap.js"></script>
 <script src="resources/vendor/jquery.easing/jquery.easing.js"></script>
@@ -37,7 +38,7 @@
 <script src="resources/vendor/checkbo/src/0.1.4/js/checkBo.min.js"></script>
 <script src="resources/vendor/chosen_v1.4.0/chosen.jquery.min.js"></script>
 <script src="resources/scripts/pages/form-wizard.js"></script>
-<script src="resources/scripts/countries.js"></script>
+
 <script src="resources/scripts/checklist-model.js"></script>
 <script src="resources/vendor/datatables/media/js/jquery.dataTables.js"></script>
 <script src="resources/scripts/extentions/bootstrap-datatables.js"></script>
@@ -63,6 +64,7 @@
 <link rel="stylesheet" href="resources/styles/animate.css">
 <link rel="stylesheet" href="resources/styles/urban.css">
 <link rel="stylesheet" href="resources/styles/urban.skins.css">
+<link rel="stylesheet" href="resources/styles/validation.css">
 <!-- /general level css-->
 
 <!-- endbuild -->
@@ -100,19 +102,24 @@
 				<ul class="nav">
 
 					<!-- User Management -->
-					<li><a href="#/getAllUsers"> <i class="fa fa-toggle-on"></i>
+					<li ng-if="getUserType()=='Admin'"><a href="#/getAllUsers"> <i class="fa fa-toggle-on"></i>
 							<span>User Management</span>
 					</a></li>
 					<!-- /User Management  -->
 					
 					<!-- Add Employee -->
-					<li><a href="#/addEmployee"> <i class="fa fa-toggle-on"></i>
+					<li ng-if="getUserType()=='Admin'"><a href="#/addEmployee"> <i class="fa fa-toggle-on"></i>
 							<span>Add Employee</span>
 					</a></li>
 					<!-- /Add Employee  -->
 
 					<!-- Profile -->
 					<li><a href="#/viewProfile"> <i class="fa fa-tag"></i> <span>Profile</span>
+					</a></li>
+					<!-- /Profile -->
+					
+					<!-- Profile -->
+					<li ng-if="getUserType()=='Admin'"><a href="#/viewProjects"> <i class="fa fa-tag"></i> <span>View Projects</span>
 					</a></li>
 					<!-- /Profile -->
 					
@@ -126,12 +133,6 @@
 								Password</span>
 					</a></li>
 					<!-- /Change Password -->
-
-					<!-- About -->
-					<li><a href="javascript:;"> <i class="fa fa-pie-chart"></i>
-							<span>About</span>
-					</a></li>
-					<!-- /About -->
 
 					<!-- Logout -->
 					<li><a ng-click="logout()"> <i class="fa fa-map-marker"></i> <span>Logout</span>

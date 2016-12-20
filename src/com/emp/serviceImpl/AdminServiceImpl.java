@@ -64,4 +64,24 @@ public class AdminServiceImpl implements AdminService {
 	public List<Skill> viewAllSkills(String authToken) {
 		return adminDao.viewAllSkills(authToken);
 	}
+	
+	@Override
+	public ResponseEntity<String> addSkill(String authToken, Skill skill) {
+		return adminDao.addSkill(authToken,skill);
+	}
+	
+	@Override
+	public ResponseEntity<String> addDepartment(String authToken, Department newDepartment) {
+		return adminDao.addDepartment(authToken,newDepartment);
+	}
+	
+	@Override
+	public ResponseEntity<String> addProject(String authToken, Project project) {
+		return adminDao.addProject(authToken,project);
+	}
+	
+	@Override
+	public ResponseEntity<String> deleteProject(String authToken, int projectId) {
+		return adminDao.deleteProject(authToken,projectId);
+	}
 }

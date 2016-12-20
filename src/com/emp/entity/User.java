@@ -38,11 +38,11 @@ public class User {
 	@Column(name="employeeId")
 	private int empId;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER )
 	@JoinTable(name="user_skill")
 	private List<Skill> skills = new ArrayList<Skill>();
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
+	@OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name="username")
 	@NotNull
 	private UserCredential userCredential;
@@ -53,7 +53,7 @@ public class User {
 	@Embedded
 	private Salary salary;
 	
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="projectId")
 	private Project project; 
 	
