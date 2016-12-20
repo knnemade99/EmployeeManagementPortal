@@ -56,7 +56,8 @@
 		                  <td>{{user.name}}</td>
 		                  <td>{{user.email}}</td>
 		                  <td>{{user.designation}}</td>
-		                  <td>{{user.project.projectName}}</td>
+		                  <td ng-if="user.project.projectName!=null">{{user.project.projectName}}</td>
+		                  <td ng-if="user.project.projectName==null">NA</td>
 		                  <td>
 		                  	<button type="button" class="btn btn-success button-next" ng-click="viewEmpProfile(user.empId)"><span class="glyphicon glyphicon-eye-open"></span></button>
 		                  </td>

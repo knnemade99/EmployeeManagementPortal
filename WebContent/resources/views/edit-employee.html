@@ -13,7 +13,7 @@
               </li>
               <li ng-class="{'active' : activeTab==4}"><a href="" ng-click="setActiveTab(4)"><strong>Professional Info</strong></a>
               </li>
-              <li ng-class="{'active' : activeTab==5}"><a href="" ng-click="setActiveTab(5)"><strong>Edit</strong></a>
+              <li ng-class="{'active' : activeTab==5}"><a href="" ng-click="setActiveTab(5)"><strong>Update</strong></a>
               </li>
             </ul>
             <div class="tab-content">
@@ -24,14 +24,27 @@
                     <input type="email" disabled  class="form-control" id="emailfield" ng-model="email" ng-value="email">
                   </div>
                   <label class="col-sm-2 control-label">User Type</label>
-                  <div class="col-sm-4">
+                  
+                  
+                  <div class="col-sm-4" ng-if="usertype=='Admin'">
                     <div class="radio">
-					  <label><input type="radio" disabled style="cursor: not-allowed;" name="newUserType" ng-model="usertype" ng-value="usertype" class="control-label"><span style="cursor: not-allowed;">Admin</span></label>
+					  <label><input type="radio" disabled style="cursor: not-allowed;" name="newUserType" class="control-label" ng-checked="true"><span style="cursor: not-allowed;" >Admin</span></label>
 					</div>
 					<div class="radio">
-					  <label><input type="radio" disabled name="newUserType" ng-model="usertype" class="control-label"><span style="cursor: not-allowed;">Employee</span></label>
+					  <label><input type="radio" disabled name="newUserType" class="control-label"><span style="cursor: not-allowed;">Employee</span></label>
 					</div>
                   </div>
+                  
+                  <div class="col-sm-4" ng-if="usertype=='Employee'">
+                    <div class="radio">
+					  <label><input type="radio" disabled style="cursor: not-allowed;" name="newUserType" ng-model="usertype"  class="control-label"><span style="cursor: not-allowed;">Admin</span></label>
+					</div>
+					<div class="radio">
+					  <label><input type="radio" disabled name="newUserType" ng-model="usertype" class="control-label" ng-checked="true"><span style="cursor: not-allowed;" >Employee</span></label>
+					</div>
+                  </div>
+                  
+                  
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Username</label>
@@ -56,12 +69,23 @@
 					</div>
                   </div>
                   <label class="col-sm-2 control-label">Gender</label>
-                  <div class="col-sm-4">
+                  
+                  
+                  <div class="col-sm-4" ng-if="gender== 'Male' ">
                     <div class="radio">
-					  <label><input type="radio" disabled name="newGender" ng-model="gender" ng-value="gender" class="control-label"><span style="cursor: not-allowed;">Male</span></label>
+					  <label><input type="radio" disabled name="newGender" class="control-label" ng-checked="true"><span style="cursor: not-allowed;">Male</span></label>
 					</div>
 					<div class="radio">
-					  <label><input type="radio" disabled name="newGender" ng-model="gender" ng-value="gender" class="control-label"><span style="cursor: not-allowed;">Female</span></label>
+					  <label><input type="radio" disabled name="newGender" class="control-label"><span style="cursor: not-allowed;">Female</span></label>
+					</div>
+                  </div>
+                  
+                  <div class="col-sm-4" ng-if="gender== 'Female' ">
+                    <div class="radio">
+					  <label><input type="radio" disabled name="newGender" class="control-label"><span style="cursor: not-allowed;">Male</span></label>
+					</div>
+					<div class="radio">
+					  <label><input type="radio" disabled name="newGender" class="control-label" ng-checked="true"><span style="cursor: not-allowed;">Female</span></label>
 					</div>
                   </div>
                 </div>
@@ -72,12 +96,23 @@
                     <input type="date" disabled style="cursor: not-allowed;" name="dob" ng-model="dob" ng-value="dob" style="width: 100%;" format-date>
                   </div>
                   <label class="col-sm-2 control-label">Marital Status</label>
-                  <div class="col-sm-4">
+                  
+                  
+                  <div class="col-sm-4" ng-if="maritalStatus == 'Married' ">
                     <div class="radio">
-					  <label><input type="radio" name="newMaritalStatus" ng-model="maritalStatus" value="Married" class="control-label">Married</label>
+					  <label><input type="radio" name="newMaritalStatus" class="control-label" ng-checked="true">Married</label>
 					</div>
 					<div class="radio">
 					  <label><input type="radio" name="newMaritalStatus" ng-model="maritalStatus" value="Unmarried" class="control-label">Unmarried</label>
+					</div>
+                  </div> 
+                  
+                  <div class="col-sm-4" ng-if="maritalStatus == 'Unmarried' ">
+                    <div class="radio">
+					  <label><input type="radio" name="newMaritalStatus" class="control-label">Married</label>
+					</div>
+					<div class="radio">
+					  <label><input type="radio" name="newMaritalStatus" class="control-label" ng-checked="true">Unmarried</label>
 					</div>
                   </div>                  
                 </div>
@@ -235,7 +270,7 @@
               <div id="tab5" ng-class="{'tab-pane active': activeTab === 5, 'tab-pane' : activeTab !== 5}">Are you sure to update the profile...?
                 <div class="pull-right" style="cursor: not-allowed">
                   <button type="button" class="btn btn-default button-previous" ng-click="previousTab()">Previous</button>
-                  <button ng-disabled="addEmpForm.$invalid" type="button" class="btn btn-primary button-next" ng-click="updateEmployee()">Edit Employee</button>
+                  <button ng-disabled="addEmpForm.$invalid" type="button" class="btn btn-primary button-next" ng-click="updateEmployee()">Update Profile</button>
                 </div>
               </div>
               <div class="wizard-pager">
