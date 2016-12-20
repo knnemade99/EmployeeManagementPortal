@@ -53,15 +53,18 @@ public class AdminDaoImpl implements AdminDao {
 		for(Skill s:user.getSkills()){
 			String h="from skill where skillName='"+s.getSkillName()+"'";
 			Query q=session.createQuery(h);
-			skills.addAll(q.list());
-			
+			if(!q.list().isEmpty())
+				skills.addAll(q.list());
 		}
 		
 		/* Adding department to user object */
 		if(user.getDepartment()!=null){
 			String h="from department where departmentName='"+user.getDepartment().getDepartmentName()+"'";
 			Query q=session.createQuery(h);
-			user.setDepartment(((Department)q.list().get(0)));
+			if(!q.list().isEmpty())
+				user.setDepartment(((Department)q.list().get(0)));
+			else
+				user.setDepartment(null);
 		}
 
 		
@@ -69,7 +72,10 @@ public class AdminDaoImpl implements AdminDao {
 		if(user.getProject()!=null){
 			String h="from project where projectName='"+user.getProject().getProjectName()+"'";
 			Query q=session.createQuery(h);
-			user.setProject(((Project)q.list().get(0)));
+			if(!q.list().isEmpty())
+				user.setProject(((Project)q.list().get(0)));
+			else
+				user.setProject(null);
 		}
 	
 		user.setSkills(skills);

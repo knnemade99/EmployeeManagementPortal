@@ -13,7 +13,7 @@
               </li>
               <li ng-class="{'active' : activeTab==4}"><a href="" ng-click="setActiveTab(4)"><strong>Professional Info</strong></a>
               </li>
-              <li ng-class="{'active' : activeTab==5}"><a href="" ng-click="setActiveTab(5)"><strong>Register</strong></a>
+              <li ng-class="{'active' : activeTab==5}"><a href="" ng-click="setActiveTab(5)"><strong>Update</strong></a>
               </li>
             </ul>
             <div class="tab-content">
@@ -235,7 +235,7 @@
               <div id="tab5" ng-class="{'tab-pane active': activeTab === 5, 'tab-pane' : activeTab !== 5}">Are you sure to update the profile...?
                 <div class="pull-right" style="cursor: not-allowed">
                   <button type="button" class="btn btn-default button-previous" ng-click="previousTab()">Previous</button>
-                  <button ng-disabled="addEmpForm.$invalid" type="button" class="btn btn-primary button-next" ng-click="updateEmployee()">Edit Employee</button>
+                  <button ng-disabled="addEmpForm.$invalid" type="button" class="btn btn-primary button-next" ng-click="updateEmployee()">Update Profile</button>
                 </div>
               </div>
               <div class="wizard-pager">

@@ -74,10 +74,12 @@
 
               <ul class="profile-sidebar-item profile-numbers-count">
                 <li>
-                  <span class="bold">Project</span> {{project.projectName}}
+                  <span class="bold">Project</span> <span ng-if="project.projectName!=null">{{project.projectName}}</span>
+                  									<span ng-if="project.projectName==null">NA</span>
                 </li>
                 <li>
-                  <span class="bold">Department</span> {{department.departmentName}}
+                  <span class="bold">Department</span> <span ng-if="department.departmentName!=null">{{department.departmentName}}</span>
+                  									   <span ng-if="department.departmentName==null">NA</span>
                 </li>
               </ul>
 
@@ -85,11 +87,17 @@
 
 			<div class="profile-sidebar-item profile-reccomendations">
                 <span class="bold text-uppercase">Skills</span>
-                <ul class="user-meta">
-                  <li ng-repeat="talent in skills">
-                    <a href="javascript:;">{{talent.skillName}}</a>
-                  </li>                 
-                </ul>
+                <ul ng-if="skills.length!=0" class="user-meta">
+                  <li  ng-repeat="talent in skills">
+                    <span>{{talent.skillName}}</span>
+                  </li>
+                 </ul>
+                 
+                 <ul ng-if="skills.length==0" class="user-meta">
+                  <li >
+                    <span>NA</span>
+                  </li>
+                 </ul>
 
             </div>
 

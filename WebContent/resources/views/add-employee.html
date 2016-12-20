@@ -25,15 +25,15 @@
                     <div  ng-messages="addEmpForm.newEmail.$error" ng-if="addEmpForm.newEmail.$dirty || addEmpForm.newEmail.$touched">
 					  <div class="validate" ng-message="required">This field is required</div>
 					  <div class="validate" ng-message="email">Your email address is invalid</div>
-					</div>
+					</div>	
                   </div>
                   <label class="col-sm-2 control-label">User Type</label>
                   <div class="col-sm-4">
                     <div class="radio">
-					  <label><input type="radio" name="newUserType" ng-model="newUserType" class="control-label" value="Admin">Admin</label>
+					  <label><input type="radio" name="newUserType" ng-model="newUserType" class="control-label" value="Admin" >Admin</label>
 					</div>
 					<div class="radio">
-					  <label><input type="radio" name="newUserType" ng-model="newUserType" class="control-label" value="Employee">Employee</label>
+					  <label><input type="radio" name="newUserType" ng-model="newUserType" class="control-label" value="Employee" ng-checked="true">Employee</label>
 					</div>
                   </div>
                 </div>
@@ -88,7 +88,7 @@
                   <label class="col-sm-2 control-label">Gender</label>
                   <div class="col-sm-4">
                     <div class="radio">
-					  <label><input type="radio" name="newGender" ng-model="newGender" class="control-label" value="Male">Male</label>
+					  <label><input type="radio" name="newGender" ng-model="newGender" class="control-label" value="Male" ng-checked="true">Male</label>
 					</div>
 					<div class="radio">
 					  <label><input type="radio" name="newGender" ng-model="newGender" class="control-label" value="Female">Female</label>
@@ -110,7 +110,7 @@
 					  <label><input type="radio" name="newMaritalStatus" ng-model="newMaritalStatus" class="control-label" value="Married">Married</label>
 					</div>
 					<div class="radio">
-					  <label><input type="radio" name="newMaritalStatus" ng-model="newMaritalStatus" class="control-label" value="Unmarried">Unmarried</label>
+					  <label><input type="radio" name="newMaritalStatus" ng-model="newMaritalStatus" class="control-label" value="Unmarried" ng-checked="true">Unmarried</label>
 					</div>
                   </div>                  
                 </div>
