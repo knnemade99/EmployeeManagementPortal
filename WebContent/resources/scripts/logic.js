@@ -1,8 +1,55 @@
-var myApp = angular.module('myApp', ['ngRoute', 'ngCookies', 'checklist-model' , 'angularUtils.directives.dirPagination' , 'ngMessages'] );
+var myApp = angular.module('myApp', ['ngRoute', 'ngCookies', 'checklist-model' , 'angularUtils.directives.dirPagination' , 'ngMessages' , 'jlareau.pnotify'] );
 
-function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route) {
+function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,notificationService) {
 	
 	var REST_SERVICE_URI="http://localhost:9091/EmployeeManagementPortal/";
+	
+	function dyn_notice() {
+	    var percent = 0;
+	    var notice = new PNotify({
+	        text: "Please Wait",
+	        type: 'info',
+	        icon: 'fa fa-spinner fa-spin',
+	        hide: false,
+	        buttons: {
+	            closer: false,
+	            sticker: false
+	        },
+	        opacity: .75,
+	        shadow: false,
+	        width: "170px"
+	    });
+
+	    setTimeout(function() {
+	        notice.update({
+	            title: false
+	        });
+	        var interval = setInterval(function() {
+	            percent += 2;
+	            var options = {
+	                text: percent + "% complete."
+	            };
+	            if (percent == 80) options.title = "Almost There";
+	            if (percent >= 100) {
+	                window.clearInterval(interval);
+	                options.title = "Done!";
+	                options.type = "success";
+	                options.hide = true;
+	                options.buttons = {
+	                    closer: true,
+	                    sticker: true,
+	                    
+	                };
+	                hide: true
+	                options.icon = 'fa fa-check';
+	                options.opacity = 1;
+	                options.shadow = true;
+	                options.width = PNotify.prototype.options.width;
+	            }
+	            notice.update(options);
+	        }, 78);
+	    });
+	}
 	
 	$scope.art = {
 		    skill: []
@@ -58,9 +105,9 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route)
 	}
 	
 	/* login */
-	 $scope.login= function() {
+	 $scope.login= function() {		 
 		 
-		 if($cookieStore.get("numberOfAttempts")<3){
+		 if($cookieStore.get("numberOfAttempts")<2){
 			 $cookieStore.put("usernameLogging",$scope.username);
 	        $http({
 		           method : 'POST',
@@ -73,6 +120,8 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route)
 		           		password:$scope.password
 		                 }
 		    }).then(function successCallback(response) {
+		    	
+		    	  
 		    	
 		    	  if(response.data.user.lockStatus=="unlock"){
 		    		  $rootScope.authToken=response.data.authToken;
@@ -111,9 +160,22 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route)
 			    	  $rootScope.skills=response.data.user.skills;
 			    	  $rootScope.department=response.data.user.department;
 			    	  
+			    	  new PNotify({
+			    		    title: 'Success',
+			    		    text: 'Welcome, '+$rootScope.name+', you have logged in successfully !',
+			    		    type: 'success',
+			    		    animate: {
+			    		        animate: true,
+			    		        in_class: 'rotateInDownLeft',
+			    		        out_class: 'rotateOutUpRight'
+			    		    },
+			    		    delay: 1500,
+			    		    opacity: 0.8
+			    		});
 			    	  
-			    	  console.log($rootScope.role);
+			    	  
 			          $location.path("/viewProfile");
+			          //notificationService.success('Success!!!');			         
 		    	  }
 		    	  
 		    	  else{
@@ -122,11 +184,24 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route)
 		    	  
 		         
 		    }, function errorCallback(response) {
+		    	
+		    	
+		    	
 		    	if($cookieStore.get("usernameLogging")==$scope.username){
 		    	  $cookieStore.put("numberOfAttempts",($cookieStore.get("numberOfAttempts")+1));
 		    	}
-		    	  console.log("logged in not successfully");
-		          $location.path("/login");
+		    	  
+		    	  new PNotify({
+		    		    title: 'Uh Oh!',
+		    		    text: 'Invalid Username or Password',
+		    		    type: 'error',
+		    		    animate: {
+		    		        animate: true,
+		    		        in_class: 'bounceInDown',
+		    		        out_class: 'hinge'
+		    		    },
+		    		    delay:2000
+		    		});
 		    });
 	        
 		 }
@@ -285,10 +360,33 @@ console.log("in getalldepartments");
 		                 }
 		    }).then(function successCallback(response) {
 		    	  
+		    	new PNotify({
+	    		    title: 'Success',
+	    		    text: 'New password has been sent to '+$scope.email,
+	    		    type: 'success',
+	    		    animate: {
+	    		        animate: true,
+	    		        in_class: 'rotateInDownLeft',
+	    		        out_class: 'rotateOutUpRight'
+	    		    },
+	    		    delay: 1500,
+	    		    opacity: 0.8
+	    		});
 		          $location.path("/");
 		         
 		    }, function errorCallback(response) {
 		    	 
+		    	new PNotify({
+	    		    title: 'Uh Oh!',
+	    		    text: 'Email is not registered',
+	    		    type: 'error',
+	    		    animate: {
+	    		        animate: true,
+	    		        in_class: 'bounceInDown',
+	    		        out_class: 'hinge'
+	    		    },
+	    		    delay:2000
+	    		});
 		          
 		    });
 	 }
@@ -309,53 +407,56 @@ console.log("in getalldepartments");
 		                 }
 		    }).then(function successCallback(response) {
 		    	  
-		          $location.path("/landingPage");
+		    	new PNotify({
+	    		    title: 'Success',
+	    		    text: 'Passoword changed successfully !',
+	    		    type: 'success',
+	    		    animate: {
+	    		        animate: true,
+	    		        in_class: 'rotateInDownLeft',
+	    		        out_class: 'rotateOutUpRight'
+	    		    },
+	    		    delay: 1500,
+	    		    opacity: 0.8
+	    		});
+		    	
+		        $location.path("/landingPage");
 		         
 		    }, function errorCallback(response) {
 		    	 
+		    	new PNotify({
+	    		    title: 'Uh Oh!',
+	    		    text: 'Old Password does not exist !!!',
+	    		    type: 'error',
+	    		    animate: {
+	    		        animate: true,
+	    		        in_class: 'bounceInDown',
+	    		        out_class: 'hinge'
+	    		    },
+	    		    delay:2000
+	    		});
 		          
 		    });
 	 }
 	 
 	 /* Add Employee */
 	 $scope.addEmployee= function() {
-		 
-	console.log($scope.newEmail);
-	console.log($scope.newUserType);
-	console.log($scope.newUsername);
-	console.log($scope.newAccountPassword);
-	console.log($scope.newName);
-	console.log($scope.newGender);
-	console.log($scope.newDob);
-	console.log($scope.newAbout);
-	console.log($scope.newCountry);
-	console.log($scope.newState);
-	console.log($scope.newCity);
-	console.log($scope.newMobile);
-	console.log($scope.newPinCode);
-	console.log($scope.newDesignation);
-	console.log($scope.newDepartment);
-	console.log($scope.newBasicSalary);
-	console.log($scope.newProject);
-	console.log($scope.newHra);
-	console.log($scope.art);
-	console.log($scope.newLta);
-	console.log($scope.newExperience);
-	console.log($scope.newDoj);
-	console.log($scope.newMaritalStatus);
-	
+
+    /* loads notifications */
+   	dyn_notice();
+   	
 	$scope.newArt = {
 		    newSkill: []
 		  };
 	
-var data=$scope.art.skill;
-console.log("dat:" +data);
-	angular.forEach(data, function(v, k) {
-	    $scope.newArt.newSkill.push({
-	      'skillName': v
-	    });
-	  });
-	console.log($scope.newArt.newSkill);
+	var data=$scope.art.skill;
+	console.log("dat:" +data);
+		angular.forEach(data, function(v, k) {
+		    $scope.newArt.newSkill.push({
+		      'skillName': v
+		    });
+		  });
+
 
 	        $http({
 		           method : 'POST',
@@ -401,7 +502,7 @@ console.log("dat:" +data);
 		        		    "usertype": $scope.newUserType
 		        		  }
 		    }).then(function successCallback(response) {
-		    	  
+		    	  		    	  
 		          $location.path("/getAllUsers");
 		         
 		    }, function errorCallback(response) {

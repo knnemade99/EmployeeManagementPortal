@@ -15,6 +15,11 @@
 <script src="resources/vendor/angular/angular-route.min.js"> </script>
 <script src="resources/vendor/angular/angular-cookies.min.js"> </script>
 <script src="resources/scripts/angular-messages.js"> </script>
+<script src="resources/scripts/pnotify.js"></script>
+<script src="resources/scripts/pnotify.confirm.js"></script>
+<script src="resources/scripts/pnotify.buttons.js"></script>
+<script src="resources/scripts/angular-pnotify.js"> </script>
+<script src="resources/scripts/pnotify.animate.js"> </script>
 <script src="resources/scripts/logic.js"> </script>
 <script src="resources/vendor/bootstrap/dist/js/bootstrap.js"></script>
 <script src="resources/vendor/jquery.easing/jquery.easing.js"></script>
@@ -38,7 +43,6 @@
 <script src="resources/vendor/checkbo/src/0.1.4/js/checkBo.min.js"></script>
 <script src="resources/vendor/chosen_v1.4.0/chosen.jquery.min.js"></script>
 <script src="resources/scripts/pages/form-wizard.js"></script>
-
 <script src="resources/scripts/checklist-model.js"></script>
 <script src="resources/vendor/datatables/media/js/jquery.dataTables.js"></script>
 <script src="resources/scripts/extentions/bootstrap-datatables.js"></script>
@@ -52,6 +56,11 @@
 <link rel="stylesheet" href="resources/vendor/chosen_v1.4.0/chosen.min.css">
 <link rel="stylesheet" href="resources/vendor/checkbo/src/0.1.4/css/checkBo.min.css">
 <link rel="stylesheet" href="resources/vendor/datatables/media/css/jquery.dataTables.css">
+<link rel="stylesheet" href="resources/styles/spinner.css">
+<link rel="stylesheet" href="resources/styles/pnotify.css">
+<link rel="stylesheet" href="resources/styles/pnotify.buttons.css">
+<link rel="stylesheet" href="resources/styles/pnotify.brighttheme.css">
+<link rel="stylesheet" href="resources/styles/pnotify.mobile.css">
 <!-- /page level css-->
 
 <!-- general level css-->
