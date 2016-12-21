@@ -60,7 +60,7 @@
               </div>
               <div id="tab2" ng-class="{'tab-pane active': activeTab === 2, 'tab-pane' : activeTab !== 2}">              
               	<div class="form-group">
-                 <label class="col-sm-2 control-label">Full Name</label>
+                 <label class="col-sm-2 control-label">Full Name<span style="color:red;">*</span></label>
                   <div class="col-sm-4">
                     <input type="text" class="form-control" id="name" ng-model="name" ng-value="name" name="name" ng-minlength="5" ng-maxlength="20" required>
                     <div ng-messages="addEmpForm.name.$error" ng-if="addEmpForm.name.$dirty || addEmpForm.name.$touched">
@@ -96,30 +96,23 @@
                   <div class="col-sm-4">
                     <input type="date" disabled style="cursor: not-allowed;" name="dob" ng-model="dob" ng-value="dob" style="width: 100%;" format-date>
                   </div>
-                  <label class="col-sm-2 control-label">Marital Status</label>
-                  
-                  
-                  <div class="col-sm-4" ng-if="maritalStatus == 'Married' ">
-                    <div class="radio">
-					  <label><input type="radio" name="newMaritalStatus" class="control-label" ng-checked="true">Married</label>
-					</div>
-					<div class="radio">
-					  <label><input type="radio" name="newMaritalStatus" ng-model="maritalStatus" value="Unmarried" class="control-label">Unmarried</label>
-					</div>
-                  </div> 
+                  <label class="col-sm-2 control-label">Marital Status<span style="color:red;">*</span></label>                                                      
                   
                   <div class="col-sm-4" ng-if="maritalStatus == 'Unmarried' ">
                     <div class="radio">
-					  <label><input type="radio" name="newMaritalStatus" class="control-label">Married</label>
+					  <label><input type="radio" name="newMaritalStatus" class="control-label" required>Married</label>
 					</div>
 					<div class="radio">
-					  <label><input type="radio" name="newMaritalStatus" class="control-label" ng-checked="true">Unmarried</label>
+					  <label><input type="radio" name="newMaritalStatus" class="control-label" required>Unmarried</label>
+					</div>
+					<div ng-messages="addEmpForm.newMaritalStatus.$error" ng-if="addEmpForm.newMaritalStatus.$dirty || addEmpForm.newMaritalStatus.$touched">
+					  <div class="validate" ng-message="required">This field is required</div>
 					</div>
                   </div>                  
                 </div>
                 
                 <div class="form-group">
-                  <label class="col-sm-2 control-label">About</label>
+                  <label class="col-sm-2 control-label">About<span style="color:red;">*</span></label>
                   <div class="col-sm-4">
                     <textarea class="form-control" rows="3" ng-model="about" name="about" ng-minlength="10" ng-maxlength="100" required></textarea>
                     <div ng-messages="addEmpForm.about.$error" ng-if="addEmpForm.about.$dirty || addEmpForm.about.$touched">
@@ -132,13 +125,13 @@
                 </div>
                 <div class="pull-right" style="cursor: not-allowed">
                   <button type="button" class="btn btn-default button-previous" ng-click="previousTab()">Previous</button>
-                  <button ng-disabled= "addEmpForm.name.$invalid || addEmpForm.about.$invalid" type="button" class="btn btn-primary button-next" ng-click="nextTab()" >Next</button>
+                  <button ng-disabled= "addEmpForm.newMaritalStatus.$invalid || addEmpForm.name.$invalid || addEmpForm.about.$invalid" type="button" class="btn btn-primary button-next" ng-click="nextTab()" >Next</button>
                 </div>
               </div>
               <div id="tab3" ng-class="{'tab-pane active': activeTab === 3, 'tab-pane' : activeTab !== 3}">				
                 
                 <div class="form-group">
-                  <label class="col-sm-2 control-label">Country</label>
+                  <label class="col-sm-2 control-label">Country<span style="color:red;">*</span></label>
                   <div class='col-sm-4'>
 						<input type="text" name="country" class="form-control" ng-model="address.country" value="address.country" name="country" required>
 						<div ng-messages="addEmpForm.country.$error" ng-if="addEmpForm.country.$dirty || addEmpForm.country.$touched">
@@ -146,7 +139,7 @@
 						</div>
 				  </div>
 				  
-				  <label class="col-sm-2 control-label">Mobile</label>
+				  <label class="col-sm-2 control-label">Mobile<span style="color:red;">*</span></label>
                   <div class="col-sm-4">
                     <input type="number" class="form-control" id="mobilefield" ng-model="contact" name="contact" ng-minlength="10" ng-maxlength="10" required>
                     <div ng-messages="addEmpForm.contact.$error" ng-if="addEmpForm.contact.$dirty || addEmpForm.contact.$touched">
@@ -158,7 +151,7 @@
                 </div>
 				
 				<div class="form-group">
-                  <label class="col-sm-2 control-label">State</label>
+                  <label class="col-sm-2 control-label">State<span style="color:red;">*</span></label>
                   <div class='col-sm-4'>
 						<input type="text" name="state" class="form-control" ng-model="address.state" value="address.state" name="state" required>
 						<div ng-messages="addEmpForm.state.$error" ng-if="addEmpForm.state.$dirty || addEmpForm.state.$touched">
@@ -168,7 +161,7 @@
                 </div>
                 
                 <div class="form-group">
-                  <label class="col-sm-2 control-label">City</label>
+                  <label class="col-sm-2 control-label">City<span style="color:red;">*</span></label>
                   <div class='col-sm-4'>
 				  	<input type="text" class="form-control" id="newCity" ng-model="address.city" ng-value="address.city" name="city" required>
 				  	<div ng-messages="addEmpForm.city.$error" ng-if="addEmpForm.city.$dirty || addEmpForm.city.$touched">
@@ -178,7 +171,7 @@
                 </div>
                 
                 <div class="form-group">
-                  <label class="col-sm-2 control-label">Pincode</label>
+                  <label class="col-sm-2 control-label">Pincode<span style="color:red;">*</span></label>
                   <div class='col-sm-4'>
 				  	<input type="number" class="form-control" id="newPinCode" ng-model="address.zip" ng-value="address.zip" name="zip" ng-minlength="6" ng-maxlength="6" required>
 				  	<div ng-messages="addEmpForm.zip.$error" ng-if="addEmpForm.zip.$dirty || addEmpForm.zip.$touched">
@@ -237,7 +230,7 @@
                 
                 <div class="form-group">
                 
-                  <label class="col-sm-2 control-label">Experience (in years)</label>
+                  <label class="col-sm-2 control-label">Experience (in years)<span style="color:red;">*</span></label>
                   <div class="col-sm-4">
 					 <input type="number" class="form-control required" ng-model="experience" ng-value="experience" name="experience" required>
 					 <div ng-messages="addEmpForm.experience.$error" ng-if="addEmpForm.experience.$dirty || addEmpForm.experience.$touched">
@@ -268,14 +261,14 @@
                   <button ng-disabled="addEmpForm.experience.$invalid" type="button" class="btn btn-primary button-next" ng-click="nextTab()">Next</button>
                 </div>
               </div>
-              <div id="tab5" ng-class="{'tab-pane active': activeTab === 5, 'tab-pane' : activeTab !== 5}">Are you sure to update the profile...?
+              <div id="tab5" ng-class="{'tab-pane active': activeTab === 5, 'tab-pane' : activeTab !== 5}" style="font-size: xx-large;">Are you sure to update the profile...?
                 <div class="pull-right" style="cursor: not-allowed">
                   <button type="button" class="btn btn-default button-previous" ng-click="previousTab()">Previous</button>
                   <button ng-disabled="addEmpForm.$invalid" type="button" class="btn btn-primary button-next" ng-click="updateEmployee()">Update Profile</button>
                 </div>
               </div>
               <div class="wizard-pager">
-
+				<span class="text-muted" style="float: left; font-size: 15px;"><em><span style="color:red;">*</span> Indicates required field</em></span>
               </div>
             </div>
           </div>

@@ -142,8 +142,9 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 			    	  $rootScope.designation=response.data.user.designation;
 			    	  $rootScope.empId=response.data.user.empId;		    	  		    	 
 			    	  $rootScope.dob=response.data.user.dob;
-			    	  $rootScope.doj=response.data.user.doj;		    	  		    	  
+			    	  $rootScope.doj=response.data.user.doj;		    	  		    	  			    	 
 			    	  $rootScope.gender=response.data.user.gender;
+			    	  $rootScope.selfGender=$rootScope.gender;
 			    	  $rootScope.maritalStatus=response.data.user.maritalStatus;
 			    	  
 			    	  //contact
@@ -193,7 +194,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 		    	  
 		    	  new PNotify({
 		    		    title: 'Uh Oh!',
-		    		    text: 'Invalid Username or Password',
+		    		    text: 'Invalid Username or Password.\n'+'You have only '+(3-$cookieStore.get("numberOfAttempts"))+' attempts left !',
 		    		    type: 'error',
 		    		    animate: {
 		    		        animate: true,

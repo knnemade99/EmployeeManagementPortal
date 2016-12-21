@@ -3,8 +3,11 @@
         <!-- Personal Information -->
           <div class="col-sm-3">
             <div class="profile-sidebar">
-              <div class="profile-sidebar-item profile-avatar">
-                <img src="resources/images/avatar.jpg" alt="" class="img-rounded">
+              <div class="profile-sidebar-item profile-avatar" ng-if="gender== 'Male'">
+                <img src="resources/images/male-avatar2.png" alt="" class="img-rounded">
+              </div>
+              <div class="profile-sidebar-item profile-avatar" ng-if="gender== 'Female'">
+                <img src="resources/images/female-avatar2.png" alt="" class="img-rounded" height="250px" >
               </div>
               <div class="profile-sidebar-item profile-info">
                 <span class="h5 bold" style="font-size:24px">{{profileName}}</span>                                
