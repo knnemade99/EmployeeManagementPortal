@@ -53,29 +53,10 @@
                   </div>
                   
                 </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">Password<span style="color:red;">*</span></label>
-                  <div class="col-sm-4">
-                    <input type="password" class="form-control" id="newAccountPassword" ng-model="newAccountPassword" name="newAccountPassword" ng-minlength="5" ng-maxlength="15" required>
-                    <div ng-messages="addEmpForm.newAccountPassword.$error" ng-if="addEmpForm.newAccountPassword.$dirty || addEmpForm.newAccountPassword.$touched">
-					  <div class="validate" ng-message="required">This field is required</div>
-					  <div class="validate" ng-message="minlength">Must be grater than 5 characters</div>
-					  <div class="validate" ng-message="maxlength">Must be less than 15 characters</div>
-					</div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">Confirm password<span style="color:red;">*</span></label>
-                  <div class="col-sm-4">
-                    <input type="password" class="form-control" id="newAccountRetypedPassword" ng-model="newAccountRetypedPassword" name="newAccountRetypedPassword" required>
-                    <div ng-messages="addEmpForm.newAccountRetypedPassword.$error" ng-if="addEmpForm.newAccountRetypedPassword.$dirty || addEmpForm.newAccountRetypedPassword.$touched">
-					  <div class="validate" ng-message="required">This field is required</div>
-					  <div class="validate" ng-show="addEmpForm.newAccountRetypedPassword.$viewValue!=addEmpForm.newAccountPassword.$viewValue">Passwords must be same</div>
-					</div>
-                  </div>
-                </div>
+
+
                 <div class="pull-right" style="cursor:not-allowed">
-                  	<button ng-disabled= "addEmpForm.newUserType.$invalid || addEmpForm.newEmail.$invalid || addEmpForm.newUsername.$invalid || addEmpForm.newAccountPassword.$invalid || addEmpForm.newAccountRetypedPassword.$invalid || addEmpForm.newAccountRetypedPassword.$viewValue!=addEmpForm.newAccountPassword.$viewValue"  type="button" class="btn btn-primary button-next" ng-click="nextTab()" >Next</button>
+                  	<button ng-disabled= "addEmpForm.newUserType.$invalid || addEmpForm.newEmail.$invalid || addEmpForm.newUsername.$invalid || addEmpForm.newAccountRetypedPassword.$invalid || addEmpForm.newAccountRetypedPassword.$viewValue!=addEmpForm.newAccountPassword.$viewValue"  type="button" class="btn btn-primary button-next" ng-click="nextTab()" >Next</button>
                 </div>
               </div>
               <div id="tab2" ng-class="{'tab-pane active': activeTab === 2, 'tab-pane' : activeTab !== 2}">              
@@ -290,7 +271,7 @@
                   <button ng-disabled= "addEmpForm.newDesignation.$invalid || addEmpForm.newExperience.$invalid || addEmpForm.newBasicSalary.$invalid || addEmpForm.newHra.$invalid || addEmpForm.newLta.$invalid || addEmpForm.newDoj.$invalid" type="button" class="btn btn-primary button-next" ng-click="nextTab()">Next</button>
                 </div>
               </div>
-              <div id="tab5" ng-class="{'tab-pane active': activeTab === 5, 'tab-pane' : activeTab !== 5}" style="font-size: xx-large;">Are you sure to add this Employee...?
+              <div id="tab5" ng-class="{'tab-pane active': activeTab === 5, 'tab-pane' : activeTab !== 5}" style="font-size: large;">Are you sure to add this Employee ?
                 <div class="pull-right" style="cursor: not-allowed">
                   <button type="button" class="btn btn-default button-previous" ng-click="previousTab()">Previous</button>
                   <button ng-disabled="addEmpForm.$invalid" type="button" class="btn btn-primary button-next" ng-click="addEmployee()">Add Employee</button>

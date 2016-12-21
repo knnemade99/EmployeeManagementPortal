@@ -1,5 +1,6 @@
 package com.emp.controller;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.emp.entity.AuthTable;
+import com.emp.entity.Operations;
 import com.emp.entity.User;
 import com.emp.service.UserService;
 
@@ -62,5 +64,12 @@ public class UserController {
 	@ResponseBody
 	public User viewProfile(@RequestHeader("authToken") String authToken){
 		return userService.viewProfile(authToken);
+	}
+	
+	/* View History */
+	@RequestMapping(value="/viewhistory" , method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ArrayList<Operations> viewHistory(@RequestHeader("authToken") String authToken){
+		return userService.viewHistory(authToken);
 	}
 }

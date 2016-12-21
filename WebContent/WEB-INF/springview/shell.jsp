@@ -132,14 +132,18 @@
 					</a></li>
 					<!-- /Profile -->
 					
+					<!-- History -->
+					<li><a ng-click="getHistory()"> <i class="fa fa-tag"></i> <span>View History</span>
+					</a></li>
+					<!-- /History -->
+					
 					<!-- Edit Profile -->
 					<li><a href="#/editProfile"> <i class="fa fa-tag"></i> <span>Edit Profile</span>
 					</a></li>
 					<!-- /Edit Profile -->
 
 					<!-- Change Password -->
-					<li><a href="#changePassword"> <i class="fa fa-tint"></i> <span>Change
-								Password</span>
+					<li><a href="#changePassword"> <i class="fa fa-tint"></i> <span>Change Password</span>
 					</a></li>
 					<!-- /Change Password -->
 
@@ -154,7 +158,7 @@
 		<!-- /sidebar panel -->
 
 		<!-- content panel -->
-		<div class="main-panel" style="overflow-x: hidden;">
+		<div class="main-panel" style="overflow-x: hidden;margin-top: -15px;">
 
 			<!-- top header -->
 			<header class="header navbar" style="border-bottom: 1px solid rgba(0, 0, 0, 0.30);" ng-show="checkForLogin()">
@@ -190,8 +194,8 @@
 
 					<li>
 					<a href="javascript:;" data-toggle="dropdown"> 
-					<img ng-if="selfGender== 'Male'" src="resources/images/male-avatar2.png" class="header-avatar img-circle ml10" alt="user" title="user">
-					<img ng-if="selfGender== 'Female'" src="resources/images/female-avatar2.png" class="header-avatar img-circle ml10" alt="user" title="user">
+					<img ng-if="selfGender== 'Male'" src="resources/images/real-avatar.png" class="header-avatar img-circle ml10" alt="user" title="user">
+					<img ng-if="selfGender== 'Female'" src="resources/images/female-avatar3.png" class="header-avatar img-circle ml10" alt="user" title="user">
 					<span class="pull-left">{{checkForName()}}</span>
 					</a>
 						<ul class="dropdown-menu">
@@ -212,7 +216,30 @@
 		<!-- /content panel -->
 
 		<!-- bottom footer -->
-		<footer class="content-footer">
+		<footer class="content-footer" ng-if="checkForLogin()">
+
+			<nav class="footer-right">
+				<ul class="nav">
+					<li><a href="javascript:;">Feedback</a></li>
+					<li><a href="javascript:;" class="scroll-up"> <i
+							class="fa fa-angle-up"></i>
+					</a></li>
+				</ul>
+			</nav>
+
+			<nav class="footer-left">
+				<ul class="nav">
+					<li><a href="javascript:;">Copyright <i
+							class="fa fa-copyright"></i> <span>Xoriant Solutions</span> 2016.
+					</a></li>
+					<li><a href="javascript:;">Careers</a></li>
+					<li><a href="javascript:;"> Privacy Policy </a></li>
+				</ul>
+			</nav>
+
+		</footer>
+		
+		<footer class="content-footer" ng-if="!checkForLogin()" style="padding-left: 10px;">
 
 			<nav class="footer-right">
 				<ul class="nav">

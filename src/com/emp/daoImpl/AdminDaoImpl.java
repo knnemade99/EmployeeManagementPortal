@@ -3,6 +3,7 @@ package com.emp.daoImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -22,6 +23,7 @@ import com.emp.entity.Project;
 import com.emp.entity.Skill;
 import com.emp.entity.User;
 import com.emp.entity.UserCredential;
+import com.emp.operation.OperationImpl;
 import com.encryption.Encrypt;
 
 @Component("adminDao")
@@ -40,8 +42,11 @@ public class AdminDaoImpl implements AdminDao {
 		ResponseEntity<User> responseEntity = new ResponseEntity<User>(HttpStatus.BAD_REQUEST);;
 		
 		final Session session=sessionFactory.openSession();
-		String password=user.getUserCredential().getPassword();
-		user.getUserCredential().setPassword(Encrypt.encrypt(user.getUserCredential().getPassword()));
+		
+		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@_$!#";
+		String password = RandomStringUtils.random( 15, characters );
+		
+		user.getUserCredential().setPassword(Encrypt.encrypt(password));
 		
 		/* check for authToken of admin */
 		session.beginTransaction();
@@ -93,6 +98,10 @@ public class AdminDaoImpl implements AdminDao {
 				/* sends Welcome Email */
 				email.sendEmail(user.getEmail(), "Welcome" , msg);
 				responseEntity= new ResponseEntity<User>(HttpStatus.OK);
+				
+				/* entry in operation table */
+				OperationImpl operationImpl= new OperationImpl();
+				operationImpl.addOperation(session, adminUser, "Added Employee "+user.getName());
 			}
 		}
 		else{
@@ -176,12 +185,22 @@ public class AdminDaoImpl implements AdminDao {
 				query2.setInteger("empId", user.getEmpId());
 				query2.executeUpdate();
 				
+				/* delete from operations table */
+				hql = "delete FROM operations where employeeId= :empId" ;
+				query2 = session.createQuery(hql);
+				query2.setInteger("empId", user.getEmpId());
+				query2.executeUpdate();
+				
 			
 				/* delete from user */
 				session.delete(user);
 				
 				/* delete from usercredential */
 				session.delete(user.getUserCredential());
+				
+				/* entry in operation table */
+				OperationImpl operationImpl= new OperationImpl();
+				operationImpl.addOperation(session, userAdmin, "Deleted Employee "+user.getName());
 				
 				responseEntity=new ResponseEntity<String>(HttpStatus.OK);
 			}
@@ -213,6 +232,11 @@ public class AdminDaoImpl implements AdminDao {
 			if(user!=null){
 				if(!user.getLockStatus().equals("unlock")){
 					user.setLockStatus("unlock");
+					
+					/* entry in operation table */
+					OperationImpl operationImpl= new OperationImpl();
+					operationImpl.addOperation(session, userAdmin, "Unlocked employee "+user.getName());
+					
 					responseEntity=new ResponseEntity<String>(HttpStatus.OK);
 				}
 				else{
@@ -304,9 +328,14 @@ public class AdminDaoImpl implements AdminDao {
 		session.beginTransaction();
 		AuthTable authtable=session.get(AuthTable.class, authToken);
 
-		User user = authtable.getUser();
-		if(user.getUsertype().equals("Admin")){
+		User adminUser = authtable.getUser();
+		if(adminUser.getUsertype().equals("Admin")){
 			session.save(skill);
+			
+			/* entry in operation table */
+			OperationImpl operationImpl= new OperationImpl();
+			operationImpl.addOperation(session, adminUser, "Added skill  "+skill.getSkillName());
+			
 			responseEntity=new ResponseEntity<String>(HttpStatus.OK);
 		}
 		else{
@@ -328,10 +357,14 @@ public class AdminDaoImpl implements AdminDao {
 		session.beginTransaction();
 		AuthTable authtable=session.get(AuthTable.class, authToken);
 
-		User user = authtable.getUser();
-		if(user.getUsertype().equals("Admin")){
+		User adminUser = authtable.getUser();
+		if(adminUser.getUsertype().equals("Admin")){
 			session.save(newDepartment);
 			responseEntity=new ResponseEntity<String>(HttpStatus.OK);
+			
+			/* entry in operation table */
+			OperationImpl operationImpl= new OperationImpl();
+			operationImpl.addOperation(session, adminUser, "Added department  "+newDepartment.getDepartmentName());
 		}
 		else{
 			responseEntity=new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
@@ -352,9 +385,14 @@ public class AdminDaoImpl implements AdminDao {
 		session.beginTransaction();
 		AuthTable authtable=session.get(AuthTable.class, authToken);
 
-		User user = authtable.getUser();
-		if(user.getUsertype().equals("Admin")){
+		User adminUser = authtable.getUser();
+		if(adminUser.getUsertype().equals("Admin")){
 			session.save(project);
+			
+			/* entry in operation table */
+			OperationImpl operationImpl= new OperationImpl();
+			operationImpl.addOperation(session, adminUser, "Added project  "+project.getProjectName());
+			
 			responseEntity=new ResponseEntity<String>(HttpStatus.OK);
 		}
 		else{
@@ -376,8 +414,8 @@ public class AdminDaoImpl implements AdminDao {
 		/* check for authToken of admin */
 		session.beginTransaction();
 		AuthTable authtable=session.get(AuthTable.class, authToken);
-		User userAdmin=session.get(User.class, authtable.getUser().getEmpId());
-		if(userAdmin.getUsertype().equals("Admin")){	
+		User adminUser=session.get(User.class, authtable.getUser().getEmpId());
+		if(adminUser.getUsertype().equals("Admin")){	
 			
 				/* get The Project */
 				String hql = "FROM project where projectId= "+projectId ;
@@ -399,6 +437,11 @@ public class AdminDaoImpl implements AdminDao {
 				/* delete from project table */
 				if(returnedProject!=null){
 					session.delete(returnedProject);
+					
+				/* entry in operation table */
+				OperationImpl operationImpl= new OperationImpl();
+				operationImpl.addOperation(session, adminUser, "Deleted Project  "+ returnedProject.getProjectName());
+					
 					responseEntity=new ResponseEntity<String>(HttpStatus.OK);
 				}
 				else

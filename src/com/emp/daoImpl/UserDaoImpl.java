@@ -1,7 +1,6 @@
 package com.emp.daoImpl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,14 +20,12 @@ import com.emp.email.EmailAPI;
 import com.emp.entity.Address;
 import com.emp.entity.AuthTable;
 import com.emp.entity.Department;
-import com.emp.entity.Project;
-import com.emp.entity.Salary;
+import com.emp.entity.Operations;
 import com.emp.entity.Skill;
 import com.emp.entity.User;
 import com.emp.entity.UserCredential;
+import com.emp.operation.OperationImpl;
 import com.encryption.Encrypt;
-
-import ch.qos.logback.classic.util.LoggerNameUtil;
 
 @Component("userDao")
 public class UserDaoImpl implements UserDao {
@@ -146,6 +143,10 @@ public class UserDaoImpl implements UserDao {
 				
 				email.sendEmail(user.getEmail(), "Password Changed" , "Your Password has been changed successfully");
 				
+				/* entry in operation table */
+				OperationImpl operationImpl= new OperationImpl();
+				operationImpl.addOperation(session, user, "Changed Password");
+				
 				responseEntity=new ResponseEntity<String>(HttpStatus.OK);
 			}
 			else{
@@ -195,6 +196,10 @@ public class UserDaoImpl implements UserDao {
 			/* sends new password on email */
 			String message="The new password is : "+pwd+"\nIt iss strongly recommended to change your password after login with this password";
 			this.email.sendEmail(recoveryEmail , "New Password" , message);
+			
+			/* entry in operation table */
+			OperationImpl operationImpl= new OperationImpl();
+			operationImpl.addOperation(session, user, "Password Reset");
 			
 			responseEntity=new ResponseEntity<String>(HttpStatus.OK);
 		}
@@ -259,8 +264,16 @@ public class UserDaoImpl implements UserDao {
 				if(skills2!=null)
 					loggedUser.setSkills(skills2);
 
+				
 				System.out.println("User to update"+user);
-			session.update(loggedUser);	
+			session.update(loggedUser);
+			
+
+			/* entry in operation table */
+			OperationImpl operationImpl= new OperationImpl();
+			operationImpl.addOperation(session, loggedUser, "Updated Profile");	
+		
+			
 			session.getTransaction().commit();
 			session.close();
 			
@@ -289,6 +302,33 @@ public class UserDaoImpl implements UserDao {
 		session.getTransaction().commit();
 		session.close();
 		return user;
+	}
+	
+	/* View History */
+	@Override
+	public ArrayList<Operations> viewHistory(String authToken) {
+		ArrayList<Operations> operations=null;
+		
+		final	Session session=sessionFactory.openSession();
+		
+		/* check for authToken of User*/
+		session.beginTransaction();
+		AuthTable authtable=session.get(AuthTable.class, authToken);
+		
+		if(authtable!=null){
+			User user = authtable.getUser();
+			
+				/* getting operations of user */
+				String h="from operations where employeeId="+user.getEmpId();
+				Query q=session.createQuery(h);
+				if(!q.list().isEmpty())
+					operations=(ArrayList<Operations>)q.list();
+				else
+					user.setDepartment(null);
+		}
+		session.getTransaction().commit();
+		session.close();
+		return operations;
 	}
 
 }

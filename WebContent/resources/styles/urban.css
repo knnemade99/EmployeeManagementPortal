@@ -5670,7 +5670,7 @@ a.text-muted:hover {
 /* $profile
  ------------------------------------------*/
 .profile-sidebar-item {
-  margin: 15px 0;
+  margin: 10px 0;
   padding-left: 15px;
 }
 .profile-sidebar-item::before,
@@ -6073,6 +6073,7 @@ a.text-muted:hover {
   height: 0;
   border-width: 7px;
   border-style: solid;
+  border: 10px solid #e2e2e2;
   border-color: transparent #e2e2e2 transparent transparent;
   content: " ";
   pointer-events: none;
@@ -6101,6 +6102,7 @@ a.text-muted:hover {
     position: absolute;
     right: auto;
     left: 100%;
+    border: 10px solid #e2e2e2;
     border-color: transparent transparent transparent #e2e2e2;
   }
   .timeline .timeline-panel:nth-child(odd) .timeline-content::after {
@@ -6124,7 +6126,7 @@ a.text-muted:hover {
     height: 40px;
   }
   .timeline .timeline-content {
-    margin-left: 0;
+    margin-left: 10px;
     padding: 20px;
     width: 45%;
   }
@@ -12919,4 +12921,11 @@ td.align-middle {
 }
 .location-selector [data-position=bottomRight] div {
   cursor: se-resize;
+}
+.vr{
+	display: block;
+    margin: 1em 0;
+    padding: 0;
+    border: 0;
+    border-right: 4px solid #e4e4e4;
 }

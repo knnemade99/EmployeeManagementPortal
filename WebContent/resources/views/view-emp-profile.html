@@ -1,13 +1,13 @@
         <div class="row" ng-init="getIdForUser()">
         
         <!-- Personal Information -->
-          <div class="col-sm-3">
+          <div class="col-sm-3 vr">
             <div class="profile-sidebar">
               <div class="profile-sidebar-item profile-avatar" ng-if="gender== 'Male'">
-                <img src="resources/images/male-avatar2.png" alt="" class="img-rounded">
+                <img src="resources/images/real-avatar.png" alt="" class="img-rounded">
               </div>
               <div class="profile-sidebar-item profile-avatar" ng-if="gender== 'Female'">
-                <img src="resources/images/female-avatar2.png" alt="" class="img-rounded" height="250px" >
+                <img src="resources/images/female-avatar3.png" alt="" class="img-rounded" height="250px" >
               </div>
               <div class="profile-sidebar-item profile-info">
                 <span class="h5 bold" style="font-size:24px">{{profileName}}</span>                                
@@ -119,6 +119,7 @@
           
           <!-- Contact Information -->
           <div class="col-sm-3">
+           <div style="border-left: 4px solid #e4e4e4;height:520px">
             <div class="profile-sidebar">
               <div class="profile-sidebar-item profile-avatar">
                 
@@ -169,6 +170,6 @@
                 </ul>
               </div>
             </div>
-
+			</div>
           </div>
         </div>

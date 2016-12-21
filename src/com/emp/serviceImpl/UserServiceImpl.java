@@ -1,5 +1,6 @@
 package com.emp.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.emp.dao.UserDao;
 import com.emp.entity.AuthTable;
+import com.emp.entity.Operations;
 import com.emp.entity.User;
 import com.emp.service.UserService;
 
@@ -50,5 +52,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User viewProfile(String authToken) {
 		return userDao.viewProfile(authToken);
+	}
+	
+	@Override
+	public ArrayList<Operations> viewHistory(String authToken) {
+		return userDao.viewHistory(authToken);
 	}
 }

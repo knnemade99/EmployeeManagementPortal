@@ -175,8 +175,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 			    		});
 			    	  
 			    	  
-			          $location.path("/viewProfile");
-			          //notificationService.success('Success!!!');			         
+			          $location.path("/viewProfile");		         
 		    	  }
 		    	  
 		    	  else{
@@ -421,13 +420,13 @@ console.log("in getalldepartments");
 	    		    opacity: 0.8
 	    		});
 		    	
-		        $location.path("/landingPage");
+		        $location.path("/viewProfile");
 		         
 		    }, function errorCallback(response) {
 		    	 
 		    	new PNotify({
 	    		    title: 'Uh Oh!',
-	    		    text: 'Old Password does not exist !!!',
+	    		    text: 'Old Password does not exist !',
 	    		    type: 'error',
 	    		    animate: {
 	    		        animate: true,
@@ -470,7 +469,6 @@ console.log("in getalldepartments");
 			        	   "skills": $scope.newArt.newSkill,
 		        		    "userCredential": {
 		        		      "username": $scope.newUsername,
-		        		      "password": $scope.newAccountPassword
 		        		    },
 		        		    "address": {
 		        		      "city": $scope.newCity,
@@ -895,6 +893,38 @@ console.log("in getalldepartments");
 		    });
 	 }
 	 
+	 /* get history of operations performed by employee */
+	 $scope.getHistory= function() {
+
+	        $http({
+		           method : 'GET',
+		           url : REST_SERVICE_URI+'viewhistory',
+		           headers : {
+		                 'Content-Type' : 'application/json',
+		                 'authToken' : $cookieStore.get("authToken")
+		           },
+		           data : {
+		        	   		
+		                 }
+		    }).then(function successCallback(response) {
+		    	  
+		    	$rootScope.historyList = response.data.reverse();
+		    	$location.path("/viewHistory");
+		    	  
+		        //console.log($rootScope.historyList[2]);  
+		         
+		    }, function errorCallback(response) {
+		    	 
+		          
+		    });
+	 }
+	 
+	 /* find if empty */
+	 $scope.isEmpty = function (obj) {
+		    for (var i in obj) if (obj.hasOwnProperty(i)) return false;
+		    return true;
+		};
+	 
 }
 
 myApp.directive("formatDate", function(){
@@ -907,6 +937,13 @@ myApp.directive("formatDate", function(){
 		    }
 		  }
 		})
+		
+myApp.filter('dateToISO', function() {
+  return function(input) {
+    input = new Date(input).toISOString();
+    return input;
+  };
+});		
 
 myApp.controller('EMPController',EMPController);
 
@@ -951,6 +988,10 @@ myApp.config(function($routeProvider) {
 	.when('/viewProjects', {
 		controller: 'EMPController',
 		templateUrl: 'resources/views/view-projects.html'
+	})
+	.when('/viewHistory', {
+		controller: 'EMPController',
+		templateUrl: 'resources/views/extras-timeline.html'
 	})
     .otherwise({redirectTo: '/'})  
     
