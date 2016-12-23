@@ -7,10 +7,62 @@
           </div>
           <div class="panel-body">
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline no-footer">
+            	<div class="row" >
+            		<form class="form-inline" role="form" name="addProjectForm">
+					<div class="form-group">
+						<label class="col-md-2 control-label" style="width: 100px">Project Name</label>
+						<br>
+						<div class="col-md-4">
+							<input type="text" class="form-control" name="newProjectName" ng-model="newProjectName" required />
+							<div ng-messages="addProjectForm.newProjectName.$error" ng-if="addProjectForm.newProjectName.$dirty || addProjectForm.newProjectName.$touched">
+							  <div class="validate" ng-message="required" style="width: 130px">This field is required</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-2 control-label">Budget</label>
+						<br>
+						<div class="col-md-4">
+							<input type="number" class="form-control" name="newBudget" ng-model="newBudget" required/>
+							<div ng-messages="addProjectForm.newBudget.$error" ng-if="addProjectForm.newBudget.$dirty || addProjectForm.newBudget.$touched">
+							  <div class="validate" ng-message="required" style="width: 130px">This field is required</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-2 control-label" style="width: 100px">Start Date</label>
+						<br>
+						<div class="col-md-4">
+							<input type="date" class="form-control" name="newStartDate" ng-model="newStartDate" required/>
+							<div ng-messages="addProjectForm.newStartDate.$error" ng-if="addProjectForm.newStartDate.$dirty || addProjectForm.newStartDate.$touched">
+							  <div class="validate" ng-message="required" style="width: 130px">This field is required</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-2 control-label" style="width: 100px">End Date</label>
+						<br>
+						<div class="col-md-4">
+							<input type="date" class="form-control" name="newEndDate" ng-model="newEndDate" required/>
+							<div ng-messages="addProjectForm.newEndDate.$error" ng-if="addProjectForm.newEndDate.$dirty || addProjectForm.newEndDate.$touched">
+							  <div class="validate" ng-message="required" style="width: 130px">This field is required</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group" style="cursor: not-allowed;"> 								
+						<div style="padding-left:110px">
+							<input ng-disabled= "addProjectForm.$invalid" type="button" value="Add Project" class="btn btn-primary" ng-click="addProject()"/>
+						</div>
+					</div>
+				</form>
+            	</div>
+            	<hr>
                <div class="row">
 					<div class="col-sm-6">
 						
-						<div class="toolbar"></div>
+						<div class="toolbar">
+													
+						</div>
 					</div>
 					<div class="col-sm-6">
 						<div id="DataTables_Table_0_filter" class="dataTables_filter">
@@ -39,7 +91,7 @@
 		                </tr>
 		              </thead>
 		              <tbody>
-		                <tr dir-paginate="project in projectList|orderBy:sortKey:reverse|filter:search|itemsPerPage:5" role="row">
+		                <tr dir-paginate="project in projectList|orderBy:sortKey:reverse|filter:search|itemsPerPage:3" role="row">
 		                  <td>{{project.projectId}}</td>
 		                  <td>{{project.projectName}}</td>
 		                  <td>{{project.budget}}</td>
@@ -54,7 +106,7 @@
 		        </div>
 		         	<div class="datatable-bottom">					
 						<div class="pull-right">
-							<dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" ></dir-pagination-controls>
+							<dir-pagination-controls max-size="3" direction-links="true" boundary-links="true" ></dir-pagination-controls>
 						</div>
 					</div>   
 		      </div>      

@@ -73,6 +73,44 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 		}
 	}
 	
+	/* used to add a new project */
+	$scope.addProject = function () {
+	    
+		$http({
+	           method : 'POST',
+	           url : REST_SERVICE_URI+'addproject',
+	           headers : {
+	                 'Content-Type' : 'application/json',
+	                 'authToken' : $cookieStore.get("authToken")
+	           },
+	           data : {	
+	        	   	
+	        	   'projectName' : $scope.newProjectName,
+	        	   'budget' : $scope.newBudget,
+	        	   'startDate' : $scope.newStartDate,
+	        	   'endDate' : $scope.newEndDate
+	        	  
+	                 }
+	    }).then(function successCallback(response) {  
+
+	    	$route.reload();
+	    	bootbox.dialog({
+				  message: 'Project added successfully!',
+				  onEscape: function() { console.log("Ecsape"); },
+				  backdrop: true
+				});
+	    	
+	    }, function errorCallback(response) {
+	    	
+	    	bootbox.dialog({
+				  message: 'Project could not be added !',
+				  onEscape: function() { console.log("Ecsape"); },
+				  backdrop: true
+				});
+	    	
+		});
+	}
+	
 	/* used to sort list of users */
 	$scope.sort = function(keyname){
         $scope.sortKey = keyname;   //set the sortKey to the param passed
