@@ -16,15 +16,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.emp.dao.AdminDao;
-import com.emp.email.EmailAPI;
 import com.emp.entity.AuthTable;
 import com.emp.entity.Department;
 import com.emp.entity.Project;
 import com.emp.entity.Skill;
 import com.emp.entity.User;
 import com.emp.entity.UserCredential;
-import com.emp.operation.OperationImpl;
-import com.encryption.Encrypt;
+import com.emp.util.EmailAPI;
+import com.emp.util.Encrypt;
+import com.emp.util.OperationImpl;
 
 @Component("adminDao")
 public class AdminDaoImpl implements AdminDao {

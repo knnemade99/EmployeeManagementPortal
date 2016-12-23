@@ -15,7 +15,7 @@ import com.emp.entity.Salary;
 import com.emp.entity.Skill;
 import com.emp.entity.User;
 import com.emp.entity.UserCredential;
-import com.encryption.Encrypt;
+import com.emp.util.Encrypt;
 
 public class Main {
 	public static void main(String[] args) {
@@ -27,7 +27,7 @@ public class Main {
 		
 		/* Create Department */
 //		Department dept=new Department();
-//		dept.setDepartmentName("HR");
+//		dept.setDepartmentName("SUPPORT");
 		
 		
 		
@@ -48,10 +48,10 @@ public class Main {
 		
 		/* Create Projects */
 //		Project project =new Project();
-//		project.setBudget(1000000);
-//		project.setEndDate(new Date(2016,11,31));
-//		project.setProjectName("HDS");
-//		project.setStartDate(new Date(2016,0,1));
+//		project.setBudget(556000);
+//		project.setEndDate(new Date(2018,8,20));
+//		project.setProjectName("SAP DataMart");
+//		project.setStartDate(new Date(2009,9,19));
 		
 		
 		
@@ -66,49 +66,49 @@ public class Main {
 		
 		
 		/* create users */
-//		User user=new User();
-//		user.setAbout("I am Kunal Nemade. I belongs to Indore");
-//			Address address=new Address();
-//			address.setCity("Indore");
-//			address.setCountry("India");
-//			address.setState("Madhya Pradesh");
-//			address.setZip(452010);
-//		user.setAddress(address);
-//		user.setContact(7697599287l);
-//			Department department=s.get(Department.class, 1);
-//		user.setDepartment(department);
-//		user.setDesignation("Administrator");
-//		user.setDob(new Date(1994,7,31));
-//		user.setDoj(new Date());
-//		user.setEmail("knnemade99@gmail.com");
-//		user.setExperience(10);
-//		user.setGender("Male");
-//		user.setLockStatus("unlock");
-//		user.setMaritalStatus("single");
-//		user.setName("Kunal");
+		User user=new User();
+		user.setAbout("I am Adminitrator of this Employee Management Portal made for Xoriant Solutions Pune");
+			Address address=new Address();
+			address.setCity("Pune");
+			address.setCountry("India");
+			address.setState("Maharashtra");
+			address.setZip(411030);
+		user.setAddress(address);
+		user.setContact(7697599287l);
+			Department department=s.get(Department.class, 1);
+		user.setDepartment(department);
+		user.setDesignation("Administrator");
+		user.setDob(new Date(1994-1900,7,31));
+		user.setDoj((new Date(2016-1900,5,20)));
+		user.setEmail("urban.xoriant@gmail.com");
+		user.setExperience(10);
+		user.setGender("Male");
+		user.setLockStatus("unlock");
+		user.setMaritalStatus("Married");
+		user.setName("Urban Xoriant");
 //			Project project=s.get(Project.class, 1);
 //		user.setProject(project);
-//			Salary salary=new Salary();
-//			salary.setBasic(50000);
-//			salary.setHra(6000f);
-//			salary.setLta(1250);
-//		user.setSalary(salary);
-//		user.setUsertype("Admin");
-//			UserCredential uc=new UserCredential();
-//			uc.setUsername("admin");
-//			uc.setPassword(Encrypt.encrypt("1234"));
-//		user.setUserCredential(uc);
-//			List<Skill> skills=new ArrayList<Skill>();
-//			skills.add(s.get(Skill.class, 1));
-//			skills.add(s.get(Skill.class, 2));
-//		user.setSkills(skills);
+			Salary salary=new Salary();
+			salary.setBasic(5000000);
+			salary.setHra(12000f);
+			salary.setLta(12500);
+		user.setSalary(salary);
+		user.setUsertype("Admin");
+			UserCredential uc=new UserCredential();
+			uc.setUsername("urban");
+			uc.setPassword(Encrypt.encrypt("123456"));
+		user.setUserCredential(uc);
+			List<Skill> skills=new ArrayList<Skill>();
+			skills.add(s.get(Skill.class, 1));
+			skills.add(s.get(Skill.class, 2));
+		user.setSkills(skills);
 
 		
 		
 		
 		/* Create Skills */
 //		Skill skill=new Skill();
-//				skill.setSkillName("Ruby");
+//				skill.setSkillName("Hibernate");
 		
 		
 		
@@ -131,8 +131,9 @@ public class Main {
 		
 
 		try{	
-//			s.save(uc);
-//			s.save(user);
+			s.save(uc);
+			s.save(user);
+//			System.out.println(user);
 //			s.save(skill);
 //			s.persist(skill);
 			

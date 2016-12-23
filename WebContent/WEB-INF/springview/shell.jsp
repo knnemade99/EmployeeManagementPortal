@@ -117,38 +117,38 @@
 					<!-- /User Management  -->
 					
 					<!-- Add Employee -->
-					<li ng-if="getUserType()=='Admin'"><a href="#/addEmployee"> <i class="fa fa-toggle-on"></i>
+					<li ng-if="getUserType()=='Admin'"><a href="#/addEmployee"> <i class="fa fa-plus-circle"></i>
 							<span>Add Employee</span>
 					</a></li>
 					<!-- /Add Employee  -->
 
 					<!-- Profile -->
-					<li><a href="#/viewProfile"> <i class="fa fa-tag"></i> <span>Profile</span>
+					<li><a href="#/viewProfile"> <i class="fa fa-eye"></i> <span>Profile</span>
 					</a></li>
 					<!-- /Profile -->
 					
 					<!-- Profile -->
-					<li ng-if="getUserType()=='Admin'"><a href="#/viewProjects"> <i class="fa fa-tag"></i> <span>View Projects</span>
+					<li ng-if="getUserType()=='Admin'"><a href="#/viewProjects"> <i class="fa fa-film"></i> <span>View Projects</span>
 					</a></li>
 					<!-- /Profile -->
 					
 					<!-- History -->
-					<li><a ng-click="getHistory()"> <i class="fa fa-tag"></i> <span>View History</span>
+					<li><a ng-click="getHistory()"> <i class="fa fa-history"></i> <span>View History</span>
 					</a></li>
 					<!-- /History -->
 					
 					<!-- Edit Profile -->
-					<li><a href="#/editProfile"> <i class="fa fa-tag"></i> <span>Edit Profile</span>
+					<li><a href="#/editProfile"> <i class="fa fa-pencil"></i> <span>Edit Profile</span>
 					</a></li>
 					<!-- /Edit Profile -->
 
 					<!-- Change Password -->
-					<li><a href="#changePassword"> <i class="fa fa-tint"></i> <span>Change Password</span>
+					<li><a href="#changePassword"> <i class="fa fa-key"></i> <span>Change Password</span>
 					</a></li>
 					<!-- /Change Password -->
 
 					<!-- Logout -->
-					<li><a ng-click="logout()"> <i class="fa fa-map-marker"></i> <span>Logout</span>
+					<li><a ng-click="logout()"> <i class="fa fa-sign-out"></i> <span>Logout</span>
 					</a></li>
 				</ul>
 			</nav>

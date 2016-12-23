@@ -65,7 +65,7 @@
                     <input type="text" class="form-control" id="name" ng-model="name" ng-value="name" name="name" ng-minlength="5" ng-maxlength="20" required>
                     <div ng-messages="addEmpForm.name.$error" ng-if="addEmpForm.name.$dirty || addEmpForm.name.$touched">
 						  <div class="validate" ng-message="required">This field is required</div>
-						  <div class="validate" ng-message="minlength">Must be grater than 5 characters</div>
+						  <div class="validate" ng-message="minlength">Must be greater than 5 characters</div>
 						  <div class="validate" ng-message="maxlength">Must be less than 10 characters</div>
 					</div>
                   </div>
@@ -117,7 +117,7 @@
                     <textarea class="form-control" rows="3" ng-model="about" name="about" ng-minlength="10" ng-maxlength="100" required></textarea>
                     <div ng-messages="addEmpForm.about.$error" ng-if="addEmpForm.about.$dirty || addEmpForm.about.$touched">
 						  <div class="validate" ng-message="required">This field is required</div>
-						  <div class="validate" ng-message="minlength">Must be grater than 10 characters</div>
+						  <div class="validate" ng-message="minlength">Must be greater than 10 characters</div>
 						  <div class="validate" ng-message="maxlength">Must be less than 100 characters</div>
 					</div>
                   </div>
@@ -205,7 +205,7 @@
                   <label class="col-sm-2 control-label">Department</label>
                   <div class="col-sm-4">
                     <select name ="newDepartment" disabled ng-model="department.departmentName" ng-value="department.departmentName" class="form-control chosen" style="width: 100%;" >
-                    	<option ng-repeat="department in departments">{{department.departmentName}}</option>
+                    	<option >{{department.departmentName}}</option>
                     </select>
                   </div>
                   <label class="col-sm-2 control-label">Basic Salary</label>
@@ -219,7 +219,7 @@
                   <label class="col-sm-2 control-label">Project</label>
                   <div class="col-sm-4">
                     <select name ="newProject" disabled ng-model="project.projectName" ng-value="project.projectName" class="form-control chosen" style="width: 100%;">
-                    <option ng-repeat="project in projects">{{project.projectName}}</option>
+                    <option >{{project.projectName}}</option>
                     </select>
                   </div>
                   <label class="col-sm-2 control-label">HRA</label>
@@ -276,4 +276,4 @@
       </div>
       <!-- /main area -->
     
-[]   
+   

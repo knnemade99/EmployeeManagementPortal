@@ -10,9 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import com.emp.dao.IndexDao;
-import com.emp.email.EmailAPI;
 import com.emp.entity.User;
 import com.emp.entity.UserCredential;
+import com.emp.util.EmailAPI;
 
 @Component("indexDao")
 public class IndexDaoImpl implements IndexDao {

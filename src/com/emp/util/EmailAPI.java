@@ -1,4 +1,4 @@
-package com.emp.email;
+package com.emp.util;
 
 import javax.mail.internet.MimeMessage;
 

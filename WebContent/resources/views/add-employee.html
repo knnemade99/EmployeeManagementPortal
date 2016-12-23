@@ -47,7 +47,7 @@
                     <input type="text" class="form-control" id="namefield" ng-model="newUsername" name="newUsername" ng-minlength="5" ng-maxlength="10" required>
                     <div ng-messages="addEmpForm.newUsername.$error" ng-if="addEmpForm.newUsername.$dirty || addEmpForm.newUsername.$touched">
 					  <div class="validate" ng-message="required">This field is required</div>
-					  <div class="validate" ng-message="minlength">Must be grater than 5 characters</div>
+					  <div class="validate" ng-message="minlength">Must be greater than 5 characters</div>
 					  <div class="validate" ng-message="maxlength">Must be less than 10 characters</div>
 					</div>
                   </div>
@@ -66,7 +66,7 @@
                     <input type="text" class="form-control" name="newName" id="newName" ng-model="newName"  ng-minlength="5" ng-maxlength="20" required>
 	                 <div ng-messages="addEmpForm.newName.$error" ng-if="addEmpForm.newName.$dirty || addEmpForm.newName.$touched">
 						  <div class="validate" ng-message="required">This field is required</div>
-						  <div class="validate" ng-message="minlength">Must be grater than 5 characters</div>
+						  <div class="validate" ng-message="minlength">Must be greater than 5 characters</div>
 						  <div class="validate" ng-message="maxlength">Must be less than 10 characters</div>
 					</div>
                   </div>
@@ -112,7 +112,7 @@
                     <textarea class="form-control" rows="3" id="newAbout" name="newAbout" ng-model="newAbout" ng-minlength="10" ng-maxlength="100" required></textarea>
                      <div ng-messages="addEmpForm.newAbout.$error" ng-if="addEmpForm.newAbout.$dirty || addEmpForm.newAbout.$touched">
 						  <div class="validate" ng-message="required">This field is required</div>
-						  <div class="validate" ng-message="minlength">Must be grater than 10 characters</div>
+						  <div class="validate" ng-message="minlength">Must be greater than 10 characters</div>
 						  <div class="validate" ng-message="maxlength">Must be less than 100 characters</div>
 					</div>
                   </div>

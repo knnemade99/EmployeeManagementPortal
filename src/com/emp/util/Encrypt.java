@@ -1,4 +1,4 @@
-package com.encryption;
+package com.emp.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.emp.dao.UserDao;
-import com.emp.email.EmailAPI;
 import com.emp.entity.Address;
 import com.emp.entity.AuthTable;
 import com.emp.entity.Department;
@@ -24,8 +23,9 @@ import com.emp.entity.Operations;
 import com.emp.entity.Skill;
 import com.emp.entity.User;
 import com.emp.entity.UserCredential;
-import com.emp.operation.OperationImpl;
-import com.encryption.Encrypt;
+import com.emp.util.EmailAPI;
+import com.emp.util.Encrypt;
+import com.emp.util.OperationImpl;
 
 @Component("userDao")
 public class UserDaoImpl implements UserDao {
@@ -60,7 +60,7 @@ public class UserDaoImpl implements UserDao {
 		Query query2 = session.createQuery(hql2);
 		List<User> results2 = query2.list();
 		
-		System.out.println(results+"\t"+results2);
+		//System.out.println(results+"\t"+results2);
 		
 		if(!results.isEmpty()&&!results2.isEmpty()){
 			UserCredential usercredential=results.get(0);
@@ -135,7 +135,7 @@ public class UserDaoImpl implements UserDao {
 			User user=authtable.getUser();
 			UserCredential usercredential=session.get(UserCredential.class, user.getUserCredential().getUsername());
 			String pass=Encrypt.encrypt(oldPassword);
-			System.out.println(oldPassword+newPassword+pass+usercredential.getPassword());
+			//System.out.println(oldPassword+newPassword+pass+usercredential.getPassword());
 			if(pass.equals(usercredential.getPassword())){
 				
 				usercredential.setPassword(Encrypt.encrypt(newPassword));
@@ -194,7 +194,7 @@ public class UserDaoImpl implements UserDao {
 			session.update(usercredential);
 			
 			/* sends new password on email */
-			String message="The new password is : "+pwd+"\nIt iss strongly recommended to change your password after login with this password";
+			String message="The new password is : "+pwd+"\nIt is strongly recommended to change your password after login with this password";
 			this.email.sendEmail(recoveryEmail , "New Password" , message);
 			
 			/* entry in operation table */
