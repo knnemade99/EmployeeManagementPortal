@@ -96,14 +96,13 @@
                   <div class="col-sm-4">
                     <input type="date" disabled style="cursor: not-allowed;" name="dob" ng-model="dob" ng-value="dob" style="width: 100%;" format-date>
                   </div>
-                  <label class="col-sm-2 control-label">Marital Status<span style="color:red;">*</span></label>                                                      
-                  
-                  <div class="col-sm-4" ng-if="maritalStatus == 'Unmarried' ">
+                  <label class="col-sm-2 control-label">Marital Status<span style="color:red;">*</span></label>                                                                        
+                  <div class="col-sm-4">
                     <div class="radio">
-					  <label><input type="radio" name="newMaritalStatus" class="control-label" required>Married</label>
+					  <label><input type="radio" name="newMaritalStatus" ng-model="newMaritalStatus" class="control-label" value="Married" required>Married</label>
 					</div>
 					<div class="radio">
-					  <label><input type="radio" name="newMaritalStatus" class="control-label" required>Unmarried</label>
+					  <label><input type="radio" name="newMaritalStatus" ng-model="newMaritalStatus" class="control-label" value="Unmarried" required>Unmarried</label>
 					</div>
 					<div ng-messages="addEmpForm.newMaritalStatus.$error" ng-if="addEmpForm.newMaritalStatus.$dirty || addEmpForm.newMaritalStatus.$touched">
 					  <div class="validate" ng-message="required">This field is required</div>

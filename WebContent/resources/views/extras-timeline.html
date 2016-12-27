@@ -5,10 +5,12 @@
         <div class="timeline" ng-controller="EMPController" ng-init="getHistory()">
 			
 			<div ng-if="!isEmpty(historyList)">
-	          <div class="timeline-panel" ng-repeat="history in historyList">
+<!-- 			 <div infinite-scroll='timelineScroll()' infinite-scroll-disabled='busy' infinite-scroll-distance='1'> -->
+	          <div class="timeline-panel" ng-repeat="history in historyList track by $index">
 	           
 		            <div class="timeline-icon bg-primary">
 		              <i class="fa fa-calendar"></i>
+<!-- 		              <div ng-show='busy' style="color: black;">Loading data...</div> -->
 		            </div>
 		
 		            <section class="timeline-content" style="background: #f0f0f0;">
@@ -20,6 +22,9 @@
 		              <div class="timeline-date"><span>{{history.timestamp | dateToISO | date:'shortTime'}}</span></div>
 		            </section>		       		       		        
 	          </div>
+	          
+<!-- 	          </div> -->
+	          
 	          </div>
 	          
 	          <div ng-if="isEmpty(historyList)">

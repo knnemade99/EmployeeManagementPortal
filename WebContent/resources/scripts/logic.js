@@ -1,6 +1,6 @@
-var myApp = angular.module('myApp', ['ngRoute', 'ngCookies', 'checklist-model' , 'angularUtils.directives.dirPagination' , 'ngMessages' , 'jlareau.pnotify'] );
+var myApp = angular.module('myApp', ['ngRoute', 'ngCookies', 'checklist-model' , 'angularUtils.directives.dirPagination' , 'ngMessages' , 'jlareau.pnotify' , 'infinite-scroll'] );
 
-function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,notificationService) {
+function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,notificationService, $timeout ){
 
 	var REST_SERVICE_URI="http://localhost:9091/EmployeeManagementPortal/";
 
@@ -115,6 +115,14 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 		}
 	}
 
+	/* used to return login page */
+	$scope.returnLogin = function(){
+		if($cookieStore.get("authToken")!=null)
+			$location.path("/viewProfile");
+		else
+			$location.path("/");
+	}
+	
 	/* used to sort list of users */
 	$scope.sort = function(keyname){
 		$scope.sortKey = keyname;   //set the sortKey to the param passed
@@ -280,7 +288,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 		}
 	}
 
-	/* check for login */
+	/* check for userType */
 	$scope.getUserType= function() {
 		if($cookieStore.get("authToken")!=null){
 			return $cookieStore.get("usertype");
@@ -427,6 +435,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 			$location.path("/");
 		}
 	}
+
 
 
 	/* forgot password */
@@ -594,8 +603,19 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 				$location.path("/getAllUsers");
 	
 			}, function errorCallback(response) {
-	
-	
+				PNotify.removeAll();
+				new PNotify({
+					title: 'Uh Oh!',
+					text: 'Username/email already exists !',
+					type: 'error',
+					animate: {
+						animate: true,
+						in_class: 'bounceInDown',
+						out_class: 'hinge'
+					},
+					delay:2000
+				});
+				
 			});
 		}
 		else{
@@ -921,7 +941,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 					"name": $scope.name,
 					"about": $scope.about,
 					"contact": $scope.contact,
-					"maritalStatus": $scope.maritalStatus,
+					"maritalStatus": $scope.newMaritalStatus,
 					"experience": $scope.experience
 				}
 			}).then(function successCallback(response) {
@@ -1011,6 +1031,37 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 		}
 	}
 
+//	$scope.busy = false;
+//	
+//	console.log("Busy variable before function call: "+$scope.busy);
+//	
+//	$scope.timelineScroll = function(){
+//		if($cookieStore.get("authToken")!=null){
+//			
+//			$scope.temp=0;
+//			$scope.busy = true;
+//			console.log("Busy variable after first change in timeline scroll: "+$scope.busy);
+//			for(var i=$scope.count; $scope.temp<2 ; i++){
+//				if(i<=$rootScope.historyList.length-1){
+//					$rootScope.historySetter.newHistoryList.push($rootScope.historyList[i]);
+//					$scope.temp=$scope.temp+1;
+//				}
+//				else{
+//					break;
+//				}
+//			}
+//			$scope.count+=3;
+//			//$timeout(null, 2000);
+//			$scope.busy = false;
+//			console.log("Busy variable after second change in timeline scroll: "+$scope.busy);
+//			
+//		}
+//		else{
+//			$location.path("/");
+//		}
+//		
+//	}
+	
 	/* get history of operations performed by employee */
 	$scope.getHistory= function() {
 		if($cookieStore.get("authToken")!=null){
@@ -1026,7 +1077,12 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 				}
 			}).then(function successCallback(response) {
 	
-				$rootScope.historyList = response.data.reverse();
+				$rootScope.historyList = response.data.reverse();	
+//				$rootScope.historySetter = {
+//						newHistoryList: []
+//				};
+//				$scope.count=0;
+//				$scope.timelineScroll();
 				$location.path("/viewHistory");
 	
 				//console.log($rootScope.historyList[2]);  
@@ -1070,7 +1126,7 @@ myApp.filter('dateToISO', function() {
 myApp.controller('EMPController',EMPController);
 
 myApp.config(function($routeProvider) {
-	$routeProvider  
+	$routeProvider
 	.when('/', {
 		controller: 'EMPController',
 		templateUrl: 'resources/views/login.html'
@@ -1087,9 +1143,9 @@ myApp.config(function($routeProvider) {
 		controller: 'EMPController',
 		templateUrl: 'resources/views/lockscreen.html'
 	})
-	.when('/forgotPassword', {
+	.when('/forgotPassword1', {
 		controller: 'EMPController',
-		templateUrl: 'resources/views/forgotPassword.html'
+		templateUrl: 'resources/views/forgotPassword1.html'
 	})
 	.when('/changePassword', {
 		controller: 'EMPController',

@@ -15,6 +15,7 @@
 <script src="resources/vendor/angular/angular-route.min.js"> </script>
 <script src="resources/vendor/angular/angular-cookies.min.js"> </script>
 <script src="resources/scripts/angular-messages.js"> </script>
+<script src="resources/scripts/infinite-scroll.js"> </script>
 <script src="resources/scripts/pnotify.js"></script>
 <script src="resources/scripts/pnotify.confirm.js"></script>
 <script src="resources/scripts/pnotify.buttons.js"></script>
@@ -206,7 +207,7 @@
 			</header>
 			
 			<!-- main area -->
-	 			<div ng-view="" class="main-content">
+	 			<div ng-view="" class="main-content" ng-init="returnLogin()">
 	 				
  				</div>
 			<!-- /main area -->
