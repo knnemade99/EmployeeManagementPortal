@@ -9,8 +9,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -27,7 +27,10 @@ import com.emp.util.Encrypt;
 import com.emp.util.OperationImpl;
 
 @Component("userDao")
-@PropertySource("classpath:hibernate.properties")
+@PropertySource({
+	"classpath:email.properties",
+	"classpath:messages.properties"
+})
 public class UserDaoImpl implements UserDao {
 	
 	@Autowired
@@ -35,13 +38,13 @@ public class UserDaoImpl implements UserDao {
 
 	@Autowired
 	EmailAPI email;
-	
-	
+
+	@Autowired
+	private Environment env;
 	
 	/* User Login */
 	@Override
 	public AuthTable login(Map<String, String> logincredentials) {
-
 		final	String username=logincredentials.get("username");
 		
 		/* encrypts password */
@@ -140,7 +143,7 @@ public class UserDaoImpl implements UserDao {
 				usercredential.setPassword(Encrypt.encrypt(newPassword));
 				session.update(usercredential);
 				
-				email.sendEmail(user.getEmail(), "Password Changed" , "Your Password has been changed successfully");
+				email.sendEmail(user.getEmail(), env.getProperty("email.password.changed.subject") , env.getProperty("email.password.changed.content"));
 				
 				/* entry in operation table */
 				OperationImpl operationImpl= new OperationImpl();
@@ -193,8 +196,8 @@ public class UserDaoImpl implements UserDao {
 			session.update(usercredential);
 			
 			/* sends new password on email */
-			String message="The new password is : "+pwd+"\nIt is strongly recommended to change your password after login with this password";
-			this.email.sendEmail(recoveryEmail , "New Password" , message);
+			String message=env.getProperty("email.password.forgot.content")+pwd;
+			this.email.sendEmail(recoveryEmail , env.getProperty("email.password.forgot.subject") , message);
 			
 			/* entry in operation table */
 			OperationImpl operationImpl= new OperationImpl();
