@@ -284,7 +284,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 			return $cookieStore.get("isLogged");
 		}
 		else{
-			$location.path("/");
+			return false;
 		}
 	}
 
@@ -294,7 +294,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 			return $cookieStore.get("usertype");
 		}
 		else{
-			$location.path("/");
+			return null;
 		}
 	}
 
@@ -304,7 +304,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 			return $cookieStore.get("name");
 		}
 		else{
-			$location.path("/");
+			return null;
 		}
 	}
 
@@ -314,7 +314,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 			return $cookieStore.get("usertype");
 		}
 		else{
-			$location.path("/");
+			return null;
 		}
 	}
 
@@ -648,7 +648,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 			});
 		}
 		else{
-			$locatin.path("/");
+			$location.path("/");
 		}
 	}
 
@@ -656,7 +656,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 	$scope.getUserId = function(uid){
 		$rootScope.delId = uid;
 	}
-
+	
 	/* to fetch id of project for delete function */
 	$scope.geProjectId = function(uid){
 		$rootScope.delProjectId = uid;
@@ -1077,7 +1077,10 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 				}
 			}).then(function successCallback(response) {
 	
-				$rootScope.historyList = response.data.reverse();	
+				if(response!=null)
+					$rootScope.historyList = response.data.reverse();
+				else
+					$rootScope.historyList = response.data.reverse;	
 //				$rootScope.historySetter = {
 //						newHistoryList: []
 //				};
@@ -1143,9 +1146,9 @@ myApp.config(function($routeProvider) {
 		controller: 'EMPController',
 		templateUrl: 'resources/views/lockscreen.html'
 	})
-	.when('/forgotPassword1', {
+	.when('/forgotPassword', {
 		controller: 'EMPController',
-		templateUrl: 'resources/views/forgotPassword1.html'
+		templateUrl: 'resources/views/forgotPassword.html'
 	})
 	.when('/changePassword', {
 		controller: 'EMPController',
@@ -1173,7 +1176,7 @@ myApp.config(function($routeProvider) {
 	})
 	.when('/error', {
 		controller: 'EMPController',
-		templateUrl: 'resources/views/extras-404.html'
+		templateUrl: 'resources/views/extras-500.html'
 	})
 	.otherwise({redirectTo: '/error'})  
 

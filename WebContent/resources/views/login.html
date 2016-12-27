@@ -12,7 +12,7 @@
 							<p class="text-center mb30">Welcome to Xoriant. Please sign
 								in to your account</p>
 							<div class="form-inputs">
-								<input type="text" class="form-control input-lg" placeholder="Username" ng-model="username" required autofocus name="username">
+								<input type="text" class="form-control input-lg" placeholder="Username" ng-model="username" required name="username">
 								<div ng-messages="loginForm.username.$error" ng-if="loginForm.username.$dirty || loginForm.username.$touched">
 					  				<div class="validate" ng-message="required">This field is required</div>
 								</div>
@@ -27,11 +27,12 @@
 									<span>Sign in</span>
 								</button>
 							</div>
-							<p>
-								<a href="#/forgotPassword1" >Forgot your password?</a>
-							</p>
 						</form>
-							
+							<div>
+								<p>
+									<a href="#/forgotPassword" >Forgot your password?</a>
+								</p>
+							</div>							
 					</div>
 				</div>
 			</div>

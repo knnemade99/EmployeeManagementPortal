@@ -38,7 +38,6 @@ public class UserDaoImpl implements UserDao {
 	
 	
 	/* User Login */
-	@Transactional()
 	@Override
 	public AuthTable login(Map<String, String> logincredentials) {
 		final	String username=logincredentials.get("username");
@@ -96,7 +95,6 @@ public class UserDaoImpl implements UserDao {
 	
 	/* User Logout */
 	@Override
-	@Transactional
 	public ResponseEntity<String> logout(String authToken) {
 		final	Session session=sessionFactory.openSession();
 		session.beginTransaction();
@@ -120,7 +118,6 @@ public class UserDaoImpl implements UserDao {
 	
 	/* Change Password */
 	@Override
-	@Transactional
 	public ResponseEntity<String> changePassword(String authToken, Map<String, String> passwords) {
 		final	Session session=sessionFactory.openSession();
 		

@@ -35,7 +35,6 @@ public class AdminDaoImpl implements AdminDao {
 	EmailAPI email;
 
 	/* Adds new Employee */
-	@Transactional
 	@Override
 	public ResponseEntity<User> addEmployee(User user, String authToken) {
 		
@@ -318,7 +317,6 @@ public class AdminDaoImpl implements AdminDao {
 	}
 	
 	/*Add new Skill */
-	@Transactional
 	@Override
 	public ResponseEntity<String> addSkill(String authToken , Skill skill) {
 		ResponseEntity<String> responseEntity=new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
@@ -347,7 +345,6 @@ public class AdminDaoImpl implements AdminDao {
 	}
 	
 	/*Add new Department */
-	@Transactional
 	@Override
 	public ResponseEntity<String> addDepartment(String authToken , Department newDepartment) {
 		ResponseEntity<String> responseEntity=new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
@@ -375,7 +372,6 @@ public class AdminDaoImpl implements AdminDao {
 	}
 	
 	/*Add new Project */
-	@Transactional
 	@Override
 	public ResponseEntity<String> addProject(String authToken , Project project) {
 		ResponseEntity<String> responseEntity=new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
@@ -404,7 +400,6 @@ public class AdminDaoImpl implements AdminDao {
 	}
 	
 	/* Delete a Project*/
-	@Transactional
 	@Override
 	public ResponseEntity<String> deleteProject(String authToken , int projectId) {
 		Session session=sessionFactory.openSession();

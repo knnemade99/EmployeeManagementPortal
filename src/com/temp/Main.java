@@ -26,8 +26,8 @@ public class Main {
 		s.beginTransaction();
 		
 		/* Create Department */
-//		Department dept=new Department();
-//		dept.setDepartmentName("SUPPORT");
+		Department dept=new Department();
+		dept.setDepartmentName("ADMIN");
 		
 		
 		
@@ -84,7 +84,7 @@ public class Main {
 		user.setExperience(10);
 		user.setGender("Male");
 		user.setLockStatus("unlock");
-		user.setMaritalStatus("Married");
+		user.setMaritalStatus("Unmarried");
 		user.setName("Urban Xoriant");
 //			Project project=s.get(Project.class, 1);
 //		user.setProject(project);
@@ -107,8 +107,8 @@ public class Main {
 		
 		
 		/* Create Skills */
-//		Skill skill=new Skill();
-//				skill.setSkillName("Hibernate");
+		Skill skill=new Skill();
+				skill.setSkillName("Spring");
 		
 		
 		
