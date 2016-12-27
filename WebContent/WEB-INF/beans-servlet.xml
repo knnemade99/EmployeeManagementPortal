@@ -12,16 +12,32 @@
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 	<mvc:annotation-driven />
 
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+	<property name="packagesToScan" value="com.emp.entity" />
+		<property name="hibernateProperties">
+			<map>
+			    <entry key="hibernate.connection.driver_class" value="${jdbc.hibernate.connection.driver}"/>
+	            <entry key="hibernate.connection.username" value="${jdbc.hibernate.connection.username}" />
+	            <entry key="hibernate.connection.password" value="${jdbc.hibernate.connection.password}" />
+	            <entry key="hibernate.connection.url" value="${jdbc.hibernate.connection.url}" />
+	            <entry key="hibernate.dialect" value="${jdbc.hibernate.connection.dialect}" /> 
+ 	            <entry key="hibernate.hbm2ddl.auto" value="${jdbc.hibernate.hbm2ddl.auto}" /> 
+ 	            <entry key="hibernate.show_sql" value="${jdbc.hibernate.show_sql}" /> 
+	            <entry key="transaction.factory_class" value="org.hibernate.transaction.JDBCTransactionFactory" />            
+        	</map>            
+        </property>
+	</bean>
+
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/springview/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="smtp.gmail.com" />
-		<property name="port" value="587" />
-		<property name="username" value="urban.xoriant@gmail.com" />
-		<property name="password" value="Xoriant123#" />
+		<property name="host" value="${email.host}" />
+		<property name="port" value="${email.port}" />
+		<property name="username" value="${email.username}" />
+		<property name="password" value="${email.password}" />
 
 		<!-- The name of the property, following JavaBean naming conventions -->
 		<property name="javaMailProperties">
@@ -46,6 +62,8 @@
 			</bean>
 		</mvc:interceptor>
 	</mvc:interceptors>
+	
+<context:property-placeholder location="classpath:hibernate.properties,classpath:messages.properties,classpath:email.properties" />
 
 	<context:component-scan base-package="com.emp.controller" />
 	<context:component-scan base-package="com.emp.serviceImpl" />

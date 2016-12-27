@@ -18,8 +18,9 @@ import com.emp.util.EmailAPI;
 public class IndexDaoImpl implements IndexDao {
 	
 
-	public SessionFactory sessionFactory=new Configuration().configure().buildSessionFactory();
-
+	@Autowired
+	public SessionFactory sessionFactory;
+	
 	@Autowired
 	EmailAPI email;
 

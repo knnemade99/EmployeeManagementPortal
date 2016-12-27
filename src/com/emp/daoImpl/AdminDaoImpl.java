@@ -29,7 +29,8 @@ import com.emp.util.OperationImpl;
 @Component("adminDao")
 public class AdminDaoImpl implements AdminDao {
 
-	public final SessionFactory sessionFactory=new Configuration().configure().buildSessionFactory();
+	@Autowired
+	public SessionFactory sessionFactory;
 
 	@Autowired
 	EmailAPI email;

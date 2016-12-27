@@ -8,17 +8,16 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.emp.dao.UserDao;
 import com.emp.entity.Address;
 import com.emp.entity.AuthTable;
-import com.emp.entity.Department;
 import com.emp.entity.Operations;
 import com.emp.entity.Skill;
 import com.emp.entity.User;
@@ -28,18 +27,21 @@ import com.emp.util.Encrypt;
 import com.emp.util.OperationImpl;
 
 @Component("userDao")
+@PropertySource("classpath:hibernate.properties")
 public class UserDaoImpl implements UserDao {
 	
-	public final SessionFactory sessionFactory=new Configuration().configure().buildSessionFactory();
-	
+	@Autowired
+	public SessionFactory sessionFactory;
 
 	@Autowired
 	EmailAPI email;
 	
 	
+	
 	/* User Login */
 	@Override
 	public AuthTable login(Map<String, String> logincredentials) {
+
 		final	String username=logincredentials.get("username");
 		
 		/* encrypts password */
