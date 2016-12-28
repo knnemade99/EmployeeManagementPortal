@@ -11,6 +11,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -22,13 +23,16 @@ import com.emp.entity.Operations;
 import com.emp.entity.Skill;
 import com.emp.entity.User;
 import com.emp.entity.UserCredential;
+import com.emp.exceptions.ManualException;
+import com.emp.pojos.ChangePasswordPOJO;
+import com.emp.pojos.UserCredentialPOJO;
 import com.emp.util.EmailAPI;
 import com.emp.util.Encrypt;
 import com.emp.util.OperationImpl;
 
 @Component("userDao")
 @PropertySource({
-	"classpath:email.properties",
+	"classpath:email.properties"
 })
 public class UserDaoImpl implements UserDao {
 	
@@ -43,293 +47,341 @@ public class UserDaoImpl implements UserDao {
 	
 	/* User Login */
 	@Override
-	public AuthTable login(Map<String, String> logincredentials) {
-		final	String username=logincredentials.get("username");
-		
-		/* encrypts password */
-		String password=Encrypt.encrypt(logincredentials.get("password"));
-		
+	public AuthTable login(UserCredentialPOJO logincredentials) throws ManualException {
 		AuthTable authtable=new AuthTable();
-		
 		Session session=sessionFactory.openSession();
-		session.beginTransaction();
-
-		/* getting credentials for the user if exist */
-		String hql = "FROM usercredential where username='"+username+"' and password='"+password+"'";
-		Query query = session.createQuery(hql);
-		List<UserCredential> results = query.list();
+		try{
+				logincredentials.getUsername();
+				session.beginTransaction();
 		
-		String hql2 = "FROM user where username='"+username+"'";
-		Query query2 = session.createQuery(hql2);
-		List<User> results2 = query2.list();
-		
-		//System.out.println(results+"\t"+results2);
-		
-		if(!results.isEmpty()&&!results2.isEmpty()){
-			UserCredential usercredential=results.get(0);
-			User user = results2.get(0);
-			
-			int randomPIN = (int)(Math.random()*9000)+1000;
-			
-			/* generate the authentication token for the user */
-			String authToken=Encrypt.encrypt(randomPIN+usercredential.getUsername()+usercredential.getPassword());
-			
-			 authtable.setAuthToken(authToken);
-			 authtable.setUser(user);
+				/* getting credentials for the user */
+				String hql = "FROM usercredential where username='"+logincredentials.getUsername()+"' and password='"+logincredentials.getPassword()+"'";
+				Query query = session.createQuery(hql);
+				List<UserCredential> results = query.list();
 				
-
-			/* Deletes all previous entries for the user from autable if Exist*/ 
-			hql = "delete FROM authtable where employeeId= :empId" ;
-			query = session.createQuery(hql);
-			query.setInteger("empId", user.getEmpId());
-			query.executeUpdate();
+				/* checks if usercredentials exist  */
+				if(!results.isEmpty()){
+					
+					/* getting user record for the user credential */
+					String hql2 = "FROM user where username='"+results.get(0).getUsername()+"'";
+					Query query2 = session.createQuery(hql2);
+					List<User> results2 = query2.list();
+					
+					/* checks if user exists or not */
+					if(!results2.isEmpty()){
+						UserCredential usercredential=results.get(0);
+						User user = results2.get(0);
+						
+						int randomPIN = (int)(Math.random()*9000)+1000;
+						
+						/* generate the authentication token for the user */
+						String authToken=Encrypt.encrypt(randomPIN+usercredential.getUsername()+usercredential.getPassword());
+						
+						authtable.setAuthToken(authToken);
+						authtable.setUser(user);
+							
 			
-			/* creates new entry in the authtable for the user */
-			session.save(authtable);
-			
-			session.getTransaction().commit();
+						/* Deletes all previous entries for the user from autable if Exist*/ 
+						hql = "delete FROM authtable where employeeId= :empId" ;
+						query = session.createQuery(hql);
+						query.setInteger("empId", user.getEmpId());
+						query.executeUpdate();
+						
+						/* creates new entry in the authtable for the user */
+						session.save(authtable);
+					}
+					else{
+						authtable=null;
+					}
+				}
+				else{
+					authtable=null;
+				}
 		}
-		else{
-			
+		catch(Exception e){
+			System.out.println(e.toString());
 			authtable=null;
 		}
-		return authtable;
+		finally{
+			session.getTransaction().commit();
+			session.close();
+			return authtable;
+		}
 	}
 	
 	
 	/* User Logout */
 	@Override
-	public ResponseEntity<String> logout(String authToken) {
+	public ResponseEntity<String> logout(String authToken) throws DataAccessException , ManualException {
 		final	Session session=sessionFactory.openSession();
-		session.beginTransaction();
-		
-		/* Deletes all previous entries for the user from autable if Exist*/ 
-		String hql = "delete FROM authtable where authToken= :authToken" ;
-		Query query = session.createQuery(hql);
-		query.setString("authToken", authToken);
-		int numberOfRowsDeleted=query.executeUpdate();
-		session.getTransaction().commit();
-		session.close();
-		
-		if(numberOfRowsDeleted>0){
-			return new ResponseEntity<String>(HttpStatus.OK);
+		ResponseEntity responseEntity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		try{
+			session.beginTransaction();
+			
+			/* Deletes all previous entries for the user from autable if Exist*/ 
+			String hql = "delete FROM authtable where authToken= :authToken" ;
+			Query query = session.createQuery(hql);
+			query.setString("authToken", authToken);
+			int numberOfRowsDeleted=query.executeUpdate();
+					
+			if(numberOfRowsDeleted>0){
+				responseEntity= new ResponseEntity<String>(HttpStatus.OK);
+			}
+			else{
+				responseEntity= new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+			}
 		}
-		else{
-			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		catch(Exception e){
+			
+			responseEntity=null;
+		}
+		finally{
+			session.getTransaction().commit();
+			session.close();
+			return responseEntity;
 		}
 	}
 	
 	
 	/* Change Password */
 	@Override
-	public ResponseEntity<String> changePassword(String authToken, Map<String, String> passwords) {
+	public ResponseEntity<String> changePassword(String authToken, ChangePasswordPOJO passwords) throws DataAccessException, ManualException {
 		final	Session session=sessionFactory.openSession();
 		
-		String oldPassword=passwords.get("oldPassword");
-		String newPassword=passwords.get("newPassword");
-		ResponseEntity<String> responseEntity;
-		session.beginTransaction();
+		ResponseEntity<String> responseEntity =new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		
-		 
-		AuthTable authtable=session.get(AuthTable.class, authToken);
-		if(authtable!=null){
-			User user=authtable.getUser();
-			UserCredential usercredential=session.get(UserCredential.class, user.getUserCredential().getUsername());
-			String pass=Encrypt.encrypt(oldPassword);
-			//System.out.println(oldPassword+newPassword+pass+usercredential.getPassword());
-			if(pass.equals(usercredential.getPassword())){
+		try{
+			session.beginTransaction();
+			
+			AuthTable authtable=session.get(AuthTable.class, authToken);
+			if(authtable!=null){
+				User user=authtable.getUser();
+				UserCredential usercredential=session.get(UserCredential.class, user.getUserCredential().getUsername());
 				
-				usercredential.setPassword(Encrypt.encrypt(newPassword));
-				session.update(usercredential);
-				
-				email.sendEmail(user.getEmail(), env.getProperty("email.password.changed.subject") , env.getProperty("email.password.changed.content"));
-				
-				/* entry in operation table */
-				OperationImpl operationImpl= new OperationImpl();
-				operationImpl.addOperation(session, user, "Changed Password");
-				
-				responseEntity=new ResponseEntity<String>(HttpStatus.OK);
+				if(passwords.getOldPassword().equals(usercredential.getPassword())){
+					
+					usercredential.setPassword(passwords.getNewPassword());
+					session.update(usercredential);
+					
+					email.sendEmail(user.getEmail(), env.getProperty("email.password.changed.subject") , env.getProperty("email.password.changed.content"));
+					
+					/* entry in operation table */
+					OperationImpl operationImpl= new OperationImpl();
+					operationImpl.addOperation(session, user, "Changed Password");
+					
+					responseEntity=new ResponseEntity<String>(HttpStatus.OK);
+				}
+				else{
+					responseEntity=new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
+				}
 			}
 			else{
-				responseEntity=new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
+				responseEntity=new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 			}
+			
 		}
-		else{
+		catch(Exception e){
 			responseEntity=new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
-		session.getTransaction().commit();
-		session.close();
-		return responseEntity;
-		
+		finally{
+			session.getTransaction().commit();
+			session.close();
+			return responseEntity;
+		}
 	}
 
 
 	/* Forget Password */
 	@Override
-	public ResponseEntity<String> forgetPassword(Map<String, String> email) {
+	public ResponseEntity<String> forgetPassword(String email) throws DataAccessException, ManualException{
 		final	Session session=sessionFactory.openSession();
 		
-		String recoveryEmail=email.get("email");
+		String recoveryEmail=email;
 		
-		ResponseEntity<String> responseEntity;
-		
-		session.beginTransaction();
-		
-		/* gets user with this email */
-		String hql = "FROM user where email= :email" ;
-		Query query = session.createQuery(hql);
-		query.setString("email", recoveryEmail);
-		List<User> users=query.list();
-		
-		/* checks if user exist or not */
-		if(users!=null){
-			User user = (User)query.list().get(0);
-			UserCredential usercredential = session.get(UserCredential.class, user.getUserCredential().getUsername());
+		ResponseEntity<String> responseEntity=new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		System.out.println(recoveryEmail);
+		try{
+			session.beginTransaction();
 			
-			/* generates new password */
-			String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@_$!#";
-			String pwd = RandomStringUtils.random( 15, characters );
+			/* gets user with this email */
+			String hql = "FROM user where email= :email" ;
+			Query query = session.createQuery(hql);
+			query.setString("email", recoveryEmail);
+			List<User> users=query.list();
 			
-			/* stores new password in database */
-			usercredential.setPassword(Encrypt.encrypt(pwd));
-			session.update(usercredential);
-			
-			/* sends new password on email */
-			String message=env.getProperty("email.password.forgot.content")+pwd;
-			this.email.sendEmail(recoveryEmail , env.getProperty("email.password.forgot.subject") , message);
-			
-			/* entry in operation table */
-			OperationImpl operationImpl= new OperationImpl();
-			operationImpl.addOperation(session, user, "Password Reset");
-			
-			responseEntity=new ResponseEntity<String>(HttpStatus.OK);
+			/* checks if user exist or not */
+			if(!users.isEmpty()){
+				User user = (User)query.list().get(0);
+				UserCredential usercredential = session.get(UserCredential.class, user.getUserCredential().getUsername());
+				
+				/* generates new password */
+				String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@_$!#";
+				String pwd = RandomStringUtils.random( 15, characters );
+				
+				/* stores new password in database */
+				usercredential.setPassword(Encrypt.encrypt(pwd));
+				session.update(usercredential);
+				
+				/* sends new password on email */
+				String message=env.getProperty("email.password.forgot.content")+pwd;
+				this.email.sendEmail(recoveryEmail , env.getProperty("email.password.forgot.subject") , message);
+				
+				/* entry in operation table */
+				OperationImpl operationImpl= new OperationImpl();
+				operationImpl.addOperation(session, user, "Password Reset");
+				
+				responseEntity=new ResponseEntity<String>(HttpStatus.OK);
+			}
+			else{
+				responseEntity=new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
+				throw new ManualException("email.notExist", env.getProperty("email.notExist"));
+			}
 		}
-		else{
-			responseEntity=new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
+		catch(Exception e){
+			
 		}
-		
-		session.getTransaction().commit();
-		session.close();
-		return responseEntity;
+		finally{
+			session.getTransaction().commit();
+			session.close();
+			return responseEntity;
+		}
 	}
 
 
 	/* Update Profile */
 	@Override
-	public ResponseEntity<String> updateProfile(User user, String authToken) {
+	public ResponseEntity<String> updateProfile(User user, String authToken) throws DataAccessException , ManualException {
 		ResponseEntity<String> responseEntity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		
 		final	Session session=sessionFactory.openSession();
 		
-		/* check for authToken of User*/
-		session.beginTransaction();
-		AuthTable authtable=session.get(AuthTable.class, authToken);
-		if(authtable!=null){
-			User loggedUser = session.get(User.class, authtable.getUser().getEmpId());
-			
-			if(!user.getSkills().isEmpty()){
-				/* Adding skills to user object */
-				List<Skill> skills = new ArrayList<Skill>();
-				for(Skill s:user.getSkills()){
-					String h="from Skill where skillName='"+s.getSkillName()+"'";
-					Query q=session.createQuery(h);
-					skills.addAll(q.list());
-					
+		try{
+			/* check for authToken of User*/
+			session.beginTransaction();
+			AuthTable authtable=session.get(AuthTable.class, authToken);
+			if(authtable!=null){
+				User loggedUser = session.get(User.class, authtable.getUser().getEmpId());
+				
+				if(!user.getSkills().isEmpty()){
+					/* Adding skills to user object */
+					List<Skill> skills = new ArrayList<Skill>();
+					for(Skill s:user.getSkills()){
+						String h="from Skill where skillName='"+s.getSkillName()+"'";
+						Query q=session.createQuery(h);
+						skills.addAll(q.list());
+						
+					}
+					user.setSkills(skills);
 				}
-				user.setSkills(skills);
+				else{
+					user.setSkills(loggedUser.getSkills());
+				}
+				
+					String about=user.getAbout();
+					Address address=user.getAddress();
+					Long contact = user.getContact();
+					float experience=user.getExperience();
+					String maritalStatus=user.getMaritalStatus();
+					String name=user.getName();
+					List<Skill> skills2=user.getSkills();
+				
+					if(about!=null&&!about.equals(""))
+						loggedUser.setAbout(about);
+					if(address!=null)
+						loggedUser.setAddress(address);
+					if(contact!=null&&contact!=0)
+						loggedUser.setContact(contact);
+					if(experience!=0.00f)
+						loggedUser.setExperience(experience);
+					if(maritalStatus!=null&&!maritalStatus.equals(""))
+						loggedUser.setMaritalStatus(maritalStatus);
+					if(name!=null&&!name.equals(""))
+						loggedUser.setName(name);
+					if(skills2!=null)
+						loggedUser.setSkills(skills2);
+	
+					
+					System.out.println("User to update"+user);
+				session.update(loggedUser);
+				
+	
+				/* entry in operation table */
+				OperationImpl operationImpl= new OperationImpl();
+				operationImpl.addOperation(session, loggedUser, "Updated Profile");	
+				
+				responseEntity = new ResponseEntity<String>(HttpStatus.OK);
 			}
 			else{
-				user.setSkills(loggedUser.getSkills());
+				responseEntity = new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
 			}
+		}
+		catch(Exception e){
 			
-				String about=user.getAbout();
-				Address address=user.getAddress();
-				Long contact = user.getContact();
-				float experience=user.getExperience();
-				String maritalStatus=user.getMaritalStatus();
-				String name=user.getName();
-				List<Skill> skills2=user.getSkills();
-			
-				if(about!=null&&!about.equals(""))
-					loggedUser.setAbout(about);
-				if(address!=null)
-					loggedUser.setAddress(address);
-				if(contact!=null&&contact!=0)
-					loggedUser.setContact(contact);
-				if(experience!=0.00f)
-					loggedUser.setExperience(experience);
-				if(maritalStatus!=null&&!maritalStatus.equals(""))
-					loggedUser.setMaritalStatus(maritalStatus);
-				if(name!=null&&!name.equals(""))
-					loggedUser.setName(name);
-				if(skills2!=null)
-					loggedUser.setSkills(skills2);
-
-				
-				System.out.println("User to update"+user);
-			session.update(loggedUser);
-			
-
-			/* entry in operation table */
-			OperationImpl operationImpl= new OperationImpl();
-			operationImpl.addOperation(session, loggedUser, "Updated Profile");	
-		
-			
+		}
+		finally{
 			session.getTransaction().commit();
 			session.close();
-			
-			responseEntity = new ResponseEntity<String>(HttpStatus.OK);
+			return responseEntity;
 		}
-		else{
-			responseEntity = new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
-		}
-		
-		return responseEntity;
 	}
 	
 	/* View Profile */
 	@Override
-	public User viewProfile(String authToken) {
+	public User viewProfile(String authToken) throws DataAccessException, ManualException {
 		User user=null;
 		
 		final	Session session=sessionFactory.openSession();
 		
-		/* check for authToken of User*/
-		session.beginTransaction();
-		AuthTable authtable=session.get(AuthTable.class, authToken);
-		if(authtable!=null){
-			user=authtable.getUser();
+		try{
+			/* check for authToken of User*/
+			session.beginTransaction();
+			AuthTable authtable=session.get(AuthTable.class, authToken);
+			if(authtable!=null){
+				user=authtable.getUser();
+			}
 		}
-		session.getTransaction().commit();
-		session.close();
-		return user;
+		catch(Exception e){
+			
+		}
+		finally{
+			session.getTransaction().commit();
+			session.close();
+			return user;
+		}
 	}
 	
 	/* View History */
 	@Override
-	public ArrayList<Operations> viewHistory(String authToken) {
+	public ArrayList<Operations> viewHistory(String authToken) throws DataAccessException, ManualException {
 		ArrayList<Operations> operations=null;
 		
 		final	Session session=sessionFactory.openSession();
 		
-		/* check for authToken of User*/
-		session.beginTransaction();
-		AuthTable authtable=session.get(AuthTable.class, authToken);
-		
-		if(authtable!=null){
-			User user = authtable.getUser();
+		try{
+			/* check for authToken of User*/
+			session.beginTransaction();
+			AuthTable authtable=session.get(AuthTable.class, authToken);
 			
-				/* getting operations of user */
-				String h="from operations where employeeId="+user.getEmpId();
-				Query q=session.createQuery(h);
-				if(!q.list().isEmpty())
-					operations=(ArrayList<Operations>)q.list();
-				else
-					user.setDepartment(null);
+			if(authtable!=null){
+				User user = authtable.getUser();
+				
+					/* getting operations of user */
+					String h="from operations where employeeId="+user.getEmpId();
+					Query q=session.createQuery(h);
+					if(!q.list().isEmpty())
+						operations=(ArrayList<Operations>)q.list();
+					else
+						user.setDepartment(null);
+			}
 		}
-		session.getTransaction().commit();
-		session.close();
-		return operations;
+		catch(Exception e){
+			
+		}
+		finally{
+			session.getTransaction().commit();
+			session.close();
+			return operations;
+		}
 	}
 
 }

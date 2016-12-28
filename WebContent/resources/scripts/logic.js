@@ -468,7 +468,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 
 	/* forgot password */
 	$scope.forgotPassword= function() {
-
+		dyn_notice();
 		$http({
 			method : 'PUT',
 			url : REST_SERVICE_URI+'forgetpassword',
@@ -514,6 +514,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 
 	/* change password */
 	$scope.changePassword= function() {
+		dyn_notice();
 		if($cookieStore.get("authToken")!=null){
 			$http({
 				method : 'PUT',
