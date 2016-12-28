@@ -23,8 +23,13 @@ public class UserServiceImpl implements UserService {
 	/* User Login */
 	@Override
 	@Transactional
-	public AuthTable login(Map<String,String> loginredentials) {
-		return userDao.login(loginredentials);
+	public AuthTable login(Map<String,String> loginredentials) throws Exception {
+		AuthTable at= userDao.login(loginredentials);
+		
+		if(at==null){
+			throw new Exception();
+		}
+		return at;
 	}
 
 	/* User Logout */

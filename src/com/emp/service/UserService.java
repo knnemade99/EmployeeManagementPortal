@@ -11,7 +11,7 @@ import com.emp.entity.User;
 
 public interface UserService {
 	
-	public AuthTable login(Map<String,String> logincredentials);
+	public AuthTable login(Map<String,String> logincredentials) throws Exception;
 	public ResponseEntity<String> logout(String authToken);
 	public ResponseEntity<String> changePassword(String authToken, Map<String, String> passwords);
 	public ResponseEntity<String> forgetPassword(Map<String, String> email);

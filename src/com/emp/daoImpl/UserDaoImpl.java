@@ -29,7 +29,6 @@ import com.emp.util.OperationImpl;
 @Component("userDao")
 @PropertySource({
 	"classpath:email.properties",
-	"classpath:messages.properties"
 })
 public class UserDaoImpl implements UserDao {
 	
@@ -92,7 +91,7 @@ public class UserDaoImpl implements UserDao {
 		}
 		else{
 			
-			authtable=(AuthTable)new ResponseEntity<AuthTable>(HttpStatus.NOT_FOUND).notFound();
+			authtable=null;
 		}
 		return authtable;
 	}
