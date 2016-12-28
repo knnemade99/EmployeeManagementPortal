@@ -8,14 +8,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity(name="usercredential")
 public class UserCredential {
 
 	@Id
 	@Column(name="username")
+	@NotEmpty(message="Username can't be empty")
 	private String username;
 	
 	@Column(name="password")
+	@NotEmpty(message="Password can't be empty")
 	private String password;
 	
 	
@@ -35,12 +39,6 @@ public class UserCredential {
 	public String toString() {
 		return "UserCredential [username=" + username + ", password=" + password + "]";
 	}
-		
-	public boolean validateUserCredential(){
-		if(this.getUsername()!=null&&this.getUsername()!=""&&this.getPassword()!=null&&this.getPassword()!="")
-			return true;
-		else
-			return false;
-	}
+
 }
 
