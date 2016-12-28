@@ -36,5 +36,11 @@ public class UserCredential {
 		return "UserCredential [username=" + username + ", password=" + password + "]";
 	}
 		
+	public boolean validateUserCredential(){
+		if(this.getUsername()!=null&&this.getUsername()!=""&&this.getPassword()!=null&&this.getPassword()!="")
+			return true;
+		else
+			return false;
+	}
 }
 

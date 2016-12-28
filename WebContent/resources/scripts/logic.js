@@ -170,69 +170,64 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 					password:$scope.password
 				}
 			}).then(function successCallback(response) {
-
-
-
-				if(response.data.user.lockStatus=="unlock"){
-					$rootScope.authToken=response.data.authToken;
-					$rootScope.username = response.data.user.userCredential.username;
-					$rootScope.name = response.data.user.name;
-					$rootScope.usertype = response.data.user.usertype;
-					$rootScope.lockStatus=response.data.user.lockStatus;
-					$rootScope.isLogged = "true";
-
-					console.log("logged in successfully: "+ $scope.authToken);		    	  
-					$cookieStore.put("isLogged", $rootScope.isLogged);
-					$cookieStore.put("name", $rootScope.name );
-					$cookieStore.put("authToken",$rootScope.authToken);
-					$cookieStore.put("usertype", $rootScope.usertype);
-					$cookieStore.put("lockStatus", $rootScope.lockStatus);
-
-					//personal
-					$rootScope.designation=response.data.user.designation;
-					$rootScope.empId=response.data.user.empId;		    	  		    	 
-					$rootScope.dob=response.data.user.dob;
-					$rootScope.doj=response.data.user.doj;		    	  		    	  			    	 
-					$rootScope.gender=response.data.user.gender;
-					$rootScope.selfGender=$rootScope.gender;
-					$rootScope.maritalStatus=response.data.user.maritalStatus;
-
-					//contact
-					$rootScope.email=response.data.user.email;
-					$rootScope.address=response.data.user.address;
-					$rootScope.contact=response.data.user.contact;
-					$rootScope.about=response.data.user.about;
-
-					//professional		    	  
-					$rootScope.salary=response.data.user.salary;		    	 
-					$rootScope.experience=response.data.user.experience;		    	  
-					$rootScope.manager=response.data.user.manager;
-					$rootScope.project=response.data.user.project;
-					$rootScope.skills=response.data.user.skills;
-					$rootScope.department=response.data.user.department;
-
-					new PNotify({
-						title: 'Success',
-						text: 'Welcome, '+$rootScope.name+', you have logged in successfully !',
-						type: 'success',
-						animate: {
-							animate: true,
-							in_class: 'rotateInDownLeft',
-							out_class: 'rotateOutUpRight'
-						},
-						delay: 1500,
-						opacity: 0.8
-					});
-
-
-					$location.path("/viewProfile");		         
-				}
-
-				else{
-					$scope.lockRedirect();
-				}
-
-
+				console.log(response.data);
+					if(response.data.user.lockStatus=="unlock"){
+						$rootScope.authToken=response.data.authToken;
+						$rootScope.username = response.data.user.userCredential.username;
+						$rootScope.name = response.data.user.name;
+						$rootScope.usertype = response.data.user.usertype;
+						$rootScope.lockStatus=response.data.user.lockStatus;
+						$rootScope.isLogged = "true";
+	
+						console.log("logged in successfully: "+ $scope.authToken);		    	  
+						$cookieStore.put("isLogged", $rootScope.isLogged);
+						$cookieStore.put("name", $rootScope.name );
+						$cookieStore.put("authToken",$rootScope.authToken);
+						$cookieStore.put("usertype", $rootScope.usertype);
+						$cookieStore.put("lockStatus", $rootScope.lockStatus);
+	
+						//personal
+						$rootScope.designation=response.data.user.designation;
+						$rootScope.empId=response.data.user.empId;		    	  		    	 
+						$rootScope.dob=response.data.user.dob;
+						$rootScope.doj=response.data.user.doj;		    	  		    	  			    	 
+						$rootScope.gender=response.data.user.gender;
+						$rootScope.selfGender=$rootScope.gender;
+						$rootScope.maritalStatus=response.data.user.maritalStatus;
+	
+						//contact
+						$rootScope.email=response.data.user.email;
+						$rootScope.address=response.data.user.address;
+						$rootScope.contact=response.data.user.contact;
+						$rootScope.about=response.data.user.about;
+	
+						//professional		    	  
+						$rootScope.salary=response.data.user.salary;		    	 
+						$rootScope.experience=response.data.user.experience;		    	  
+						$rootScope.manager=response.data.user.manager;
+						$rootScope.project=response.data.user.project;
+						$rootScope.skills=response.data.user.skills;
+						$rootScope.department=response.data.user.department;
+	
+						new PNotify({
+							title: 'Success',
+							text: 'Welcome, '+$rootScope.name+', you have logged in successfully !',
+							type: 'success',
+							animate: {
+								animate: true,
+								in_class: 'rotateInDownLeft',
+								out_class: 'rotateOutUpRight'
+							},
+							delay: 1500,
+							opacity: 0.8
+						});
+	
+	
+						$location.path("/viewProfile");		         
+					}
+					else{
+						$scope.lockRedirect();
+					}
 			}, function errorCallback(response) {
 
 

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.emp.entity.AuthTable;
 import com.emp.entity.Operations;
 import com.emp.entity.User;
+import com.emp.entity.UserCredential;
 import com.emp.service.UserService;
 
 @RestController
@@ -25,9 +26,9 @@ public class UserController {
 	private UserService userService;
 	
 	/* User Login */
-	@RequestMapping(value="/login" , method = RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/login" , method = RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public AuthTable login(@RequestBody Map<String,String> logincredentials){
+	public AuthTable login(@RequestBody UserCredential logincredentials){
 		return userService.login(logincredentials);
 	}
 	

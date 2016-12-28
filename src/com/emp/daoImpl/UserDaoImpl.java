@@ -44,55 +44,62 @@ public class UserDaoImpl implements UserDao {
 	
 	/* User Login */
 	@Override
-	public AuthTable login(Map<String, String> logincredentials) {
-		final	String username=logincredentials.get("username");
-		
-		/* encrypts password */
-		String password=Encrypt.encrypt(logincredentials.get("password"));
-		
+	public AuthTable login(UserCredential logincredentials) {
 		AuthTable authtable=new AuthTable();
-		
-		Session session=sessionFactory.openSession();
-		session.beginTransaction();
-
-		/* getting credentials for the user if exist */
-		String hql = "FROM usercredential where username='"+username+"' and password='"+password+"'";
-		Query query = session.createQuery(hql);
-		List<UserCredential> results = query.list();
-		
-		String hql2 = "FROM user where username='"+username+"'";
-		Query query2 = session.createQuery(hql2);
-		List<User> results2 = query2.list();
-		
-		//System.out.println(results+"\t"+results2);
-		
-		if(!results.isEmpty()&&!results2.isEmpty()){
-			UserCredential usercredential=results.get(0);
-			User user = results2.get(0);
-			
-			int randomPIN = (int)(Math.random()*9000)+1000;
-			
-			/* generate the authentication token for the user */
-			String authToken=Encrypt.encrypt(randomPIN+usercredential.getUsername()+usercredential.getPassword());
-			
-			authtable.setAuthToken(authToken);
-			authtable.setUser(user);
+		try{
+				final	String username=logincredentials.getUsername();
 				
-
-			/* Deletes all previous entries for the user from autable if Exist*/ 
-			hql = "delete FROM authtable where employeeId= :empId" ;
-			query = session.createQuery(hql);
-			query.setInteger("empId", user.getEmpId());
-			query.executeUpdate();
-			
-			/* creates new entry in the authtable for the user */
-			session.save(authtable);
-			
-			session.getTransaction().commit();
+				/* encrypts password */
+				String password=Encrypt.encrypt(logincredentials.getPassword());
+				
+				Session session=sessionFactory.openSession();
+				session.beginTransaction();
+		
+				/* getting credentials for the user if exist */
+				String hql = "FROM usercredential where username='"+username+"' and password='"+password+"'";
+				Query query = session.createQuery(hql);
+				List<UserCredential> results = query.list();
+				
+				String hql2 = "FROM user where username='"+username+"'";
+				Query query2 = session.createQuery(hql2);
+				List<User> results2 = query2.list();
+				
+				//System.out.println(results+"\t"+results2);
+				
+				if(!results.isEmpty()&&!results2.isEmpty()){
+					UserCredential usercredential=results.get(0);
+					User user = results2.get(0);
+					
+					int randomPIN = (int)(Math.random()*9000)+1000;
+					
+					/* generate the authentication token for the user */
+					String authToken=Encrypt.encrypt(randomPIN+usercredential.getUsername()+usercredential.getPassword());
+					
+					authtable.setAuthToken(authToken);
+					authtable.setUser(user);
+						
+		
+					/* Deletes all previous entries for the user from autable if Exist*/ 
+					hql = "delete FROM authtable where employeeId= :empId" ;
+					query = session.createQuery(hql);
+					query.setInteger("empId", user.getEmpId());
+					query.executeUpdate();
+					
+					/* creates new entry in the authtable for the user */
+					session.save(authtable);
+					
+					session.getTransaction().commit();
+				}
+				else{
+					
+					System.out.println(env.getProperty("error.user.notexist"));
+				}
 		}
-		else{
+		catch(Exception e){
+			System.out.println(e.toString());
+		}
+		finally{
 			
-			authtable=(AuthTable)new ResponseEntity<AuthTable>(HttpStatus.NOT_FOUND).notFound();
 		}
 		return authtable;
 	}

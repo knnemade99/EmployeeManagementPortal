@@ -12,6 +12,7 @@ import com.emp.dao.UserDao;
 import com.emp.entity.AuthTable;
 import com.emp.entity.Operations;
 import com.emp.entity.User;
+import com.emp.entity.UserCredential;
 import com.emp.service.UserService;
 
 @Service("userService")
@@ -23,8 +24,11 @@ public class UserServiceImpl implements UserService {
 	/* User Login */
 	@Override
 	@Transactional
-	public AuthTable login(Map<String,String> loginredentials) {
-		return userDao.login(loginredentials);
+	public AuthTable login(UserCredential loginredentials) {
+		if(loginredentials.validateUserCredential())
+			return userDao.login(loginredentials);
+		else
+			return null;		
 	}
 
 	/* User Logout */
