@@ -75,8 +75,8 @@ public class UserDaoImpl implements UserDao {
 			/* generate the authentication token for the user */
 			String authToken=Encrypt.encrypt(randomPIN+usercredential.getUsername()+usercredential.getPassword());
 			
-			authtable.setAuthToken(authToken);
-			authtable.setUser(user);
+			 authtable.setAuthToken(authToken);
+			 authtable.setUser(user);
 				
 
 			/* Deletes all previous entries for the user from autable if Exist*/ 

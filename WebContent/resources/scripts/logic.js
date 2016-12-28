@@ -3,7 +3,17 @@ var myApp = angular.module('myApp', ['ngRoute', 'ngCookies', 'checklist-model' ,
 function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,notificationService, $timeout ){
 
 	var REST_SERVICE_URI="http://localhost:9091/EmployeeManagementPortal/";
-
+	
+	//jquery library to fetch error messages from properties file
+	jQuery.i18n.properties({
+	    name:'messages', 
+	    path:'resources/bundle/',
+	    mode : 'map',
+		cache : false
+	    
+	});
+	
+	//function to show animated load messages using PNotify library
 	function dyn_notice() {
 		var percent = 0;
 		var notice = new PNotify({
@@ -235,7 +245,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 
 			}, function errorCallback(response) {
 
-
+				console.log(jQuery.i18n.prop('error.username.notexist'));
 
 				if($cookieStore.get("usernameLogging")==$scope.username){
 					$cookieStore.put("numberOfAttempts",($cookieStore.get("numberOfAttempts")+1));
@@ -243,7 +253,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 
 				new PNotify({
 					title: 'Uh Oh!',
-					text: 'Invalid Username or Password.\n'+'You have only '+(3-$cookieStore.get("numberOfAttempts"))+' attempts left !',
+					text: jQuery.i18n.prop('error.username.notexist')+'.\n'+'You have only '+(3-$cookieStore.get("numberOfAttempts"))+' attempts left !',
 					type: 'error',
 					animate: {
 						animate: true,

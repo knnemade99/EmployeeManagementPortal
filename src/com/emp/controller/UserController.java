@@ -25,7 +25,7 @@ public class UserController {
 	private UserService userService;
 	
 	/* User Login */
-	@RequestMapping(value="/login" , method = RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/login" , method = RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public AuthTable login(@RequestBody Map<String,String> logincredentials){
 		return userService.login(logincredentials);

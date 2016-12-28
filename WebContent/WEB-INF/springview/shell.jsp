@@ -11,6 +11,7 @@
 
 <script src="resources/scripts/extentions/modernizr.js"></script>
 <script src="resources/vendor/jquery/dist/jquery.js"></script>
+<script src="resources/scripts/jquery.i18n.properties-min-1.0.9.js"></script>
 <script src="resources/vendor/angular/angular.min.js"> </script>
 <script src="resources/vendor/angular/angular-route.min.js"> </script>
 <script src="resources/vendor/angular/angular-cookies.min.js"> </script>
