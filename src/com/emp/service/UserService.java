@@ -22,5 +22,6 @@ public interface UserService {
 	public ResponseEntity<String> updateProfile(User user, String authToken) throws DataAccessException, ManualException;
 	public User viewProfile(String authToken) throws DataAccessException, ManualException;
 	public ArrayList<Operations> viewHistory(String authToken) throws DataAccessException, ManualException;
+
 	
 }

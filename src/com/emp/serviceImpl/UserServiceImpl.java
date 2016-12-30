@@ -52,6 +52,7 @@ public class UserServiceImpl implements UserService {
 		else
 			throw new ManualException("username.null",env.getProperty("username.null"));
 		return authTable;
+
 	}
 
 	/* User Logout */

@@ -148,6 +148,8 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 	/* redirects to lock page */
 	$scope.lockRedirect = function(){
 		$rootScope.lockedUserName=$cookieStore.get("usernameLogging");
+		$rootScope.lockedMsg= jQuery.i18n.prop('error.login.attempt.exceeded');
+		$rootScope.helpMsg= jQuery.i18n.prop('help.contact');
 		$location.path("/lockscreen");
 	}
 
@@ -180,67 +182,69 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 					password:$scope.password
 				}
 			}).then(function successCallback(response) {
-				console.log(response.data);
-					if(response.data.user.lockStatus=="unlock"){
-						$rootScope.authToken=response.data.authToken;
-						$rootScope.username = response.data.user.userCredential.username;
-						$rootScope.name = response.data.user.name;
-						$rootScope.usertype = response.data.user.usertype;
-						$rootScope.lockStatus=response.data.user.lockStatus;
-						$rootScope.isLogged = "true";
-	
-						console.log("logged in successfully: "+ $scope.authToken);		    	  
-						$cookieStore.put("isLogged", $rootScope.isLogged);
-						$cookieStore.put("name", $rootScope.name );
-						$cookieStore.put("authToken",$rootScope.authToken);
-						$cookieStore.put("usertype", $rootScope.usertype);
-						$cookieStore.put("lockStatus", $rootScope.lockStatus);
-	
-						//personal
-						$rootScope.designation=response.data.user.designation;
-						$rootScope.empId=response.data.user.empId;		    	  		    	 
-						$rootScope.dob=response.data.user.dob;
-						$rootScope.doj=response.data.user.doj;		    	  		    	  			    	 
-						$rootScope.gender=response.data.user.gender;
-						$rootScope.selfGender=$rootScope.gender;
-						$rootScope.maritalStatus=response.data.user.maritalStatus;
-	
-						//contact
-						$rootScope.email=response.data.user.email;
-						$rootScope.address=response.data.user.address;
-						$rootScope.contact=response.data.user.contact;
-						$rootScope.about=response.data.user.about;
-	
-						//professional		    	  
-						$rootScope.salary=response.data.user.salary;		    	 
-						$rootScope.experience=response.data.user.experience;		    	  
-						$rootScope.manager=response.data.user.manager;
-						$rootScope.project=response.data.user.project;
-						$rootScope.skills=response.data.user.skills;
-						$rootScope.department=response.data.user.department;
-	
-						new PNotify({
-							title: 'Success',
-							text: 'Welcome, '+$rootScope.name+', you have logged in successfully !',
-							type: 'success',
-							animate: {
-								animate: true,
-								in_class: 'rotateInDownLeft',
-								out_class: 'rotateOutUpRight'
-							},
-							delay: 1500,
-							opacity: 0.8
-						});
-	
-	
-						$location.path("/viewProfile");		         
-					}
-					else{
-						$scope.lockRedirect();
-					}
-			}, function errorCallback(response) {
 
-				console.log(jQuery.i18n.prop('error.username.notexist'));
+
+
+				if(response.data.user.lockStatus=="unlock"){
+					$rootScope.authToken=response.data.authToken;
+					$rootScope.username = response.data.user.userCredential.username;
+					$rootScope.name = response.data.user.name;
+					$rootScope.usertype = response.data.user.usertype;
+					$rootScope.lockStatus=response.data.user.lockStatus;
+					$rootScope.isLogged = "true";
+		    	  
+					$cookieStore.put("isLogged", $rootScope.isLogged);
+					$cookieStore.put("name", $rootScope.name );
+					$cookieStore.put("authToken",$rootScope.authToken);
+					$cookieStore.put("usertype", $rootScope.usertype);
+					$cookieStore.put("lockStatus", $rootScope.lockStatus);
+
+					//personal
+					$rootScope.designation=response.data.user.designation;
+					$rootScope.empId=response.data.user.empId;		    	  		    	 
+					$rootScope.dob=response.data.user.dob;
+					$rootScope.doj=response.data.user.doj;		    	  		    	  			    	 
+					$rootScope.gender=response.data.user.gender;
+					$rootScope.selfGender=$rootScope.gender;
+					$rootScope.maritalStatus=response.data.user.maritalStatus;
+
+					//contact
+					$rootScope.email=response.data.user.email;
+					$rootScope.address=response.data.user.address;
+					$rootScope.contact=response.data.user.contact;
+					$rootScope.about=response.data.user.about;
+
+					//professional		    	  
+					$rootScope.salary=response.data.user.salary;		    	 
+					$rootScope.experience=response.data.user.experience;		    	  
+					$rootScope.manager=response.data.user.manager;
+					$rootScope.project=response.data.user.project;
+					$rootScope.skills=response.data.user.skills;
+					$rootScope.department=response.data.user.department;
+
+					new PNotify({
+						title: 'Success',
+						text: 'Welcome, '+$rootScope.name+', '+jQuery.i18n.prop('success.login'),
+						type: 'success',
+						animate: {
+							animate: true,
+							in_class: 'rotateInDownLeft',
+							out_class: 'rotateOutUpRight'
+						},
+						delay: 1500,
+						opacity: 0.8
+					});
+
+
+					$location.path("/viewProfile");		         
+				}
+
+				else{
+					$scope.lockRedirect();
+				}
+
+
+			}, function errorCallback(response) {			
 
 				if($cookieStore.get("usernameLogging")==$scope.username){
 					$cookieStore.put("numberOfAttempts",($cookieStore.get("numberOfAttempts")+1));
@@ -348,18 +352,33 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 				$cookieStore.remove("lockStatus");
 				$cookieStore.put("numberOfAttempts",0);
 				$cookieStore.remove("usernameLogging");
+				new PNotify({
+					title: 'Success',
+					text: jQuery.i18n.prop('success.logout'),
+					type: 'success',
+					animate: {
+						animate: true,
+						in_class: 'rotateInDownLeft',
+						out_class: 'rotateOutUpRight'
+					},
+					delay: 1500,
+					opacity: 0.8
+				});
 				$location.path("/");
 
 			}, function errorCallback(response) {
-				console.log("logged out not successfully");
-				$cookieStore.remove("authToken");
-				$cookieStore.remove("name");
-				$cookieStore.remove("usertype");
-				$cookieStore.remove("isLogged");
-				$cookieStore.remove("targetEmpId");
-				$cookieStore.remove("lockStatus");
-				$cookieStore.remove("usernameLogging");
-				$location.path("/login");
+				
+				new PNotify({
+					title: 'Uh Oh!',
+					text: jQuery.i18n.prop('error.logout.fail'),
+					type: 'error',
+					animate: {
+						animate: true,
+						in_class: 'bounceInDown',
+						out_class: 'hinge'
+					},
+					delay:2000
+				});
 			});
 		}
 		else{
@@ -383,9 +402,11 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 				}
 			}).then(function successCallback(response) {
 				$scope.departments=response.data;
-				console.log($scope.departments);
+				
 
 			}, function errorCallback(response) {
+				notificationService.error(jQuery.i18n.prop('error.department.fetch.fail'));
+				
 			});
 		}
 		else{
@@ -410,6 +431,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 				$scope.projects=response.data;
 
 			}, function errorCallback(response) {
+				notificationService.error(jQuery.i18n.prop('error.project.fetch.fail'));
 			});
 		}
 		else{
@@ -434,6 +456,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 				$scope.skills=response.data;
 
 			}, function errorCallback(response) {
+				notificationService.error(jQuery.i18n.prop('error.skill.fetch.fail'));
 			});
 		}
 		else{
@@ -445,7 +468,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 
 	/* forgot password */
 	$scope.forgotPassword= function() {
-
+		dyn_notice();
 		$http({
 			method : 'PUT',
 			url : REST_SERVICE_URI+'forgetpassword',
@@ -459,7 +482,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 
 			new PNotify({
 				title: 'Success',
-				text: 'New password has been sent to '+$scope.email,
+				text: jQuery.i18n.prop('success.mail.sent')+' '+$scope.email,
 				type: 'success',
 				animate: {
 					animate: true,
@@ -475,7 +498,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 
 			new PNotify({
 				title: 'Uh Oh!',
-				text: 'Email is not registered',
+				text: jQuery.i18n.prop('error.email.notExist'),
 				type: 'error',
 				animate: {
 					animate: true,
@@ -491,6 +514,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 
 	/* change password */
 	$scope.changePassword= function() {
+		dyn_notice();
 		if($cookieStore.get("authToken")!=null){
 			$http({
 				method : 'PUT',
@@ -507,7 +531,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 
 				new PNotify({
 					title: 'Success',
-					text: 'Passoword changed successfully !',
+					text: jQuery.i18n.prop('success.password.changed'),
 					type: 'success',
 					animate: {
 						animate: true,
@@ -524,7 +548,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 
 				new PNotify({
 					title: 'Uh Oh!',
-					text: 'Old Password does not exist !',
+					text: jQuery.i18n.prop('error.password.unChanged'),
 					type: 'error',
 					animate: {
 						animate: true,
@@ -604,14 +628,26 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 					"usertype": $scope.newUserType
 				}
 			}).then(function successCallback(response) {
-	
+				
+				new PNotify({
+					title: 'Success',
+					text: jQuery.i18n.prop('success.user.added'),
+					type: 'success',
+					animate: {
+						animate: true,
+						in_class: 'rotateInDownLeft',
+						out_class: 'rotateOutUpRight'
+					},
+					delay: 1500,
+					opacity: 0.8
+				});
 				$location.path("/getAllUsers");
 	
 			}, function errorCallback(response) {
 				PNotify.removeAll();
 				new PNotify({
 					title: 'Uh Oh!',
-					text: 'Username/email already exists !',
+					text: jQuery.i18n.prop('common.exists'),
 					type: 'error',
 					animate: {
 						animate: true,
@@ -650,6 +686,18 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 				});
 	
 			}, function errorCallback(response) {
+				new PNotify({
+					title: 'Uh Oh!',
+					text: jQuery.i18n.prop('error.user.fetch.fail'),
+					type: 'error',
+					animate: {
+						animate: true,
+						in_class: 'bounceInDown',
+						out_class: 'hinge'
+					},
+					delay:2000
+				});
+				
 			});
 		}
 		else{
@@ -689,7 +737,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 					}
 				}
 				bootbox.dialog({
-					message: 'User deleted successfully!',
+					message: jQuery.i18n.prop('success.user.deleted'),
 					onEscape: function() { console.log("Ecsape"); },
 					backdrop: true
 				});
@@ -699,7 +747,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 			}, function errorCallback(response) {
 	
 				bootbox.dialog({
-					message: 'Deleting the user failed!',
+					message: jQuery.i18n.prop('error.user.delete.fail'),
 					onEscape: function() { console.log("Ecsape"); },
 					backdrop: true
 				});
@@ -732,7 +780,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 					}
 				}
 				bootbox.dialog({
-					message: 'Project deleted successfully!',
+					message: jQuery.i18n.prop('success.project.delete'),
 					onEscape: function() { console.log("Ecsape"); },
 					backdrop: true
 				});
@@ -742,7 +790,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 			}, function errorCallback(response) {
 	
 				bootbox.dialog({
-					message: 'Deleting the project failed!',
+					message: jQuery.i18n.prop('error.project.delete.fail'),
 					onEscape: function() { console.log("Ecsape"); },
 					backdrop: true
 				});
@@ -805,6 +853,18 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 				$location.path("/viewProfile");
 
 			}, function errorCallback(response) {
+				
+				new PNotify({
+					title: 'Uh Oh!',
+					text: jQuery.i18n.prop('error.user.fetch.fail'),
+					type: 'error',
+					animate: {
+						animate: true,
+						in_class: 'bounceInDown',
+						out_class: 'hinge'
+					},
+					delay:2000
+				});
 
 			});
 		}
@@ -861,6 +921,18 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 				$location.path("/editProfile");
 	
 			}, function errorCallback(response) {
+				
+				new PNotify({
+					title: 'Uh Oh!',
+					text: jQuery.i18n.prop('error.user.fetch.fail'),
+					type: 'error',
+					animate: {
+						animate: true,
+						in_class: 'bounceInDown',
+						out_class: 'hinge'
+					},
+					delay:2000
+				});
 	
 			});
 		}
@@ -916,6 +988,18 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 				$location.path("/viewEmployeeProfile");
 	
 			}, function errorCallback(response) {
+				
+				new PNotify({
+					title: 'Uh Oh!',
+					text: jQuery.i18n.prop('error.user.fetch.fail'),
+					type: 'error',
+					animate: {
+						animate: true,
+						in_class: 'bounceInDown',
+						out_class: 'hinge'
+					},
+					delay:2000
+				});
 	
 			});
 		}
@@ -953,7 +1037,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 	
 				$cookieStore.put("name", $scope.name );
 				bootbox.dialog({
-					message: 'Profile updated successfully!',
+					message: jQuery.i18n.prop('success.profile.update'),
 					onEscape: function() { console.log("Ecsape"); },
 					backdrop: true
 				});
@@ -961,7 +1045,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 	
 			}, function errorCallback(response) {
 				bootbox.dialog({
-					message: 'Profile could not be updated!',
+					message: jQuery.i18n.prop('error.profile.update'),
 					onEscape: function() { console.log("Ecsape"); },
 					backdrop: true
 				});
@@ -988,7 +1072,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 				}
 			}).then(function successCallback(response) {
 				bootbox.dialog({
-					message: 'Employee unlocked successfully !',
+					message: jQuery.i18n.prop('success.lock'),
 					onEscape: function() { console.log("Ecsape"); },
 					backdrop: true
 				});
@@ -997,7 +1081,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 	
 			}, function errorCallback(response) {
 				bootbox.dialog({
-					message: 'Employee could not be unlocked !',
+					message: jQuery.i18n.prop('error.lock'),
 					onEscape: function() { console.log("Ecsape"); },
 					backdrop: true
 				});
@@ -1028,7 +1112,17 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 				$location.path("/viewProjects");
 	
 			}, function errorCallback(response) {
-	
+				new PNotify({
+					title: 'Uh Oh!',
+					text: jQuery.i18n.prop('error.project.fetch.fail'),
+					type: 'error',
+					animate: {
+						animate: true,
+						in_class: 'bounceInDown',
+						out_class: 'hinge'
+					},
+					delay:2000
+				});
 			});
 		}
 		else{
@@ -1036,36 +1130,6 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 		}
 	}
 
-//	$scope.busy = false;
-//	
-//	console.log("Busy variable before function call: "+$scope.busy);
-//	
-//	$scope.timelineScroll = function(){
-//		if($cookieStore.get("authToken")!=null){
-//			
-//			$scope.temp=0;
-//			$scope.busy = true;
-//			console.log("Busy variable after first change in timeline scroll: "+$scope.busy);
-//			for(var i=$scope.count; $scope.temp<2 ; i++){
-//				if(i<=$rootScope.historyList.length-1){
-//					$rootScope.historySetter.newHistoryList.push($rootScope.historyList[i]);
-//					$scope.temp=$scope.temp+1;
-//				}
-//				else{
-//					break;
-//				}
-//			}
-//			$scope.count+=3;
-//			//$timeout(null, 2000);
-//			$scope.busy = false;
-//			console.log("Busy variable after second change in timeline scroll: "+$scope.busy);
-//			
-//		}
-//		else{
-//			$location.path("/");
-//		}
-//		
-//	}
 	
 	/* get history of operations performed by employee */
 	$scope.getHistory= function() {
@@ -1086,17 +1150,22 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 					$rootScope.historyList = response.data.reverse();
 				else
 					$rootScope.historyList = response.data.reverse;	
-//				$rootScope.historySetter = {
-//						newHistoryList: []
-//				};
-//				$scope.count=0;
-//				$scope.timelineScroll();
 				$location.path("/viewHistory");
 	
 				//console.log($rootScope.historyList[2]);  
 	
 			}, function errorCallback(response) {
-	
+				new PNotify({
+					title: 'Uh Oh!',
+					text: jQuery.i18n.prop('error.history.fetch.fail'),
+					type: 'error',
+					animate: {
+						animate: true,
+						in_class: 'bounceInDown',
+						out_class: 'hinge'
+					},
+					delay:2000
+				});
 	
 			});
 		}
