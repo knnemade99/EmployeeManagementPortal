@@ -132,7 +132,6 @@ public class UserDaoImpl implements UserDao {
 			}
 		}
 		catch(Exception e){
-			
 			responseEntity=null;
 		}
 		finally{
@@ -238,7 +237,7 @@ public class UserDaoImpl implements UserDao {
 			}
 		}
 		catch(Exception e){
-			
+			responseEntity=new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
 		finally{
 			session.getTransaction().commit();
@@ -316,7 +315,7 @@ public class UserDaoImpl implements UserDao {
 			}
 		}
 		catch(Exception e){
-			
+			responseEntity=new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
 		finally{
 			session.getTransaction().commit();
@@ -375,7 +374,7 @@ public class UserDaoImpl implements UserDao {
 			}
 		}
 		catch(Exception e){
-			
+			operations=null;
 		}
 		finally{
 			session.getTransaction().commit();
