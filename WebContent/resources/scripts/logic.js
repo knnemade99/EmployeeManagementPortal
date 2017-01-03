@@ -252,7 +252,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 
 				new PNotify({
 					title: 'Uh Oh!',
-					text: jQuery.i18n.prop('error.username.notexist')+'.\n'+'You have only '+(3-$cookieStore.get("numberOfAttempts"))+' attempts left !',
+					text: jQuery.i18n.prop('error.user.wrong.credentials')+'.\n'+'You have only '+(3-$cookieStore.get("numberOfAttempts"))+' attempts left !',
 					type: 'error',
 					animate: {
 						animate: true,

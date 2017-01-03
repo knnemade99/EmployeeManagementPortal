@@ -9,21 +9,23 @@ import com.emp.entity.Project;
 import com.emp.entity.Skill;
 import com.emp.entity.User;
 import com.emp.entity.UserCredential;
+import com.emp.exceptions.ManualException;
+import com.emp.pojos.UserPOJO;
 
 public interface AdminDao {
 	
-	public ResponseEntity<User> addEmployee(User user, String authToken);
-	public List<UserCredential> viewAllEmployees(String authToken);
-	public User viewEmployee(int employeeId, String authToken);
-	public ResponseEntity<String> deleteEmployee(int employeeId, String authToken);
-	public ResponseEntity<String> unlockEmployee(int employeeId, String authToken);
-	public List<Department> viewAllDepartments(String authToken);
-	public List<Project> viewAllProjects(String authToken);
-	public List<Skill> viewAllSkills(String authToken);
-	public ResponseEntity<String> addSkill(String authToken , Skill skill);
-	public ResponseEntity<String> addDepartment(String authToken , Department newDepartment);
-	public ResponseEntity<String> addProject(String authToken, Project project);
-	public ResponseEntity<String> deleteProject(String authToken, int projectId);
+	public ResponseEntity<User> addEmployee(User user, String authToken) throws ManualException;
+	public List<UserCredential> viewAllEmployees(String authToken) throws ManualException;
+	public User viewEmployee(int employeeId, String authToken) throws ManualException;
+	public ResponseEntity<String> deleteEmployee(int employeeId, String authToken) throws ManualException;
+	public ResponseEntity<String> unlockEmployee(int employeeId, String authToken) throws ManualException;
+	public List<Department> viewAllDepartments(String authToken) throws ManualException; 
+	public List<Project> viewAllProjects(String authToken) throws ManualException;
+	public List<Skill> viewAllSkills(String authToken) throws ManualException;
+	public ResponseEntity<String> addSkill(String authToken , Skill skill) throws ManualException;
+	public ResponseEntity<String> addDepartment(String authToken , Department newDepartment) throws ManualException;
+	public ResponseEntity<String> addProject(String authToken, Project project) throws ManualException;
+	public ResponseEntity<String> deleteProject(String authToken, int projectId) throws ManualException;
 
 
 }

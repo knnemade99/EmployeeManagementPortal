@@ -18,6 +18,8 @@ import com.emp.entity.Project;
 import com.emp.entity.Skill;
 import com.emp.entity.User;
 import com.emp.entity.UserCredential;
+import com.emp.exceptions.ManualException;
+import com.emp.pojos.UserPOJO;
 import com.emp.service.AdminService;
 
 @RestController
@@ -29,84 +31,84 @@ public class AdminController {
 	/* Adds new Employee */
 	@RequestMapping(value="/addemployee" , method = RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<User> addemployee(@RequestBody User user, @RequestHeader("authToken") String authToken){
+	public ResponseEntity<User> addemployee(@RequestBody UserPOJO user, @RequestHeader("authToken") String authToken) throws ManualException{
 		return adminService.addEmployee(user, authToken);
 	}
 	
 	/* View All Employees */
 	@RequestMapping(value="/viewallemployees" , method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<UserCredential> viewAllEmployees(@RequestHeader("authToken") String authToken){
+	public List<UserCredential> viewAllEmployees(@RequestHeader("authToken") String authToken) throws ManualException{
 		return adminService.viewAllEmployees(authToken);
 	}
 
 	/* View Employee by Id */
 	@RequestMapping(value="/viewemployee/{id}" , method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public User viewEmployee(@PathVariable("id") int employeeId ,@RequestHeader("authToken") String authToken){
+	public User viewEmployee(@PathVariable("id") int employeeId ,@RequestHeader("authToken") String authToken) throws ManualException{
 		return adminService.viewEmployee(employeeId,authToken);
 	}
 	
 	/* Delete Employee by Id */
 	@RequestMapping(value="/deleteemployee/{id}" , method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<String> deleteEmployee(@PathVariable("id") int employeeId ,@RequestHeader("authToken") String authToken){
+	public ResponseEntity<String> deleteEmployee(@PathVariable("id") int employeeId ,@RequestHeader("authToken") String authToken) throws ManualException{
 		return adminService.deleteEmployee(employeeId,authToken);
 	}
 	
 	/* Unlock Employee by Id */
 	@RequestMapping(value="/unlockemployee/{id}" , method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<String> unlockEmployee(@PathVariable("id") int employeeId ,@RequestHeader("authToken") String authToken){
+	public ResponseEntity<String> unlockEmployee(@PathVariable("id") int employeeId ,@RequestHeader("authToken") String authToken) throws ManualException{
 		return adminService.unlockEmployee(employeeId,authToken);
 	}
 	
 	/* View All Departments */
 	@RequestMapping(value="/viewalldepartments" , method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Department> viewAllDepartments(@RequestHeader("authToken") String authToken){
+	public List<Department> viewAllDepartments(@RequestHeader("authToken") String authToken) throws ManualException{
 		return adminService.viewAllDepartments(authToken);
 	}
 	
 	/* View All Projects */
 	@RequestMapping(value="/viewallprojects" , method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Project> viewAllProjects(@RequestHeader("authToken") String authToken){
+	public List<Project> viewAllProjects(@RequestHeader("authToken") String authToken) throws ManualException{
 		return adminService.viewAllProjects(authToken);
 	}
 	
 	/* View All Skills */
 	@RequestMapping(value="/viewallskills" , method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Skill> viewAllSkills(@RequestHeader("authToken") String authToken){
+	public List<Skill> viewAllSkills(@RequestHeader("authToken") String authToken) throws ManualException{
 		return adminService.viewAllSkills(authToken);
 	}
 	
 	/* Add new Skill */
 	@RequestMapping(value="/addskill" , method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<String> addSkill(@RequestHeader("authToken") String authToken , @RequestBody Skill skill){
+	public ResponseEntity<String> addSkill(@RequestHeader("authToken") String authToken , @RequestBody Skill skill) throws ManualException{
 		return adminService.addSkill(authToken , skill);
 	}
 	
 	/* Add new Department */
 	@RequestMapping(value="/adddepartment" , method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<String> addDepartment(@RequestHeader("authToken") String authToken , @RequestBody Department newDepartment ){
+	public ResponseEntity<String> addDepartment(@RequestHeader("authToken") String authToken , @RequestBody Department newDepartment ) throws ManualException{
 		return adminService.addDepartment(authToken , newDepartment);
 	}
 	
 	/* Add new Project */
 	@RequestMapping(value="/addproject" , method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<String> addProject(@RequestHeader("authToken") String authToken , @RequestBody Project project ){
+	public ResponseEntity<String> addProject(@RequestHeader("authToken") String authToken , @RequestBody Project project ) throws ManualException{
 		return adminService.addProject(authToken , project);
 	}
 	
 	/* Delete a Project */
 	@RequestMapping(value="/deleteproject/{id}" , method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<String> deleteProject(@PathVariable("id") int projectId , @RequestHeader("authToken") String authToken){
+	public ResponseEntity<String> deleteProject(@PathVariable("id") int projectId , @RequestHeader("authToken") String authToken) throws ManualException{
 		return adminService.deleteProject(authToken , projectId);
 	}
 }
