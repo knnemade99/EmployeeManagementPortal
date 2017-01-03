@@ -49,6 +49,12 @@
 			</props>
 		</property>
 	</bean>
+	
+	<bean id="sms" class="com.emp.util.SmsAPI">
+		<property name="ACCOUNT_SID" value="${sms.sid}" />
+		<property name="AUTH_TOKEN" value="${sms.authtoken}" />
+		<property name="TWILIO_NUMBER" value="${sms.twilioNumber}" />
+	</bean>
 
 	<mvc:interceptors>
 		<mvc:interceptor>
@@ -63,7 +69,7 @@
 		</mvc:interceptor>
 	</mvc:interceptors>
 	
-<context:property-placeholder location="classpath:hibernate.properties,classpath:email.properties" />
+<context:property-placeholder location="classpath:hibernate.properties,classpath:email.properties,classpath:sms.properties" />
 
 	<context:component-scan base-package="com.emp.controller" />
 	<context:component-scan base-package="com.emp.serviceImpl" />

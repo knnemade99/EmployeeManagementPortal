@@ -2,6 +2,7 @@ package com.emp.serviceImpl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,12 @@ import com.emp.entity.UserCredential;
 import com.emp.exceptions.ManualException;
 import com.emp.pojos.UserPOJO;
 import com.emp.service.AdminService;
+import com.emp.util.SmsAPI;
 
 @Service("adminService")
+@PropertySource({
+	"classpath:sms.properties"
+})
 public class AdminServiceImpl implements AdminService {
 	
 	@Autowired
@@ -25,6 +30,9 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Autowired
 	private Environment env;
+	
+	@Autowired
+	SmsAPI sms;
 	
 	/* Adds new Employee */
 	@Override
@@ -52,6 +60,8 @@ public class AdminServiceImpl implements AdminService {
 			user.setUserCredential(userPojo.getUserCredential());
 			user.setUsertype(userPojo.getUsertype());
 			user.setLockStatus(userPojo.getLockStatus());
+			
+			sms.sendSms("+91"+user.getContact(),"Hi "+user.getName()+",\n" + env.getProperty("sms.welcome.body"));
 			
 			return adminDao.addEmployee(user, authToken);
 		}
