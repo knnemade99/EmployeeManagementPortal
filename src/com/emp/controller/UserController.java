@@ -1,6 +1,7 @@
 package com.emp.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.emp.entity.AuthTable;
 import com.emp.entity.Operations;
+import com.emp.entity.Skill;
 import com.emp.entity.User;
 import com.emp.exceptions.ManualException;
 import com.emp.pojos.ChangePasswordPOJO;
@@ -76,5 +78,12 @@ public class UserController {
 	@ResponseBody
 	public ArrayList<Operations> viewHistory(@RequestHeader("authToken") String authToken) throws DataAccessException, ManualException{
 		return userService.viewHistory(authToken);
+	}
+	
+	/* View All Skills */
+	@RequestMapping(value="/viewallskills" , method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Skill> viewAllSkills(@RequestHeader("authToken") String authToken) throws ManualException{
+		return userService.viewAllSkills(authToken);
 	}
 }

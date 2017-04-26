@@ -193,6 +193,7 @@ public class UserDaoImpl implements UserDao {
 	/* Forget Password */
 	@Override
 	public ResponseEntity<String> forgetPassword(String email) throws DataAccessException, ManualException{
+		System.out.println("inside forget"+email);
 		final	Session session=sessionFactory.openSession();
 		
 		String recoveryEmail=email;
@@ -253,7 +254,6 @@ public class UserDaoImpl implements UserDao {
 		ResponseEntity<String> responseEntity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		
 		final	Session session=sessionFactory.openSession();
-		
 		try{
 			/* check for authToken of User*/
 			session.beginTransaction();
@@ -263,11 +263,12 @@ public class UserDaoImpl implements UserDao {
 				
 				if(!user.getSkills().isEmpty()){
 					/* Adding skills to user object */
-					List<Skill> skills = new ArrayList<Skill>();
+					List<Skill> skills = loggedUser.getSkills();
 					for(Skill s:user.getSkills()){
-						String h="from Skill where skillName='"+s.getSkillName()+"'";
+						String h="from skill where skillName='"+s.getSkillName()+"'";
 						Query q=session.createQuery(h);
-						skills.addAll(q.list());
+						if(!skills.contains((Skill)q.list().get(0)))
+						skills.add((Skill)q.list().get(0));
 						
 					}
 					user.setSkills(skills);
@@ -283,7 +284,7 @@ public class UserDaoImpl implements UserDao {
 					String maritalStatus=user.getMaritalStatus();
 					String name=user.getName();
 					List<Skill> skills2=user.getSkills();
-				
+
 					if(about!=null&&!about.equals(""))
 						loggedUser.setAbout(about);
 					if(address!=null)
@@ -298,6 +299,8 @@ public class UserDaoImpl implements UserDao {
 						loggedUser.setName(name);
 					if(skills2!=null)
 						loggedUser.setSkills(skills2);
+					if(user.getMaritalStatus()!=null&&user.getMaritalStatus()!=null)
+						loggedUser.setMaritalStatus(user.getMaritalStatus());
 	
 					
 					System.out.println("User to update"+user);
@@ -315,6 +318,7 @@ public class UserDaoImpl implements UserDao {
 			}
 		}
 		catch(Exception e){
+			System.out.println(e.getMessage());
 			responseEntity=new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
 		finally{
@@ -346,6 +350,33 @@ public class UserDaoImpl implements UserDao {
 			session.getTransaction().commit();
 			session.close();
 			return user;
+		}
+	}
+	
+	/* View All Skills */
+	@Override
+	public List<Skill> viewAllSkills(String authToken) throws ManualException{
+		final	Session session=sessionFactory.openSession();
+		List<Skill> skillList =null;
+
+		/* check for authToken of admin */
+		session.beginTransaction();
+		try{
+			AuthTable authtable=session.get(AuthTable.class, authToken);
+	
+			User user = authtable.getUser();
+	
+				String hql="from skill";
+				Query q=session.createQuery(hql);
+				skillList=(List)q.list();
+		}
+		catch(Exception e){
+			skillList=null;
+		}
+		finally{
+			session.getTransaction().commit();
+			session.close();
+			return skillList;
 		}
 	}
 	

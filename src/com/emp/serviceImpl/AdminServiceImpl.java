@@ -157,18 +157,6 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Override
 	@Transactional
-	public List<Skill> viewAllSkills(String authToken) throws ManualException{
-		List<Skill> skillList= adminDao.viewAllSkills(authToken);
-		if(!skillList.isEmpty()){
-			return skillList;
-		}
-		else{
-			throw new ManualException("skill.list.empty",env.getProperty("skill.list.empty"));
-		}
-	}
-	
-	@Override
-	@Transactional
 	public ResponseEntity<String> addSkill(String authToken, Skill skill) throws ManualException{
 		if(skill!=null){
 			ResponseEntity<String> responseEntity = adminDao.addSkill(authToken,skill);

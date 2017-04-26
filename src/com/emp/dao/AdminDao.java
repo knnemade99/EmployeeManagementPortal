@@ -21,7 +21,6 @@ public interface AdminDao {
 	public ResponseEntity<String> unlockEmployee(int employeeId, String authToken) throws ManualException;
 	public List<Department> viewAllDepartments(String authToken) throws ManualException; 
 	public List<Project> viewAllProjects(String authToken) throws ManualException;
-	public List<Skill> viewAllSkills(String authToken) throws ManualException;
 	public ResponseEntity<String> addSkill(String authToken , Skill skill) throws ManualException;
 	public ResponseEntity<String> addDepartment(String authToken , Department newDepartment) throws ManualException;
 	public ResponseEntity<String> addProject(String authToken, Project project) throws ManualException;

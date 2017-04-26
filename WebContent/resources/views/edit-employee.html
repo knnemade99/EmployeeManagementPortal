@@ -1,7 +1,7 @@
 
 
       <!-- main area -->
-      <div class="main-content checkbo" ng-controller="EMPController" style="margin-top: -75px;" ng-init="getAllDepartments(); getAllProjects(); getAllSkills(); viewProfileTOUpdate()">
+      <div class="main-content checkbo" ng-controller="EMPController" style="margin-top: -75px;" ng-init=" getAllSkills(); viewProfileTOUpdate()">
         <div align="center"><h2>Edit Profile</h2></div>
         <form id="commentForm" name="addEmpForm" class="form-horizontal" role="form" style="background: #e0e8f2" ng-model="registrationForm">
           <div class="box-tab justified" id="rootwizard">
@@ -96,16 +96,13 @@
                   <div class="col-sm-4">
                     <input type="date" disabled style="cursor: not-allowed;" name="dob" ng-model="dob" ng-value="dob" style="width: 100%;" format-date>
                   </div>
-                  <label class="col-sm-2 control-label">Marital Status<span style="color:red;">*</span></label>                                                                        
+                  <label class="col-sm-2 control-label">Marital Status</label>                                                                        
                   <div class="col-sm-4">
                     <div class="radio">
-					  <label><input type="radio" name="newMaritalStatus" ng-model="newMaritalStatus" class="control-label" value="Married" required>Married</label>
+					  <label><input type="radio" name="newMaritalStatus" ng-model="newMaritalStatus" class="control-label" value="Married">Married</label>
 					</div>
 					<div class="radio">
-					  <label><input type="radio" name="newMaritalStatus" ng-model="newMaritalStatus" class="control-label" value="Unmarried" required>Unmarried</label>
-					</div>
-					<div ng-messages="addEmpForm.newMaritalStatus.$error" ng-if="addEmpForm.newMaritalStatus.$dirty || addEmpForm.newMaritalStatus.$touched">
-					  <div class="validate" ng-message="required">This field is required</div>
+					  <label><input type="radio" name="newMaritalStatus" ng-model="newMaritalStatus" class="control-label" value="Unmarried">Unmarried</label>
 					</div>
                   </div>                  
                 </div>
@@ -124,7 +121,7 @@
                 </div>
                 <div class="pull-right" style="cursor: not-allowed">
                   <button type="button" class="btn btn-default button-previous" ng-click="previousTab()">Previous</button>
-                  <button ng-disabled= "addEmpForm.newMaritalStatus.$invalid || addEmpForm.name.$invalid || addEmpForm.about.$invalid" type="button" class="btn btn-primary button-next" ng-click="nextTab()" >Next</button>
+                  <button ng-disabled= "addEmpForm.name.$invalid || addEmpForm.about.$invalid" type="button" class="btn btn-primary button-next" ng-click="nextTab()" >Next</button>
                 </div>
               </div>
               <div id="tab3" ng-class="{'tab-pane active': activeTab === 3, 'tab-pane' : activeTab !== 3}">				
@@ -247,7 +244,7 @@
   
                 <label class="col-sm-2 control-label">Skills</label>
                   <div class="col-sm-4">                  	
-					  <label class="checkbox-inline"  ng-repeat="talent in skills"><input type="checkbox" checklist-model="art.skill" checklist-value="talent.skillName">{{talent.skillName}}</label>
+					  <label class="checkbox-inline"  ng-repeat="talent in skills"><input type="checkbox" checklist-model="updatedArt.updatedSkill" checklist-value="talent.skillName">{{talent.skillName}}</label>
 					  
 <!-- 					  <label class="checkbox-inline"  ng-repeat="talent in skills"><input type="checkbox" checklist-model="art.skill" checklist-value="talent.skillName">{{talent.skillName}}</label>					   -->
 	              </div>

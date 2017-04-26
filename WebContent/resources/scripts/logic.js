@@ -2,7 +2,7 @@ var myApp = angular.module('myApp', ['ngRoute', 'ngCookies', 'checklist-model' ,
 
 function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,notificationService, $timeout ){
 
-	var REST_SERVICE_URI="http://localhost:9091/EmployeeManagementPortal/";
+	var REST_SERVICE_URI="http://10.19.4.105:9696/EmployeeManagementPortal/";
 	
 	//jquery library to fetch error messages from properties file
 	jQuery.i18n.properties({
@@ -64,7 +64,12 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 	$scope.art = {
 			skill: []
 	};
-
+	
+	$scope.updatedArt = {
+			updatedSkill: []
+	};
+	
+	
 	$scope.activeTab = 1;
 
 	$scope.setActiveTab= function (tabToSet){
@@ -341,7 +346,6 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 
 				}
 			}).then(function successCallback(response) {
-				console.log("logged out successfully ");
 				$rootScope.isLogged = "false";  
 				$cookieStore.put("isLogged", $rootScope.isLogged);
 				$cookieStore.remove("authToken");
@@ -577,7 +581,6 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 			};
 	
 			var data=$scope.art.skill;
-			console.log("dat:" +data);
 			angular.forEach(data, function(v, k) {
 				$scope.newArt.newSkill.push({
 					'skillName': v
@@ -1013,6 +1016,18 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 	/* update employee profile */
 	$scope.updateEmployee= function() {
 		if($cookieStore.get("authToken")!=null){
+			
+			$scope.newUpdatedArt = {
+					newUpdatedSkill: []
+			};
+	
+			var data=$scope.updatedArt.updatedSkill;
+			angular.forEach(data, function(v, k) {
+				$scope.newUpdatedArt.newUpdatedSkill.push({
+					'skillName': v
+				});
+			});
+			
 			$http({
 				method : 'PUT',
 				url : REST_SERVICE_URI+'updateprofile/',
@@ -1021,6 +1036,7 @@ function EMPController($scope,$http,$location,$q,$rootScope,$cookieStore,$route,
 					'authToken' : $cookieStore.get("authToken")
 				},
 				data : {
+					"skills": $scope.newUpdatedArt.newUpdatedSkill,
 					"address": {
 						"city": $scope.address.city,
 						"state": $scope.address.state,

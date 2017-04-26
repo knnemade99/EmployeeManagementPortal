@@ -1,6 +1,7 @@
 package com.emp.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.emp.dao.UserDao;
 import com.emp.entity.AuthTable;
 import com.emp.entity.Operations;
+import com.emp.entity.Skill;
 import com.emp.entity.User;
 import com.emp.exceptions.ManualException;
 import com.emp.pojos.ChangePasswordPOJO;
@@ -128,5 +130,17 @@ public class UserServiceImpl implements UserService {
 		else
 			throw new ManualException("authtoken.null",env.getProperty("authtoken.null"));
 		return operations;
+	}
+	
+	@Override
+	@Transactional
+	public List<Skill> viewAllSkills(String authToken) throws ManualException{
+		List<Skill> skillList= userDao.viewAllSkills(authToken);
+		if(!skillList.isEmpty()){
+			return skillList;
+		}
+		else{
+			throw new ManualException("skill.list.empty",env.getProperty("skill.list.empty"));
+		}
 	}
 }

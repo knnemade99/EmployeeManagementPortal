@@ -303,7 +303,7 @@ public class AdminDaoImpl implements AdminDao {
 	public List<Department> viewAllDepartments(String authToken) throws ManualException{
 		final	Session session=sessionFactory.openSession();
 		List<Department> departmentList =null;
-
+	System.out.println("auth"+authToken);
 		/* check for authToken of admin */
 		session.beginTransaction();
 		try{
@@ -315,6 +315,7 @@ public class AdminDaoImpl implements AdminDao {
 				Query q=session.createQuery(hql);
 				departmentList=(List)q.list();
 			}
+			System.out.println(departmentList+"dept list");
 		}
 		catch(Exception e){
 			departmentList=null;
@@ -354,33 +355,7 @@ public class AdminDaoImpl implements AdminDao {
 		}
 	}
 	
-	/* View All Skills */
-	@Override
-	public List<Skill> viewAllSkills(String authToken) throws ManualException{
-		final	Session session=sessionFactory.openSession();
-		List<Skill> skillList =null;
-
-		/* check for authToken of admin */
-		session.beginTransaction();
-		try{
-			AuthTable authtable=session.get(AuthTable.class, authToken);
-	
-			User user = authtable.getUser();
-	
-				String hql="from skill";
-				Query q=session.createQuery(hql);
-				skillList=(List)q.list();
-		}
-		catch(Exception e){
-			skillList=null;
-		}
-		finally{
-			session.getTransaction().commit();
-			session.close();
-			return skillList;
-		}
-	}
-	
+		
 	/*Add new Skill */
 	@Override
 	public ResponseEntity<String> addSkill(String authToken , Skill skill) throws ManualException{

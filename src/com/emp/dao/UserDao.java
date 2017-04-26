@@ -1,6 +1,7 @@
 package com.emp.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.emp.entity.AuthTable;
 import com.emp.entity.Operations;
+import com.emp.entity.Skill;
 import com.emp.entity.User;
 import com.emp.exceptions.ManualException;
 import com.emp.pojos.ChangePasswordPOJO;
@@ -22,5 +24,5 @@ public interface UserDao {
 	public ResponseEntity<String> updateProfile(User user, String authToken) throws DataAccessException, ManualException;
 	public User viewProfile(String authToken) throws DataAccessException, ManualException;
 	public ArrayList<Operations> viewHistory(String authToken) throws DataAccessException, ManualException;
-	
+	public List<Skill> viewAllSkills(String authToken) throws ManualException;
 }

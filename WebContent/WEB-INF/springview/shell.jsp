@@ -196,8 +196,8 @@
 
 					<li>
 					<a href="javascript:;" data-toggle="dropdown"> 
-					<img ng-if="selfGender== 'Male'" src="resources/images/real-avatar.png" class="header-avatar img-circle ml10" alt="user" title="user">
-					<img ng-if="selfGender== 'Female'" src="resources/images/female-avatar3.png" class="header-avatar img-circle ml10" alt="user" title="user">
+					<img ng-if="selfGender== 'Male'" src="resources/images/male-avatar2.png" class="header-avatar img-circle ml10" alt="user" title="user">
+					<img ng-if="selfGender== 'Female'" src="resources/images/female-avatar2.png" class="header-avatar img-circle ml10" alt="user" title="user">
 					<span class="pull-left">{{checkForName()}}</span>
 					</a>
 						<ul class="dropdown-menu">

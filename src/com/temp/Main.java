@@ -7,6 +7,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 import com.emp.entity.Address;
 import com.emp.entity.Department;
@@ -17,6 +18,9 @@ import com.emp.entity.User;
 import com.emp.entity.UserCredential;
 import com.emp.util.Encrypt;
 
+@PropertySource({
+	"classpath:hibernate.properties"
+})
 public class Main {
 	public static void main(String[] args) {
 		
@@ -26,8 +30,8 @@ public class Main {
 		s.beginTransaction();
 		
 		/* Create Department */
-		Department dept=new Department();
-		dept.setDepartmentName("ADMIN");
+//		Department dept=new Department();
+//		dept.setDepartmentName("SUPPORT");
 		
 		
 		
@@ -49,9 +53,9 @@ public class Main {
 		/* Create Projects */
 //		Project project =new Project();
 //		project.setBudget(556000);
-//		project.setEndDate(new Date(2018,8,20));
-//		project.setProjectName("SAP DataMart");
-//		project.setStartDate(new Date(2009,9,19));
+//		project.setEndDate(new Date(2017,1,1));
+//		project.setProjectName("SAP ADS");
+//		project.setStartDate(new Date(2018,1,20));
 		
 		
 		
@@ -66,49 +70,49 @@ public class Main {
 		
 		
 		/* create users */
-		User user=new User();
-		user.setAbout("I am Adminitrator of this Employee Management Portal made for Xoriant Solutions Pune");
-			Address address=new Address();
-			address.setCity("Pune");
-			address.setCountry("India");
-			address.setState("Maharashtra");
-			address.setZip(411030);
-		user.setAddress(address);
-		user.setContact(7697599287l);
-			Department department=s.get(Department.class, 1);
-		user.setDepartment(department);
-		user.setDesignation("Administrator");
-		user.setDob(new Date(1994-1900,7,31));
-		user.setDoj((new Date(2016-1900,5,20)));
-		user.setEmail("urban.xoriant@gmail.com");
-		user.setExperience(10);
-		user.setGender("Male");
-		user.setLockStatus("unlock");
-		user.setMaritalStatus("Unmarried");
-		user.setName("Urban Xoriant");
+//		User user=new User();
+//		user.setAbout("I am Adminitrator of this Employee Management Portal made for Xoriant Solutions Pune");
+//			Address address=new Address();
+//			address.setCity("Pune");
+//			address.setCountry("India");
+//			address.setState("Maharashtra");
+//			address.setZip(411030);
+//		user.setAddress(address);
+//		user.setContact(7697599287l);
+//			Department department=s.get(Department.class, 1);
+//		user.setDepartment(department);
+//		user.setDesignation("Administrator");
+//		user.setDob(new Date(1994-1900,7,31));
+//		user.setDoj((new Date(2016-1900,5,20)));
+//		user.setEmail("urban.xoriant@gmail.com");
+//		user.setExperience(10);
+//		user.setGender("Male");
+//		user.setLockStatus("unlock");
+//		user.setMaritalStatus("Unmarried");
+//		user.setName("Urban Xoriant");
 //			Project project=s.get(Project.class, 1);
 //		user.setProject(project);
-			Salary salary=new Salary();
-			salary.setBasic(5000000);
-			salary.setHra(12000f);
-			salary.setLta(12500);
-		user.setSalary(salary);
-		user.setUsertype("Admin");
-			UserCredential uc=new UserCredential();
-			uc.setUsername("urban");
-			uc.setPassword(Encrypt.encrypt("123456"));
-		user.setUserCredential(uc);
-			List<Skill> skills=new ArrayList<Skill>();
-			skills.add(s.get(Skill.class, 1));
-			skills.add(s.get(Skill.class, 2));
-		user.setSkills(skills);
+//			Salary salary=new Salary();
+//			salary.setBasic(5000000);
+//			salary.setHra(12000f);
+//			salary.setLta(12500);
+//		user.setSalary(salary);
+//		user.setUsertype("Admin");
+//			UserCredential uc=new UserCredential();
+//			uc.setUsername("urban");
+//			uc.setPassword(Encrypt.encrypt("123456"));
+//		user.setUserCredential(uc);
+//			List<Skill> skills=new ArrayList<Skill>();
+//			skills.add(s.get(Skill.class, 1));
+//			skills.add(s.get(Skill.class, 2));
+//		user.setSkills(skills);
 
 		
 		
 		
 		/* Create Skills */
-		Skill skill=new Skill();
-				skill.setSkillName("Spring");
+//		Skill skill=new Skill();
+//				skill.setSkillName("Java");
 		
 		
 		
@@ -131,8 +135,8 @@ public class Main {
 		
 
 		try{	
-			s.save(uc);
-			s.save(user);
+			//s.save(uc);
+			//s.save(user);
 //			System.out.println(user);
 //			s.save(skill);
 //			s.persist(skill);

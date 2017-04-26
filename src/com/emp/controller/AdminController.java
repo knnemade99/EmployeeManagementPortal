@@ -77,13 +77,6 @@ public class AdminController {
 		return adminService.viewAllProjects(authToken);
 	}
 	
-	/* View All Skills */
-	@RequestMapping(value="/viewallskills" , method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<Skill> viewAllSkills(@RequestHeader("authToken") String authToken) throws ManualException{
-		return adminService.viewAllSkills(authToken);
-	}
-	
 	/* Add new Skill */
 	@RequestMapping(value="/addskill" , method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
